@@ -17,7 +17,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @package CashflowBundle\Entity
  * @author Radosław Stolarski
  * @ORM\Table(name="wallets")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="CashflowBundle\Repository\Wallet")
  */
 class Wallet
 {
@@ -156,5 +156,38 @@ class Wallet
     public function getCreatedAt()
     {
         return $this->created_at;
+    }
+
+    /**
+     * Add transactions
+     *
+     * @param \CashflowBundle\Entity\Transaction $transactions
+     * @return Wallet
+     */
+    public function addTransaction(\CashflowBundle\Entity\Transaction $transactions)
+    {
+        $this->transactions[] = $transactions;
+
+        return $this;
+    }
+
+    /**
+     * Remove transactions
+     *
+     * @param \CashflowBundle\Entity\Transaction $transactions
+     */
+    public function removeTransaction(\CashflowBundle\Entity\Transaction $transactions)
+    {
+        $this->transactions->removeElement($transactions);
+    }
+
+    /**
+     * Get transactions
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTransactions()
+    {
+        return $this->transactions;
     }
 }
