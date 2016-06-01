@@ -24,3 +24,11 @@ services:
       - @templating
       - @app.wallet_repository
       - @form.factory
+
+  app.transactions_controller:
+      class: CashflowBundle\Controller\TransactionsController
+      arguments:
+        - @templating
+        - @app.transaction_repository
+        - @app.wallet_repository
+        - @form.factory
