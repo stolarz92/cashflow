@@ -17,5 +17,14 @@ use Doctrine\ORM\EntityRepository;
  */
 class Wallet extends EntityRepository
 {
-
+    /**
+     * Save wallet object.
+     *
+     * @param wallet $wallet Wallet object
+     */
+    public function save(\CashflowBundle\Entity\Wallet $wallet)
+    {
+        $this->_em->persist($wallet);
+        $this->_em->flush();
+    }
 }
