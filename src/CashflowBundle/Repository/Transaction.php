@@ -12,4 +12,14 @@ use Doctrine\ORM\EntityRepository;
  */
 class Transaction extends EntityRepository
 {
+    /**
+     * Save transaction object.
+     *
+     * @param transaction $transaction Transaction object
+     */
+    public function save(\CashflowBundle\Entity\Transaction $transaction)
+    {
+        $this->_em->persist($transaction);
+        $this->_em->flush();
+    }
 }
