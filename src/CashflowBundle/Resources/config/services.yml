@@ -6,8 +6,14 @@ services:
     arguments:
       - CashflowBundle\Entity\Wallet
 
+  app.wallet_form:
+    class: CashflowBundle\Form\WalletType
+    tags:
+      - { name: form.type, alias: wallet }
+
   app.wallets_controller:
-        class: CashflowBundle\Controller\WalletsController
-        arguments:
-            - @templating
-            - @app.wallet_repository
+    class: CashflowBundle\Controller\WalletsController
+    arguments:
+      - @templating
+      - @app.wallet_repository
+      - @form.factory
