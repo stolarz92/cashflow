@@ -17,7 +17,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @package CashflowBundle\Entity
  * @author Radosław Stolarski
  * @ORM\Table(name="wallets")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="CashflowBundle\Repository\Wallet")
  */
 class Wallet
 {
