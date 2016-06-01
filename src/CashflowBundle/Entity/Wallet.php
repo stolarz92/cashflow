@@ -10,7 +10,7 @@ namespace CashflowBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-
+use \DateTime;
 
 /**
  * Class Wallet
@@ -74,7 +74,7 @@ class Wallet
      */
     public function __construct()
     {
-        $this->created_at = new DateTime();
+        $this->created_at = new DateTime('now');
         $this->transactions = new ArrayCollection();
     }
 
