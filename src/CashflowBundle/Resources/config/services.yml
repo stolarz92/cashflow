@@ -6,6 +6,13 @@ services:
     arguments:
       - CashflowBundle\Entity\Wallet
 
+  app.transaction_repository:
+    class: Doctrine\ORM\EntityRepository
+    factory_service: doctrine.orm.default_entity_manager
+    factory_method: getRepository
+    arguments:
+      - CashflowBundle\Entity\Transaction
+
   app.wallet_form:
     class: CashflowBundle\Form\WalletType
     tags:
