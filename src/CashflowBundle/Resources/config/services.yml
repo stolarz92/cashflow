@@ -5,3 +5,9 @@ services:
     factory_method: getRepository
     arguments:
       - CashflowBundle\Entity\Wallet
+
+  app.wallets_controller:
+        class: CashflowBundle\Controller\WalletsController
+        arguments:
+            - @templating
+            - @app.wallet_repository
