@@ -1,0 +1,7 @@
+services:
+  app.wallet_repository:
+    class: Doctrine\ORM\EntityRepository
+    factory_service: doctrine.orm.default_entity_manager
+    factory_method: getRepository
+    arguments:
+      - CashflowBundle\Entity\Wallet
