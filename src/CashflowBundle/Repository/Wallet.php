@@ -11,9 +11,9 @@ namespace CashflowBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 
 /**
- * Class Tag.
- * @package AppBundle\Repository
- * @author Tomasz Chojna
+ * Class Wallet.
+ * @package CashflowBundle\Repository
+ * @author Radosław Stolarski
  */
 class Wallet extends EntityRepository
 {
