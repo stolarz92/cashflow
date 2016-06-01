@@ -13,8 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Class Transaction
  * @package CashflowBundle\Entity
- * @ORM\Table(name="operations")
- * @ORM\Entity
+ * @ORM\Table(name="transactions")
+ * @ORM\Entity(repositoryClass="CashflowBundle\Repository\Transaction")
  */
 class Transaction
 {
