@@ -26,6 +26,7 @@ class User extends BaseUser
     private $wallets;
 
     public function __construct() {
+        parent::__construct();
         $this->wallets = new ArrayCollection();
     }
 
