@@ -70,6 +70,12 @@ class Wallet
     private $transactions;
 
     /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="wallets")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $user;
+
+    /**
      * Wallet constructor.
      */
     public function __construct()
@@ -189,5 +195,28 @@ class Wallet
     public function getTransactions()
     {
         return $this->transactions;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \CashflowBundle\Entity\User $user
+     * @return Wallet
+     */
+    public function setUser(\CashflowBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \CashflowBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

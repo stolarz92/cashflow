@@ -70,6 +70,12 @@ class Wallet
     private $transactions;
 
     /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="wallets")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $user;
+
+    /**
      * Wallet constructor.
      */
     public function __construct()
