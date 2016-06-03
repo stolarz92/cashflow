@@ -196,4 +196,27 @@ class Wallet
     {
         return $this->transactions;
     }
+
+    /**
+     * Set user
+     *
+     * @param \CashflowBundle\Entity\User $user
+     * @return Wallet
+     */
+    public function setUser(\CashflowBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \CashflowBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
 }
