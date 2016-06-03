@@ -69,6 +69,12 @@ class Transaction
     private $wallet;
 
     /**
+     * @ORM\ManyToOne(targetEntity="TransactionCategory", inversedBy="transactions")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     */
+    private $category;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -168,5 +174,28 @@ class Transaction
     public function getWallet()
     {
         return $this->wallet;
+    }
+
+    /**
+     * Set category
+     *
+     * @param \CashflowBundle\Entity\TransactionCategory $category
+     * @return Transaction
+     */
+    public function setCategory(\CashflowBundle\Entity\TransactionCategory $category = null)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return \CashflowBundle\Entity\TransactionCategory 
+     */
+    public function getCategory()
+    {
+        return $this->category;
     }
 }

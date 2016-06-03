@@ -9,6 +9,7 @@
 namespace CashflowBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Class TransactionCategory
@@ -42,6 +43,18 @@ class TransactionCategory
      */
     private $name;
 
+    /**
+     * @ORM\ OneToMany(targetEntity="Transaction", mappedBy="transaction_category")
+     */
+    private $transactions;
+
+    /**
+     * TransactionCategory constructor.
+     */
+    public function __construct() {
+        $this->transactions = new ArrayCollection();
+    }
+
 
     /**
      * Get id
@@ -74,5 +87,38 @@ class TransactionCategory
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Add transactions
+     *
+     * @param \CashflowBundle\Entity\Transaction $transactions
+     * @return TransactionCategory
+     */
+    public function addTransaction(\CashflowBundle\Entity\Transaction $transactions)
+    {
+        $this->transactions[] = $transactions;
+
+        return $this;
+    }
+
+    /**
+     * Remove transactions
+     *
+     * @param \CashflowBundle\Entity\Transaction $transactions
+     */
+    public function removeTransaction(\CashflowBundle\Entity\Transaction $transactions)
+    {
+        $this->transactions->removeElement($transactions);
+    }
+
+    /**
+     * Get transactions
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTransactions()
+    {
+        return $this->transactions;
     }
 }

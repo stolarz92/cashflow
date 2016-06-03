@@ -69,6 +69,12 @@ class Transaction
     private $wallet;
 
     /**
+     * @ORM\ManyToOne(targetEntity="TransactionCategory", inversedBy="transactions")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     */
+    private $category;
+
+    /**
      * Get id
      *
      * @return integer 
