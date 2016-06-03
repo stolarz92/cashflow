@@ -18,12 +18,14 @@ services:
     factory_service: doctrine.orm.default_entity_manager
     factory_method: getRepository
     arguments:
+      - CashflowBundle\Entity\Transaction
 
   app.transaction_category_repository:
     class: Doctrine\ORM\EntityRepository
     factory_service: doctrine.orm.default_entity_manager
     factory_method: getRepository
     arguments:
+      - CashflowBundle\Entity\TransactionCategory
 
   app.user_repository:
     class: Doctrine\ORM\EntityRepository
