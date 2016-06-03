@@ -44,6 +44,11 @@ class WalletCategory
     private $name;
 
     /**
+     * @ORM\OneToMany(targetEntity="Wallet", mappedBy="wallet_category")
+     */
+    private $categories;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -74,5 +79,45 @@ class WalletCategory
     public function getName()
     {
         return $this->name;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add categories
+     *
+     * @param \CashflowBundle\Entity\Wallet $categories
+     * @return WalletCategory
+     */
+    public function addCategory(\CashflowBundle\Entity\Wallet $categories)
+    {
+        $this->categories[] = $categories;
+
+        return $this;
+    }
+
+    /**
+     * Remove categories
+     *
+     * @param \CashflowBundle\Entity\Wallet $categories
+     */
+    public function removeCategory(\CashflowBundle\Entity\Wallet $categories)
+    {
+        $this->categories->removeElement($categories);
+    }
+
+    /**
+     * Get categories
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCategories()
+    {
+        return $this->categories;
     }
 }

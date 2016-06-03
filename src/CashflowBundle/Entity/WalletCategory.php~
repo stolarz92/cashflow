@@ -42,4 +42,42 @@ class WalletCategory
      * )
      */
     private $name;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Wallet", mappedBy="wallet_category")
+     */
+    private $categories;
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return WalletCategory
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 }

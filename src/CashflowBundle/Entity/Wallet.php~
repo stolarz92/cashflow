@@ -76,6 +76,13 @@ class Wallet
     private $user;
 
     /**
+     * @ORM\ManyToOne(targetEntity="WalletCategory")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     */
+    private $category;
+
+
+    /**
      * Wallet constructor.
      */
     public function __construct()
