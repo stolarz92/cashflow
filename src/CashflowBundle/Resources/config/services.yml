@@ -24,6 +24,7 @@ services:
       - @templating
       - @app.wallet_repository
       - @form.factory
+      - @security.context
 
   app.transactions_controller:
       class: CashflowBundle\Controller\TransactionsController
@@ -32,3 +33,10 @@ services:
         - @app.transaction_repository
         - @app.wallet_repository
         - @form.factory
+
+  app.user_repository:
+    class: Doctrine\ORM\EntityRepository
+    factory_service: doctrine.orm.default_entity_manager
+    factory_method: getRepository
+    arguments:
+      - CashflowBundle\Entity\User

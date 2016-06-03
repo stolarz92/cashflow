@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @ORM\Entity
  * @ORM\Table(name="fos_users")
+ * @ORM\Entity(repositoryClass="CashflowBundle\Repository\User")
  */
 class User extends BaseUser
 {
