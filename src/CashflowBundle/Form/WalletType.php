@@ -51,6 +51,18 @@ class WalletType extends AbstractType
             )
         );
         $builder->add(
+            'category',
+            'entity',
+            array(
+                'class' => 'CashflowBundle:WalletCategory',
+                /*'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('w')
+                        ->orderBy('u.username', 'ASC');
+                },*/
+                'property' => 'name'
+            )
+        );
+        $builder->add(
             'save',
             'submit',
             array(
