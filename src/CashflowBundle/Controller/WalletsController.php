@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
 use CashflowBundle\Form\WalletType;
+use Symfony\Component\Security\Core\SecurityContext;
 
 /**
  * Class WalletsController.
@@ -47,6 +48,11 @@ class WalletsController
     private $formFactory;
 
     /**
+     * @var SecurityContext
+     */
+    private $securityContext;
+
+    /**
      * WalletsController constructor.
      *
      * @param EngineInterface $templating Templating engine
@@ -55,11 +61,13 @@ class WalletsController
     public function __construct(
         EngineInterface $templating,
         ObjectRepository $model,
-        FormFactory $formFactory
+        FormFactory $formFactory,
+        SecurityContext $securityContext
     ) {
         $this->templating = $templating;
         $this->model = $model;
         $this->formFactory = $formFactory;
+        $this->securityContext = $securityContext;
     }
 
     /**
@@ -78,8 +86,9 @@ class WalletsController
         $walletForm->handleRequest($request);
 
         if ($walletForm->isValid()) {
+            $user = $this->securityContext->getToken()->getUser();
             $wallet = $walletForm->getData();
-            $this->model->save($wallet);
+            $this->model->save($wallet, $user);
         }
 
         return $this->templating->renderResponse(
