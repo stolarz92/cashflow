@@ -55,3 +55,8 @@ services:
         - @app.wallet_repository
         - @form.factory
 
+  app.static_pages_controller:
+        class: CashflowBundle\Controller\StaticPagesController
+        arguments:
+          - @templating
+
