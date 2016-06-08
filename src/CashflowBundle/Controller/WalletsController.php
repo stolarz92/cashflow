@@ -111,10 +111,13 @@ class WalletsController
      */
     public function indexAction()
     {
-        $wallets = $this->model->findAll();
-        if (!$wallets) {
-            throw new NotFoundHttpException('Wallets not found!');
+        $wallets = NULL;
+        $user_id = $this->securityContext->getToken()->getUser()->getId();
+
+        if ($user_id != NULL) {
+            $wallets = $this->model->findByUser($user_id);
         }
+
         return $this->templating->renderResponse(
             'CashflowBundle:wallets:index.html.twig',
             array('wallets' => $wallets)
@@ -142,7 +145,7 @@ class WalletsController
             'CashflowBundle:wallets:view.html.twig',
             array('wallet' => $wallet,
                 'transactions' => $transactions
-                )
+            )
         );
     }
 
