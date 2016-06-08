@@ -17,6 +17,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
 use CashflowBundle\Form\WalletType;
 use Symfony\Component\Security\Core\SecurityContext;
+use CashflowBundle\Entity\Wallet;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+
 
 /**
  * Class WalletsController.
@@ -113,7 +116,7 @@ class WalletsController
             throw new NotFoundHttpException('Wallets not found!');
         }
         return $this->templating->renderResponse(
-            'CashflowBundle:Wallets:index.html.twig',
+            'CashflowBundle:wallets:index.html.twig',
             array('wallets' => $wallets)
         );
     }
@@ -123,21 +126,26 @@ class WalletsController
      *
      * @Route("/wallets/view/{id}", name="wallets-view")
      * @Route("/wallets/view/{id}/")
-     *
-     * @param integer $id Element id
+     * @ParamConverter("wallet", class="CashflowBundle:Wallet")
+     * @param wallet $wallet Wallet entity
      * @throws NotFoundHttpException
      * @return Response A Response instance
      */
-    public function viewAction($id)
+    public function viewAction(Wallet $wallet = null)
     {
-        $wallet = $this->model->findOneById($id);
+        $transactions = $wallet->getTransactions();
+
         if (!$wallet) {
             throw new NotFoundHttpException('Wallets not found!');
         }
         return $this->templating->renderResponse(
-            'CashflowBundle:Wallets:view.html.twig',
-            array('wallet' => $wallet)
+            'CashflowBundle:wallets:view.html.twig',
+            array('wallet' => $wallet,
+                'transactions' => $transactions
+                )
         );
     }
+
+
 
 }
