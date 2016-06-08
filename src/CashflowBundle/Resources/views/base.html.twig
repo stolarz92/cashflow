@@ -10,8 +10,10 @@
     {% endblock %}
 </head>
 <body>
+{% include 'CashflowBundle::navbar.html.twig' %}
 <div class="container">
-    {% block body %}{% endblock %}
+    {% block body %}
+    {% endblock %}
 </div>
 {% block javascripts %}
     {% javascripts '@jquery' '@bootstrap_js' %}
