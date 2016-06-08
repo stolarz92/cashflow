@@ -1,0 +1,31 @@
+{% extends 'CashflowBundle::base.html.twig' %}
+
+{% block body %}
+    <h3>Wallet {{ wallet.name }}</h3>
+    <p>Description: {{ wallet.description }}</p>
+    <article class="transactions">
+        <h4>Transactions</h4>
+        {% if transactions %}
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for transaction in transactions %}
+                    <tr>
+                        <td>{{ transaction.name ? transaction.name }}</td>
+                        <td>{{ transaction.description ? transaction.description }}</td>
+                        <td>{{ transaction.amount ? transaction.amount }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>There are no transactions for this wallet yet.</p>
+        {% endif %}
+    </article>
+{% endblock %}

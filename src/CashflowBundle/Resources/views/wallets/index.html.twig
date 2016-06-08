@@ -1,0 +1,26 @@
+{% extends 'CashflowBundle::base.html.twig' %}
+
+{% block body %}
+    <h2>Your wallets</h2>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Wallet name</th>
+            <th>Created At</th>
+            <th>Category</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for wallet in wallets %}
+            <tr>
+                <td>{{ wallet.name ? wallet.name }}</td>
+                <td>{{ wallet.CreatedAt ? wallet.CreatedAt|date('d-m-Y') }}</td>
+                <td>{{ wallet.category ? wallet.category.name }}</td>
+                <td><a href="{{ path('wallets-view', { 'id' : wallet.id }) }}">Show</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
