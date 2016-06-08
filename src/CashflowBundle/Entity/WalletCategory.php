@@ -44,9 +44,9 @@ class WalletCategory
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="Wallet", mappedBy="wallet_category")
+     * @ORM\OneToMany(targetEntity="Wallet", mappedBy="category")
      */
-    private $categories;
+    private $wallets;
 
     /**
      * Get id
@@ -116,8 +116,8 @@ class WalletCategory
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getCategories()
+    public function getWallets()
     {
-        return $this->categories;
+        return $this->wallets;
     }
 }

@@ -44,7 +44,7 @@ class TransactionCategory
     private $name;
 
     /**
-     * @ORM\ OneToMany(targetEntity="Transaction", mappedBy="transaction_category")
+     * @ORM\ OneToMany(targetEntity="Transaction", mappedBy="category")
      */
     private $transactions;
 

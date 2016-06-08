@@ -44,7 +44,7 @@ class WalletCategory
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="Wallet", mappedBy="wallet_category")
+     * @ORM\OneToMany(targetEntity="Wallet", mappedBy="category")
      */
     private $categories;
 

@@ -76,7 +76,7 @@ class Wallet
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="WalletCategory")
+     * @ORM\ManyToOne(targetEntity="WalletCategory", inversedBy="wallets")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      */
     private $category;

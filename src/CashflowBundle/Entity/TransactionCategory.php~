@@ -88,4 +88,37 @@ class TransactionCategory
     {
         return $this->name;
     }
+
+    /**
+     * Add transactions
+     *
+     * @param \CashflowBundle\Entity\Transaction $transactions
+     * @return TransactionCategory
+     */
+    public function addTransaction(\CashflowBundle\Entity\Transaction $transactions)
+    {
+        $this->transactions[] = $transactions;
+
+        return $this;
+    }
+
+    /**
+     * Remove transactions
+     *
+     * @param \CashflowBundle\Entity\Transaction $transactions
+     */
+    public function removeTransaction(\CashflowBundle\Entity\Transaction $transactions)
+    {
+        $this->transactions->removeElement($transactions);
+    }
+
+    /**
+     * Get transactions
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTransactions()
+    {
+        return $this->transactions;
+    }
 }
