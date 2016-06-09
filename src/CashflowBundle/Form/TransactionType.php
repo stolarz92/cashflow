@@ -11,6 +11,8 @@ namespace CashflowBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use CashflowBundle\Repository\Wallet;
+use CashflowBundle\Entity\User;
 
 /**
  * Class TransactionType.
@@ -20,6 +22,12 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  */
 class TransactionType extends AbstractType
 {
+    private $user;
+
+    public function __construct (User $user)
+    {
+        $this->user = $user;
+    }
     /**
      * Form builder.
      *
@@ -28,6 +36,8 @@ class TransactionType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $user = $this->user;
+
         $builder->add(
             'id',
             'hidden'
@@ -64,10 +74,11 @@ class TransactionType extends AbstractType
             'entity',
             array(
                 'class' => 'CashflowBundle:Wallet',
-                /*'query_builder' => function (EntityRepository $er) {
+                'query_builder' => function (Wallet $er) use ($user) {
                     return $er->createQueryBuilder('w')
-                        ->orderBy('u.username', 'ASC');
-                },*/
+                        ->where('w.user = :user')
+                        ->setParameter('user', $user);
+                },
                 'property' => 'name'
             )
         );
@@ -76,10 +87,6 @@ class TransactionType extends AbstractType
             'entity',
             array(
                 'class' => 'CashflowBundle:TransactionCategory',
-                /*'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('w')
-                        ->orderBy('u.username', 'ASC');
-                },*/
                 'property' => 'name'
             )
         );

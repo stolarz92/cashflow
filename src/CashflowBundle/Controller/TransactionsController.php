@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
 use CashflowBundle\Form\TransactionType;
+use Symfony\Component\Security\Core\SecurityContext;
 
 /**
  * Class TransactionsController.
@@ -54,6 +55,11 @@ class TransactionsController
     private $formFactory;
 
     /**
+     * @var SecurityContext
+     */
+    private $securityContext;
+
+    /**
      * TransactionsController constructor.
      *
      * @param EngineInterface $templating Templating engine
@@ -63,12 +69,14 @@ class TransactionsController
         EngineInterface $templating,
         ObjectRepository $transactionModel,
         ObjectRepository $walletModel,
-        FormFactory $formFactory
+        FormFactory $formFactory,
+        SecurityContext $securityContext
     ) {
         $this->templating = $templating;
         $this->transactionModel = $transactionModel;
         $this->walletModel = $walletModel;
         $this->formFactory = $formFactory;
+        $this->securityContext = $securityContext;
     }
 
     /**
@@ -82,7 +90,9 @@ class TransactionsController
      */
     public function addAction(Request $request)
     {
-        $transactionForm = $this->formFactory->create(new TransactionType());
+        $user = $this->securityContext->getToken()->getUser();
+
+        $transactionForm = $this->formFactory->create(new TransactionType($user));
 
         $transactionForm->handleRequest($request);
 
