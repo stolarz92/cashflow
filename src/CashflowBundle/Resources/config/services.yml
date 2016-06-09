@@ -20,6 +20,22 @@ services:
     arguments:
       - CashflowBundle\Entity\Transaction
 
+  app.transactions_controller:
+      class: CashflowBundle\Controller\TransactionsController
+      arguments:
+        - @templating
+        - @app.transaction_repository
+        - @app.wallet_repository
+        - @form.factory
+        - @security.context
+
+  app.transactions_form:
+    class: CashflowBundle\Form\TransactionType
+    tags:
+      - { name: form.type, alias: transaction }
+    arguments:
+      - @app.wallet_repository
+
   app.transaction_category_repository:
     class: Doctrine\ORM\EntityRepository
     factory_service: doctrine.orm.default_entity_manager
@@ -46,14 +62,6 @@ services:
       - @app.wallet_repository
       - @form.factory
       - @security.context
-
-  app.transactions_controller:
-      class: CashflowBundle\Controller\TransactionsController
-      arguments:
-        - @templating
-        - @app.transaction_repository
-        - @app.wallet_repository
-        - @form.factory
 
   app.static_pages_controller:
         class: CashflowBundle\Controller\StaticPagesController
