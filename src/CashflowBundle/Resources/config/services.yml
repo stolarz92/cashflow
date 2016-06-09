@@ -6,6 +6,21 @@ services:
     arguments:
       - CashflowBundle\Entity\Wallet
 
+  app.wallets_controller:
+    class: CashflowBundle\Controller\WalletsController
+    arguments:
+      - @app.wallet_repository
+      - @form.factory
+      - @router
+      - @security.context
+      - @session
+      - @templating
+
+  app.wallet_form:
+      class: CashflowBundle\Form\WalletType
+      tags:
+        - { name: form.type, alias: wallet }
+
   app.wallet_category_repository:
     class: Doctrine\ORM\EntityRepository
     factory_service: doctrine.orm.default_entity_manager
@@ -23,11 +38,13 @@ services:
   app.transactions_controller:
       class: CashflowBundle\Controller\TransactionsController
       arguments:
-        - @templating
         - @app.transaction_repository
         - @app.wallet_repository
         - @form.factory
+        - @router
         - @security.context
+        - @session
+        - @templating
 
   app.transactions_form:
     class: CashflowBundle\Form\TransactionType
@@ -49,19 +66,6 @@ services:
     factory_method: getRepository
     arguments:
       - CashflowBundle\Entity\User
-
-  app.wallet_form:
-    class: CashflowBundle\Form\WalletType
-    tags:
-      - { name: form.type, alias: wallet }
-
-  app.wallets_controller:
-    class: CashflowBundle\Controller\WalletsController
-    arguments:
-      - @templating
-      - @app.wallet_repository
-      - @form.factory
-      - @security.context
 
   app.static_pages_controller:
         class: CashflowBundle\Controller\StaticPagesController

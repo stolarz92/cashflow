@@ -8,17 +8,20 @@
 
 namespace CashflowBundle\Controller;
 
+use CashflowBundle\Entity\Wallet;
+use CashflowBundle\Form\WalletType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
-use CashflowBundle\Form\WalletType;
 use Symfony\Component\Security\Core\SecurityContext;
-use CashflowBundle\Entity\Wallet;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Routing\RouterInterface;
 
 
 /**
@@ -32,13 +35,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 class WalletsController
 {
     /**
-     * Template engine.
-     *
-     * @var EngineInterface $templating
-     */
-    private $templating;
-
-    /**
      * Model object.
      *
      * @var ObjectRepository $model
@@ -51,9 +47,30 @@ class WalletsController
     private $formFactory;
 
     /**
+     * Routing object.
+     *
+     * @var RouterInterface $router
+     */
+    private $router;
+
+    /**
      * @var SecurityContext
      */
     private $securityContext;
+
+    /**
+     * Session object.
+     *
+     * @var Session $session
+     */
+    private $session;
+
+    /**
+     * Template engine.
+     *
+     * @var EngineInterface $templating
+     */
+    private $templating;
 
     /**
      * WalletsController constructor.
@@ -62,15 +79,19 @@ class WalletsController
      * @param ObjectRepository $model Model object
      */
     public function __construct(
-        EngineInterface $templating,
         ObjectRepository $model,
         FormFactory $formFactory,
-        SecurityContext $securityContext
+        RouterInterface $router,
+        SecurityContext $securityContext,
+        Session $session,
+        EngineInterface $templating
     ) {
-        $this->templating = $templating;
         $this->model = $model;
         $this->formFactory = $formFactory;
+        $this->router = $router;
         $this->securityContext = $securityContext;
+        $this->session = $session;
+        $this->templating = $templating;
     }
 
     /**
@@ -92,6 +113,13 @@ class WalletsController
             $user = $this->securityContext->getToken()->getUser();
             $wallet = $walletForm->getData();
             $this->model->save($wallet, $user);
+            $this->session->getFlashBag()->set(
+                'success',
+                'New wallet added!'
+            );
+            return new RedirectResponse(
+                $this->router->generate('wallets')
+            );
         }
 
         return $this->templating->renderResponse(

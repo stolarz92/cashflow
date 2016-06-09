@@ -17,6 +17,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
 use CashflowBundle\Form\TransactionType;
 use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Routing\RouterInterface;
 
 /**
  * Class TransactionsController.
@@ -28,12 +31,6 @@ use Symfony\Component\Security\Core\SecurityContext;
  */
 class TransactionsController
 {
-    /**
-     * Template engine.
-     *
-     * @var EngineInterface $templating
-     */
-    private $templating;
 
     /**
      * Model object.
@@ -55,9 +52,30 @@ class TransactionsController
     private $formFactory;
 
     /**
+     * Routing object.
+     *
+     * @var RouterInterface $router
+     */
+    private $router;
+
+    /**
      * @var SecurityContext
      */
     private $securityContext;
+
+    /**
+     * Session object.
+     *
+     * @var Session $session
+     */
+    private $session;
+
+    /**
+     * Template engine.
+     *
+     * @var EngineInterface $templating
+     */
+    private $templating;
 
     /**
      * TransactionsController constructor.
@@ -66,17 +84,23 @@ class TransactionsController
      * @param ObjectRepository $model Model object
      */
     public function __construct(
-        EngineInterface $templating,
         ObjectRepository $transactionModel,
         ObjectRepository $walletModel,
         FormFactory $formFactory,
-        SecurityContext $securityContext
+        RouterInterface $router,
+        SecurityContext $securityContext,
+        Session $session,
+        EngineInterface $templating
+
+
     ) {
-        $this->templating = $templating;
         $this->transactionModel = $transactionModel;
         $this->walletModel = $walletModel;
         $this->formFactory = $formFactory;
+        $this->router = $router;
         $this->securityContext = $securityContext;
+        $this->session = $session;
+        $this->templating = $templating;
     }
 
     /**
@@ -99,6 +123,13 @@ class TransactionsController
         if ($transactionForm->isValid()) {
             $transaction = $transactionForm->getData();
             $this->transactionModel->save($transaction);
+            $this->session->getFlashBag()->set(
+                'success',
+                'New transaction added!'
+            );
+            return new RedirectResponse(
+                $this->router->generate('transactions-add')
+            );
         }
 
         return $this->templating->renderResponse(
