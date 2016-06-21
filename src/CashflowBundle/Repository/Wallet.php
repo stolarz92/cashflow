@@ -22,9 +22,11 @@ class Wallet extends EntityRepository
      *
      * @param wallet $wallet Wallet object
      */
-    public function save(\CashflowBundle\Entity\Wallet $wallet, $user)
+    public function save(\CashflowBundle\Entity\Wallet $wallet, $user = null)
     {
-        $wallet->setUser($user);
+        if ($user) {
+            $wallet->setUser($user);
+        }
         $this->_em->persist($wallet);
         $this->_em->flush();
     }

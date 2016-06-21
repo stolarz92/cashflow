@@ -129,6 +129,61 @@ class WalletsController
     }
 
     /**
+     * Edit action.
+     *
+     * @Route("/wallets/edit/{id}", name="wallets-edit")
+     * @Route("/wallets/edit/{id}/")
+     * @ParamConverter("wallet", class="CashflowBundle:Wallet")
+     *
+     * @param Wallet $wallet Wallet entity
+     * @param Request $request
+     * @return Response A Response instance
+     */
+    public function editAction(Request $request, Wallet $wallet = null)
+    {
+        if (!$wallet) {
+            $this->session->getFlashBag()->set(
+                'warning',
+            'brawo'
+                //$this->translator->trans('wallets.messages.tag_not_found')
+            );
+            return new RedirectResponse(
+                $this->router->generate('wallets-add')
+            );
+        }
+
+        $tagForm = $this->formFactory->create(
+            new WalletType(),
+            $wallet,
+            array(
+//                'validation_groups' => 'wallet-default'
+            )
+        );
+
+        $tagForm->handleRequest($request);
+
+        if ($tagForm->isValid()) {
+            $wallet = $tagForm->getData();
+            $this->model->save($wallet);
+            $this->session->getFlashBag()->set(
+                'success',
+            'brawo'
+//                $this->translator->trans('wallets.messages.success.edit')
+            );
+            return new RedirectResponse(
+                $this->router->generate('wallets')
+            );
+        }
+
+        return $this->templating->renderResponse(
+            'CashflowBundle:wallets:edit.html.twig',
+            array('form' => $tagForm->createView())
+        );
+
+    }
+
+
+    /**
      * Index action.
      *
      * @Route("/wallets", name="wallets")
