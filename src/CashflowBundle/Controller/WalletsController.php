@@ -255,11 +255,15 @@ class WalletsController
      */
     public function viewAction(Wallet $wallet = null)
     {
+        if (! ($wallet instanceof Wallet))
+        {
+            return new RedirectResponse(
+                $this->router->generate('wallets')
+            );
+        }
+
         $transactions = $wallet->getTransactions();
 
-        if (!$wallet) {
-            throw new NotFoundHttpException('Wallets not found!');
-        }
         return $this->templating->renderResponse(
             'CashflowBundle:wallets:view.html.twig',
             array('wallet' => $wallet,
