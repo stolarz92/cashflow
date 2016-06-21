@@ -23,6 +23,8 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\RouterInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bundle\FrameworkBundle\Translation\Translator;
+
 
 /**
  * Class TransactionsController.
@@ -81,6 +83,14 @@ class TransactionsController
     private $templating;
 
     /**
+     * Translator object.
+     *
+     * @var Translator $translator
+     */
+    private $translator;
+
+
+    /**
      * TransactionsController constructor.
      *
      * @param EngineInterface $templating Templating engine
@@ -93,7 +103,8 @@ class TransactionsController
         RouterInterface $router,
         SecurityContext $securityContext,
         Session $session,
-        EngineInterface $templating
+        EngineInterface $templating,
+        Translator $translator
 
 
     ) {
@@ -104,6 +115,7 @@ class TransactionsController
         $this->securityContext = $securityContext;
         $this->session = $session;
         $this->templating = $templating;
+        $this->translator = $translator;
     }
 
     /**
@@ -129,7 +141,7 @@ class TransactionsController
             $this->transactionModel->save($transaction);
             $this->session->getFlashBag()->set(
                 'success',
-                'New transaction added!'
+                $this->translator->trans('transactions.messages.transaction_added')
             );
             return new RedirectResponse(
                 $this->router->generate('transactions', array('id' => $walletId))
@@ -158,8 +170,7 @@ class TransactionsController
         if (!$transaction) {
             $this->session->getFlashBag()->set(
                 'warning',
-                'Nie ma takiej transakcji'
-            //$this->translator->trans('transactions.messages.transaction_not_found')
+                $this->translator->trans('transactions.messages.transaction_not_found')
             );
             return new RedirectResponse(
                 $this->router->generate('wallets')
@@ -185,8 +196,7 @@ class TransactionsController
             $this->transactionModel->save($transaction);
             $this->session->getFlashBag()->set(
                 'success',
-                'brawo'
-//                $this->translator->trans('transactions.messages.success.edit')
+                $this->translator->trans('transactions.messages.success.edit')
             );
             return new RedirectResponse(
                 $this->router->generate('transactions', array('id' => $walletId))
@@ -211,12 +221,17 @@ class TransactionsController
      * @param Request $request
      * @return Response A Response instance
      */
-    public function deleteAction(Request $request, Transaction $transaction = null)
+    public function deleteAction(
+        Request $request,
+        Transaction $transaction = null
+    )
     {
         if (!$transaction) {
             $this->session->getFlashBag()->set(
-                'warning','uwaga'
-            //$this->translator->trans('transactions.messages.transaction_not_found')
+                'warning',
+                $this->translator->trans(
+                    'transactions.messages.transaction_not_found'
+                )
             );
             return new RedirectResponse(
                 $this->router->generate('transactions')
@@ -226,8 +241,8 @@ class TransactionsController
         $walletId = $transaction->getWallet()->getId();
         $this->transactionModel->delete($transaction);
         $this->session->getFlashBag()->set(
-            'success', 'Transakcja usunięta'
-        //$this->translator->trans('transactions.messages.success.delete')
+            'success',
+        $this->translator->trans('transactions.messages.success.delete')
         );
         return new RedirectResponse(
             $this->router->generate('transactions', array('id' => $walletId))
@@ -250,8 +265,8 @@ class TransactionsController
         if (! ($wallet instanceof Wallet))
         {
             $this->session->getFlashBag()->set(
-                'warning','Nie ma portfela o podanym id'
-            //$this->translator->trans('wallets.messages.wallet_not_found')
+                'warning',
+            $this->translator->trans('wallets.messages.wallet_not_found')
             );
 
             return new RedirectResponse(
@@ -264,8 +279,8 @@ class TransactionsController
         return $this->templating->renderResponse(
             'CashflowBundle:transactions:index.html.twig',
             array('transactions' => $transactions,
-                    'wallet' => $wallet
-                )
+                'wallet' => $wallet
+            )
         );
     }
 

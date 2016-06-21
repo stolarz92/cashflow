@@ -3,7 +3,11 @@
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <button type="button"
+                        class="navbar-toggle collapsed"
+                        data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1"
+                        aria-expanded="false">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -16,18 +20,21 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                        <li class="{% if app.request.attributes.get('_controller') == 'app.wallets_controller:addAction' %}active{% endif %}"><a href="{{ path('wallets-add') }}">Add wallet</a></li>
-                        <li class="{% if app.request.attributes.get('_controller') == 'app.wallets_controller:indexAction' %}active{% endif %}"><a href="{{ path('wallets') }}">Wallets</a></li>
-                        <li class="{% if app.request.attributes.get('_controller') == 'app.transactions_controller:addAction' %}active{% endif %}"><a href="{{ path('transactions-add') }}">Add transaction</a></li>
+                        <li class="{% if app.request.attributes.get('_controller') == 'app.wallets_controller:addAction' %}active{% endif %}">
+                            <a href="{{ path('wallets-add') }}">{{ 'navbar.add_wallet'|trans }}</a></li>
+                        <li class="{% if app.request.attributes.get('_controller') == 'app.wallets_controller:indexAction' %}active{% endif %}">
+                            <a href="{{ path('wallets') }}">{{ 'navbar.wallets'|trans }}</a></li>
+                        <li class="{% if app.request.attributes.get('_controller') == 'app.transactions_controller:addAction' %}active{% endif %}">
+                            <a href="{{ path('transactions-add') }}">{{ 'navbar.add_transaction'|trans }}</a></li>
                     {% endif %}
 
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                        <li><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
+                        <li><a href="{{ path('fos_user_security_logout') }}">{{ 'navbar.logout'|trans }}</a></li>
                     {% else %}
-                        <li><a href="{{ path('fos_user_security_login') }}">Login</a></li>
-                        <li><a href="{{ path('fos_user_registration_register') }}">Register</a></li>
+                        <li><a href="{{ path('fos_user_security_login') }}">{{ 'navbar.login'|trans }}</a></li>
+                        <li><a href="{{ path('fos_user_registration_register') }}">{{ 'navbar.register'|trans }}</a></li>
                     {% endif %}
                 </ul>
             </div><!-- /.navbar-collapse -->

@@ -22,6 +22,7 @@ use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 
 
 /**
@@ -73,6 +74,14 @@ class WalletsController
     private $templating;
 
     /**
+     * Translator object.
+     *
+     * @var Translator $translator
+     */
+    private $translator;
+
+
+    /**
      * WalletsController constructor.
      *
      * @param EngineInterface $templating Templating engine
@@ -84,7 +93,8 @@ class WalletsController
         RouterInterface $router,
         SecurityContext $securityContext,
         Session $session,
-        EngineInterface $templating
+        EngineInterface $templating,
+        Translator $translator
     ) {
         $this->model = $model;
         $this->formFactory = $formFactory;
@@ -92,6 +102,7 @@ class WalletsController
         $this->securityContext = $securityContext;
         $this->session = $session;
         $this->templating = $templating;
+        $this->translator = $translator;
     }
 
     /**
@@ -115,7 +126,7 @@ class WalletsController
             $this->model->save($wallet, $user);
             $this->session->getFlashBag()->set(
                 'success',
-                'New wallet added!'
+                $this->translator->trans('wallets.messages.wallet_added')
             );
             return new RedirectResponse(
                 $this->router->generate('wallets')
@@ -144,8 +155,7 @@ class WalletsController
         if (!$wallet) {
             $this->session->getFlashBag()->set(
                 'warning',
-                'brawo'
-            //$this->translator->trans('wallets.messages.wallet_not_found')
+                $this->translator->trans('wallets.messages.wallet_not_found')
             );
             return new RedirectResponse(
                 $this->router->generate('wallets-add')
@@ -167,8 +177,7 @@ class WalletsController
             $this->model->save($wallet);
             $this->session->getFlashBag()->set(
                 'success',
-                'brawo'
-//                $this->translator->trans('wallets.messages.success.edit')
+                $this->translator->trans('wallets.messages.success.edit')
             );
             return new RedirectResponse(
                 $this->router->generate('wallets')
@@ -197,8 +206,8 @@ class WalletsController
     {
         if (!$wallet) {
             $this->session->getFlashBag()->set(
-                'warning','uwaga'
-            //$this->translator->trans('wallets.messages.wallet_not_found')
+                'warning',
+                $this->translator->trans('wallets.messages.wallet_not_found')
             );
             return new RedirectResponse(
                 $this->router->generate('wallets')
@@ -208,16 +217,13 @@ class WalletsController
 
         $this->model->delete($wallet);
         $this->session->getFlashBag()->set(
-            'success', 'Portfel usunięty'
-        //$this->translator->trans('wallets.messages.success.delete')
+            'success',
+            $this->translator->trans('wallets.messages.success.delete')
         );
         return new RedirectResponse(
             $this->router->generate('wallets')
         );
-
-
     }
-
 
     /**
      * Index action.

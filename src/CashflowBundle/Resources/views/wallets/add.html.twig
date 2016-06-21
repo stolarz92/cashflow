@@ -1,7 +1,7 @@
 {% extends 'CashflowBundle::base.html.twig' %}
 
 {% block body %}
-    <h2>Add Wallet</h2>
+    <h2>{{ 'wallets.views.add.title'|trans }}</h2>
     <div>{{ form_errors(form) }}</div>
     {{ form(form, {'method': 'POST'}) }}
 {% endblock %}

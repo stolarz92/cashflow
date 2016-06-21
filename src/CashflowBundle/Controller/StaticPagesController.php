@@ -16,6 +16,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
 use CashflowBundle\Form\TransactionType;
+use Symfony\Bundle\FrameworkBundle\Translation\Translator;
+
 
 /**
  * Class StaticPagesController.
@@ -35,14 +37,25 @@ class StaticPagesController
     private $templating;
 
     /**
+     * Translator object.
+     *
+     * @var Translator $translator
+     */
+    private $translator;
+
+    /**
      * TransactionsController constructor.
      *
      * @param EngineInterface $templating Templating engine
      * @param ObjectRepository $model Model object
      */
-    public function __construct(EngineInterface $templating)
+    public function __construct(
+        EngineInterface $templating,
+        Translator $translator
+    )
     {
         $this->templating = $templating;
+        $this->translator = $translator;
     }
 
     /**

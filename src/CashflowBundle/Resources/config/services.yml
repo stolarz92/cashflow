@@ -15,11 +15,14 @@ services:
       - @security.context
       - @session
       - @templating
+      - @translator
 
   app.wallet_form:
       class: CashflowBundle\Form\WalletType
       tags:
         - { name: form.type, alias: wallet }
+      arguments:
+      - @translator
 
   app.wallet_category_repository:
     class: Doctrine\ORM\EntityRepository
@@ -45,6 +48,7 @@ services:
         - @security.context
         - @session
         - @templating
+        - @translator
 
   app.transactions_form:
     class: CashflowBundle\Form\TransactionType
@@ -52,6 +56,7 @@ services:
       - { name: form.type, alias: transaction }
     arguments:
       - @app.wallet_repository
+      - @translator
 
   app.transaction_category_repository:
     class: Doctrine\ORM\EntityRepository
@@ -71,4 +76,6 @@ services:
         class: CashflowBundle\Controller\StaticPagesController
         arguments:
           - @templating
+          - @translator
+
 

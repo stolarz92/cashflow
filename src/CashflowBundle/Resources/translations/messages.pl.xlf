@@ -1,0 +1,203 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="1">
+                <source>base.title</source>
+                <target>Witaj!</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>navbar.add_wallet</source>
+                <target>Dodaj portfel.</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>navbar.add_transaction</source>
+                <target>Dodaj transackję.</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>navbar.wallets</source>
+                <target>Portfele</target>
+            </trans-unit>
+            <trans-unit id="5">
+                <source>navbar.logout</source>
+                <target>Wyloguj</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>navbar.login</source>
+                <target>Zaloguj</target>
+            </trans-unit>
+            <trans-unit id="7">
+                <source>navbar.register</source>
+                <target>Rejestracja</target>
+            </trans-unit>
+            <trans-unit id="8">
+                <source>wallets.messages.wallet_added</source>
+                <target>Dodano portfel.</target>
+            </trans-unit>
+            <trans-unit id="9">
+                <source>wallets.messages.wallet_not_found</source>
+                <target>Nie znaleziono portfela.</target>
+            </trans-unit>
+            <trans-unit id="10">
+                <source>wallets.messages.success.edit</source>
+                <target>Edytowano portfel.</target>
+            </trans-unit>
+            <trans-unit id="11">
+                <source>wallets.messages.success.delete</source>
+                <target>Usunięto portfel.</target>
+            </trans-unit>
+            <trans-unit id="12">
+                <source>wallets.views.add.title</source>
+                <target>Dodaj portfel.</target>
+            </trans-unit>
+            <trans-unit id="13">
+                <source>wallets.views.edit.title</source>
+                <target>Edytuj portfel.</target>
+            </trans-unit>
+            <trans-unit id="14">
+                <source>wallets.views.index.title</source>
+                <target>Twoje portfele.</target>
+            </trans-unit>
+            <trans-unit id="15">
+                <source>wallets.views.index.no_wallets</source>
+                <target>Nie masz żadnych portfeli.</target>
+            </trans-unit>
+            <trans-unit id="16">
+                <source>wallets.views.index.table.name</source>
+                <target>Nazwa portfela</target>
+            </trans-unit>
+            <trans-unit id="17">
+                <source>wallets.views.index.table.created_at</source>
+                <target>Data utworzenia</target>
+            </trans-unit>
+            <trans-unit id="18">
+                <source>wallets.views.index.table.category</source>
+                <target>Kategoria</target>
+            </trans-unit>
+            <trans-unit id="19">
+                <source>wallets.views.index.table.action</source>
+                <target>Akcja</target>
+            </trans-unit>
+            <trans-unit id="20">
+                <source>wallets.views.index.table.name</source>
+                <target>Nazwa portfela</target>
+            </trans-unit>
+            <trans-unit id="21">
+                <source>wallets.views.view.title</source>
+                <target>Portfel</target>
+            </trans-unit>
+            <trans-unit id="22">
+                <source>wallets.views.view.description</source>
+                <target>Opis</target>
+            </trans-unit>
+            <trans-unit id="23">
+                <source>wallets.views.view.last_5</source>
+                <target>Ostatnie 5 transakcji</target>
+            </trans-unit>
+            <trans-unit id="24">
+                <source>wallets.views.view.table.name</source>
+                <target>Nazwa portfela</target>
+            </trans-unit>
+            <trans-unit id="25">
+                <source>wallets.views.view.table.description</source>
+                <target>Opis</target>
+            </trans-unit>
+            <trans-unit id="26">
+                <source>wallets.views.view.table.amount</source>
+                <target>Kwota</target>
+            </trans-unit>
+            <trans-unit id="27">
+                <source>wallets.views.view.table.action</source>
+                <target>Akcja</target>
+            </trans-unit>
+            <trans-unit id="28">
+                <source>wallets.views.view.title</source>
+                <target>Nazwa portfela</target>
+            </trans-unit>
+            <trans-unit id="29">
+                <source>wallets.views.view.show_all</source>
+                <target>Pokaż wszystkie transakcje</target>
+            </trans-unit>
+            <trans-unit id="30">
+                <source>wallets.views.view.no_transactions</source>
+                <target>Pokaż wszystkie transakcje</target>
+            </trans-unit>
+            <trans-unit id="31">
+                <source>transactions.messages.transaction_added</source>
+                <target>Dodano transakcję.</target>
+            </trans-unit>
+            <trans-unit id="32">
+                <source>transactions.messages.transaction_not_found</source>
+                <target>Nie znaleziono transakcji.</target>
+            </trans-unit>
+            <trans-unit id="33">
+                <source>transactions.messages.success.edit</source>
+                <target>Edytowano transakcję.</target>
+            </trans-unit>
+            <trans-unit id="34">
+                <source>transactions.messages.success.delete</source>
+                <target>Usunięto transakcję.</target>
+            </trans-unit>
+            <trans-unit id="35">
+                <source>static_pages.views.index.title</source>
+                <target>Cashflow</target>
+            </trans-unit>
+            <trans-unit id="36">
+                <source>static_pages.views.index.description</source>
+                <target>Witaj w aplikacji do zarządzania portfelem osobistym!</target>
+            </trans-unit>
+            <trans-unit id="37">
+                <source>transactions.views.add.title</source>
+                <target>Dodaj transakcję do portfela</target>
+            </trans-unit>
+            <trans-unit id="38">
+                <source>transactions.views.edit.title</source>
+                <target>Edytuj transakcję</target>
+            </trans-unit>
+            <trans-unit id="39">
+                <source>transactions.views.index.title</source>
+                <target>Transakcje w portfelu</target>
+            </trans-unit>
+            <trans-unit id="40">
+                <source>transactions.views.index.name</source>
+                <target>Nazwa</target>
+            </trans-unit>
+            <trans-unit id="41">
+                <source>transactions.views.index.description</source>
+                <target>Opis</target>
+            </trans-unit>
+            <trans-unit id="42">
+                <source>transactions.views.index.amount</source>
+                <target>Kwota</target>
+            </trans-unit>
+            <trans-unit id="43">
+                <source>transactions.views.index.name</source>
+                <target>Nazwa</target>
+            </trans-unit>
+            <trans-unit id="44">
+                <source>transactions.views.index.action</source>
+                <target>Akcja</target>
+            </trans-unit>
+            <trans-unit id="45">
+                <source>show</source>
+                <target>Pokaż</target>
+            </trans-unit>
+            <trans-unit id="46">
+                <source>add</source>
+                <target>Dodaj</target>
+            </trans-unit>
+            <trans-unit id="47">
+                <source>edit</source>
+                <target>Edytuj</target>
+            </trans-unit>
+            <trans-unit id="48">
+                <source>delete</source>
+                <target>Usuń</target>
+            </trans-unit>
+            <trans-unit id="49">
+                <source>transactions.views.index.no_transactions</source>
+                <target>Nie masz transakcji w tym portfelu.</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

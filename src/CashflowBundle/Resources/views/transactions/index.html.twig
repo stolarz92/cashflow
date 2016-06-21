@@ -2,17 +2,16 @@
 
 {% block body %}
     {% if wallet %}
-        <h3>Transakce w portfelu: {{ wallet.name }}</h3>
+        <h2>{{ 'transactions.views.index.title'|trans }} {{ wallet.name }}</h2>
     {% endif %}
     {% if transactions %}
         <table class="table">
             <thead>
             <tr>
-                <th>Name</th>
-                <th>Desc</th>
-                <th>Amount</th>
-                <th>Edit</th>
-                <th>Delete</th>
+                <th>{{ 'transactions.views.index.name'|trans }}</th>
+                <th>{{ 'transactions.views.index.description'|trans }}</th>
+                <th>{{ 'transactions.views.index.amount'|trans }}</th>
+                <th>{{ 'transactions.views.index.action'|trans }}</th>
             </tr>
             </thead>
             <tbody>
@@ -21,13 +20,19 @@
                     <td>{{ transaction.name }}</td>
                     <td>{{ transaction.name }}</td>
                     <td>{{ transaction.amount }}</td>
-                    <td><a href="{{ path('transactions-edit', { 'id' : transaction.id }) }}">Edit</a></td>
-                    <td><a href="{{ path('transactions-delete', { 'id' : transaction.id }) }}">Delete</a></td>
+                    <td><a href="{{ path('transactions-edit', { 'id' : transaction.id }) }}">
+                            {{ 'edit'|trans }}
+                        </a>
+                    </td>
+                    <td><a href="{{ path('transactions-delete', { 'id' : transaction.id }) }}">
+                            {{ 'delete'|trans }}
+                        </a>
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     {% else %}
-        <p>You have no transactions in this wallet yet.</p>
+        <p>{{ 'transactions.views.index.no_transactions'|trans }}</p>
     {% endif %}
 {% endblock %}
