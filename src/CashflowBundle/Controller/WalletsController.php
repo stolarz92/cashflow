@@ -144,15 +144,15 @@ class WalletsController
         if (!$wallet) {
             $this->session->getFlashBag()->set(
                 'warning',
-            'brawo'
-                //$this->translator->trans('wallets.messages.tag_not_found')
+                'brawo'
+            //$this->translator->trans('wallets.messages.wallet_not_found')
             );
             return new RedirectResponse(
                 $this->router->generate('wallets-add')
             );
         }
 
-        $tagForm = $this->formFactory->create(
+        $walletForm = $this->formFactory->create(
             new WalletType(),
             $wallet,
             array(
@@ -160,14 +160,14 @@ class WalletsController
             )
         );
 
-        $tagForm->handleRequest($request);
+        $walletForm->handleRequest($request);
 
-        if ($tagForm->isValid()) {
-            $wallet = $tagForm->getData();
+        if ($walletForm->isValid()) {
+            $wallet = $walletForm->getData();
             $this->model->save($wallet);
             $this->session->getFlashBag()->set(
                 'success',
-            'brawo'
+                'brawo'
 //                $this->translator->trans('wallets.messages.success.edit')
             );
             return new RedirectResponse(
@@ -177,8 +177,44 @@ class WalletsController
 
         return $this->templating->renderResponse(
             'CashflowBundle:wallets:edit.html.twig',
-            array('form' => $tagForm->createView())
+            array('form' => $walletForm->createView())
         );
+
+    }
+
+    /**
+     * Delete action.
+     *
+     * @Route("/wallets/delete/{id}", name="wallets-delete")
+     * @Route("/wallets/delete/{id}/")
+     * @ParamConverter("wallet", class="CashflowBundle:Wallet")
+     *
+     * @param Wallet $wallet Wallet entity
+     * @param Request $request
+     * @return Response A Response instance
+     */
+    public function deleteAction(Request $request, Wallet $wallet = null)
+    {
+        if (!$wallet) {
+            $this->session->getFlashBag()->set(
+                'warning','uwaga'
+            //$this->translator->trans('wallets.messages.wallet_not_found')
+            );
+            return new RedirectResponse(
+                $this->router->generate('wallets')
+            );
+        }
+
+
+        $this->model->delete($wallet);
+        $this->session->getFlashBag()->set(
+            'success', 'Portfel usunięty'
+        //$this->translator->trans('wallets.messages.success.delete')
+        );
+        return new RedirectResponse(
+            $this->router->generate('wallets')
+        );
+
 
     }
 

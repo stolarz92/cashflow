@@ -120,4 +120,27 @@ class WalletCategory
     {
         return $this->wallets;
     }
+
+    /**
+     * Add wallets
+     *
+     * @param \CashflowBundle\Entity\Wallet $wallets
+     * @return WalletCategory
+     */
+    public function addWallet(\CashflowBundle\Entity\Wallet $wallets)
+    {
+        $this->wallets[] = $wallets;
+
+        return $this;
+    }
+
+    /**
+     * Remove wallets
+     *
+     * @param \CashflowBundle\Entity\Wallet $wallets
+     */
+    public function removeWallet(\CashflowBundle\Entity\Wallet $wallets)
+    {
+        $this->wallets->removeElement($wallets);
+    }
 }

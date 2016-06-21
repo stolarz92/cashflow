@@ -64,7 +64,7 @@ class Transaction
 
     /**
      * @ORM\ManyToOne(targetEntity="Wallet", inversedBy="transactions")
-     * @ORM\JoinColumn(name="wallet_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="wallet_id", referencedColumnName="id", onDelete="CASCADE")
      **/
     private $wallet;
 

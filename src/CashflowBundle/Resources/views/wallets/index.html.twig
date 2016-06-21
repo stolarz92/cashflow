@@ -20,6 +20,7 @@
                     <td>{{ wallet.category ? wallet.category.name }}</td>
                     <td><a href="{{ path('wallets-view', { 'id' : wallet.id }) }}">Show</a></td>
                     <td><a href="{{ path('wallets-edit', { 'id' : wallet.id }) }}">Edit</a></td>
+                    <td><a href="{{ path('wallets-delete', { 'id' : wallet.id }) }}">Remove</a></td>
                 </tr>
             {% endfor %}
             </tbody>
