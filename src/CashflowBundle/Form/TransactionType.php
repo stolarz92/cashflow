@@ -40,7 +40,8 @@ class TransactionType extends AbstractType
 
         $builder->add(
             'id',
-            'hidden'
+            'hidden',
+            ['mapped' => false]
         );
         $builder->add(
             'name',

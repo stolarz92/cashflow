@@ -1,0 +1,11 @@
+{% extends "CashflowBundle::base.html.twig" %}
+
+{% block content %}
+
+        <h2>Usuń portfel</h2>
+        <div>
+            {{ form_errors(form) }}
+        </div>
+        {{ form(form, {'method': 'POST'}) }}
+
+{% endblock %}

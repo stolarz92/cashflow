@@ -8,6 +8,8 @@
 
 namespace CashflowBundle\Controller;
 
+use CashflowBundle\Entity\Wallet;
+use CashflowBundle\Entity\Transaction;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Doctrine\Common\Persistence\ObjectRepository;
@@ -20,6 +22,7 @@ use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\RouterInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * Class TransactionsController.
@@ -122,19 +125,172 @@ class TransactionsController
 
         if ($transactionForm->isValid()) {
             $transaction = $transactionForm->getData();
+            $walletId = $transaction->getWallet()->getId();
             $this->transactionModel->save($transaction);
             $this->session->getFlashBag()->set(
                 'success',
                 'New transaction added!'
             );
             return new RedirectResponse(
-                $this->router->generate('transactions-add')
+                $this->router->generate('transactions', array('id' => $walletId))
             );
         }
 
         return $this->templating->renderResponse(
             'CashflowBundle:transactions:add.html.twig',
             array('form' => $transactionForm->createView())
+        );
+    }
+
+    /**
+     * Edit action.
+     *
+     * @Route("/transactions/edit/{id}", name="transactions-edit")
+     * @Route("/transactions/edit/{id}/")
+     * @ParamConverter("transaction", class="CashflowBundle:Transaction")
+     *
+     * @param Transaction $transaction Transaction entity
+     * @param Request $request
+     * @return Response A Response instance
+     */
+    public function editAction(Request $request, Transaction $transaction = null)
+    {
+        if (!$transaction) {
+            $this->session->getFlashBag()->set(
+                'warning',
+                'Nie ma takiej transakcji'
+            //$this->translator->trans('transactions.messages.transaction_not_found')
+            );
+            return new RedirectResponse(
+                $this->router->generate('wallets')
+            );
+        }
+
+        $user = $this->securityContext->getToken()->getUser();
+
+        $transactionForm = $this->formFactory->create(
+            new TransactionType($user),
+            $transaction,
+            array(
+//                'validation_groups' => 'transaction-default'
+            )
+        );
+
+        $transactionForm->handleRequest($request);
+
+        if ($transactionForm->isValid()) {
+            $transaction = $transactionForm->getData();
+            $walletId = $transaction->getWallet()->getId();
+
+            $this->transactionModel->save($transaction);
+            $this->session->getFlashBag()->set(
+                'success',
+                'brawo'
+//                $this->translator->trans('transactions.messages.success.edit')
+            );
+            return new RedirectResponse(
+                $this->router->generate('transactions', array('id' => $walletId))
+            );
+        }
+
+        return $this->templating->renderResponse(
+            'CashflowBundle:transactions:edit.html.twig',
+            array('form' => $transactionForm->createView())
+        );
+
+    }
+
+    /**
+     * Delete action.
+     *
+     * @Route("/transactions/delete/{id}", name="transactions-delete")
+     * @Route("/transactions/delete/{id}/")
+     * @ParamConverter("transaction", class="CashflowBundle:Transaction")
+     *
+     * @param Transaction $transaction Transaction entity
+     * @param Request $request
+     * @return Response A Response instance
+     */
+    public function deleteAction(Request $request, Transaction $transaction = null)
+    {
+        if (!$transaction) {
+            $this->session->getFlashBag()->set(
+                'warning','uwaga'
+            //$this->translator->trans('transactions.messages.transaction_not_found')
+            );
+            return new RedirectResponse(
+                $this->router->generate('transactions')
+            );
+        }
+
+        $walletId = $transaction->getWallet()->getId();
+        $this->transactionModel->delete($transaction);
+        $this->session->getFlashBag()->set(
+            'success', 'Transakcja usunięta'
+        //$this->translator->trans('transactions.messages.success.delete')
+        );
+        return new RedirectResponse(
+            $this->router->generate('transactions', array('id' => $walletId))
+        );
+    }
+
+    /**
+     * Index action.
+     *
+     * @ParamConverter("wallet", class="CashflowBundle:Wallet")
+     * @Route("wallet/{id}/transactions", name="transactions")
+     * @Route("wallet/{id}/transactions/", name="transactions")
+     *
+     * @throws NotFoundHttpException
+     * @return Response A Response instance
+     */
+    public function indexAction(Wallet $wallet = null)
+    {
+        $transactions = null;
+        if (! ($wallet instanceof Wallet))
+        {
+            $this->session->getFlashBag()->set(
+                'warning','Nie ma portfela o podanym id'
+            //$this->translator->trans('wallets.messages.wallet_not_found')
+            );
+
+            return new RedirectResponse(
+                $this->router->generate('wallets')
+            );
+        }
+
+        $transactions = $wallet->getTransactions();
+
+        return $this->templating->renderResponse(
+            'CashflowBundle:transactions:index.html.twig',
+            array('transactions' => $transactions,
+                    'wallet' => $wallet
+                )
+        );
+    }
+
+    /**
+     * View action.
+     *
+     * @Route("/transactions/view/{id}", name="transactions-view")
+     * @Route("/transactions/view/{id}/")
+     * @ParamConverter("transaction", class="CashflowBundle:Transaction")
+     * @param transaction $transaction Transaction entity
+     * @throws NotFoundHttpException
+     * @return Response A Response instance
+     */
+    public function viewAction(Transaction $transaction = null)
+    {
+        $transactions = $transaction->getTransactions();
+
+        if (!$transaction) {
+            throw new NotFoundHttpException('Transactions not found!');
+        }
+        return $this->templating->renderResponse(
+            'CashflowBundle:transactions:view.html.twig',
+            array('transaction' => $transaction,
+                'transactions' => $transactions
+            )
         );
     }
 }

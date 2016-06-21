@@ -22,4 +22,20 @@ class Transaction extends EntityRepository
         $this->_em->persist($transaction);
         $this->_em->flush();
     }
+
+    /**
+     * Delete transaction object.
+     *
+     * @param Transaction $transaction Transaction object
+     *
+     * @return mixed
+     */
+    public function delete(\CashflowBundle\Entity\Transaction $transaction)
+    {
+        if (!$transaction) {
+            throw $this->createNotFoundException('No transaction found');
+        }
+        $this->_em->remove($transaction);
+        $this->_em->flush();
+    }
 }

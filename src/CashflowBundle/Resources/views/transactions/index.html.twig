@@ -1,0 +1,33 @@
+{% extends 'CashflowBundle::base.html.twig' %}
+
+{% block body %}
+    {% if wallet %}
+        <h3>Transakce w portfelu: {{ wallet.name }}</h3>
+    {% endif %}
+    {% if transactions %}
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Desc</th>
+                <th>Amount</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for transaction in transactions %}
+                <tr>
+                    <td>{{ transaction.name }}</td>
+                    <td>{{ transaction.name }}</td>
+                    <td>{{ transaction.amount }}</td>
+                    <td><a href="{{ path('transactions-edit', { 'id' : transaction.id }) }}">Edit</a></td>
+                    <td><a href="{{ path('transactions-delete', { 'id' : transaction.id }) }}">Delete</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>You have no transactions in this wallet yet.</p>
+    {% endif %}
+{% endblock %}
