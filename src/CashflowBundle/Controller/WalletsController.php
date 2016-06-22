@@ -278,6 +278,27 @@ class WalletsController
         );
     }
 
+    /**
+     * Index admin action.
+     *
+     * @Route("admin/wallets", name="admin-wallets-index")
+     * @Route("admin/wallets/", name="admin-wallets-index")
+     *
+     * @throws NotFoundHttpException
+     * @return Response A Response instance
+     */
+    public function indexAdminAction()
+    {
+        $wallets = $this->model->findAll();
+
+        return $this->templating->renderResponse(
+            'CashflowBundle:wallets:indexadmin.html.twig',
+            array(
+                'wallets' => $wallets,
+            )
+        );
+    }
+
 
 
 }

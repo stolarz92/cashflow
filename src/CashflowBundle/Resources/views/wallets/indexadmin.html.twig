@@ -1,0 +1,24 @@
+{% extends 'CashflowBundle::base.html.twig' %}
+{% block body %}
+<h2>Portfele</h2>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Nazwa</th>
+        <th>Opis</th>
+        <th>Uzytkownik</th>
+        <th>Akcja</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for wallet in wallets %}
+    <tr>
+        <td>{{ wallet.name }}</td>
+        <td>{{ wallet.description }}</td>
+        <td>{{ wallet.user.username}}</td>
+        <td>Edit, Delete</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

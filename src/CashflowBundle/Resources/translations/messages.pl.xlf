@@ -8,11 +8,11 @@
             </trans-unit>
             <trans-unit id="2">
                 <source>navbar.add_wallet</source>
-                <target>Dodaj portfel.</target>
+                <target>Dodaj portfel</target>
             </trans-unit>
             <trans-unit id="3">
                 <source>navbar.add_transaction</source>
-                <target>Dodaj transackję.</target>
+                <target>Dodaj transackję</target>
             </trans-unit>
             <trans-unit id="4">
                 <source>navbar.wallets</source>
@@ -197,6 +197,46 @@
             <trans-unit id="49">
                 <source>transactions.views.index.no_transactions</source>
                 <target>Nie masz transakcji w tym portfelu.</target>
+            </trans-unit>
+            <trans-unit id="50">
+                <source>profile</source>
+                <target>Twój profil</target>
+            </trans-unit>
+            <trans-unit id="51">
+                <source>profiles.index</source>
+                <target>Użytkownicy</target>
+            </trans-unit>
+            <trans-unit id="52">
+                <source>navbar.admin.transactions</source>
+                <target>Transakcje</target>
+            </trans-unit>
+            <trans-unit id="53">
+                <source>navbar.admin.transactions.categories</source>
+                <target>Kategorie transakcji</target>
+            </trans-unit>
+            <trans-unit id="54">
+                <source>navbar.admin.wallets</source>
+                <target>Portfele</target>
+            </trans-unit>
+            <trans-unit id="55">
+                <source>navbar.admin.wallets.categories</source>
+                <target>Kategorie portfela</target>
+            </trans-unit>
+            <trans-unit id="56">
+                <source>transactions.messages.transaction_category_added</source>
+                <target>Dodano kategorię dla transakcji!</target>
+            </trans-unit>
+            <trans-unit id="57">
+                <source>transactions.messages.transaction_category_edited</source>
+                <target>Edytowano kategorię dla transakcji!</target>
+            </trans-unit>
+            <trans-unit id="58">
+                <source>transactions.messages.transaction_category_deleted</source>
+                <target>Usunięto kategorię</target>
+            </trans-unit>
+            <trans-unit id="59">
+                <source>transactions.categories.views.edit.title</source>
+                <target>Edytuj kategorię</target>
             </trans-unit>
         </body>
     </file>

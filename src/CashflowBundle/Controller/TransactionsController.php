@@ -308,4 +308,26 @@ class TransactionsController
             )
         );
     }
+
+
+    /**
+     * Index admin action.
+     *
+     * @Route("admin/transactions", name="admin-transactions-index")
+     * @Route("admin/transactions/", name="admin-transactions-index")
+     *
+     * @throws NotFoundHttpException
+     * @return Response A Response instance
+     */
+    public function indexAdminAction()
+    {
+        $transactions = $this->transactionModel->findAll();
+
+        return $this->templating->renderResponse(
+            'CashflowBundle:transactions:indexadmin.html.twig',
+            array(
+                'transactions' => $transactions,
+            )
+        );
+    }
 }

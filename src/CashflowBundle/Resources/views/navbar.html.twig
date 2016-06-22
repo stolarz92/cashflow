@@ -19,7 +19,16 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_ADMIN') %}
+                        <li class="{% if app.request.attributes.get('_controller') == 'app.wallets_controller:indexAction' %}active{% endif %}">
+                            <a href="{{ path('admin-wallets-index') }}">{{ 'navbar.admin.wallets'|trans }}</a></li>
+                        <li class="{% if app.request.attributes.get('_controller') == 'app.transactions_controller:addAction' %}active{% endif %}">
+                            <a href="{{ path('admin-transactions-index') }}">{{ 'navbar.admin.transactions'|trans }}</a></li>
+                        {#<li class="{% if app.request.attributes.get('_controller') == 'app.transactions_controller:addAction' %}active{% endif %}">#}
+                            {#<a href="{{ path('admin-wallet-categories-index') }}">{{ 'navbar.admin.transactions.categories'|trans }}</a></li>#}
+                        <li class="{% if app.request.attributes.get('_controller') == 'app.transactions_controller:addAction' %}active{% endif %}">
+                            <a href="{{ path('admin-transaction-categories-index') }}">{{ 'navbar.admin.transactions.categories'|trans }}</a></li>
+                    {% elseif is_granted('IS_AUTHENTICATED_FULLY') %}
                         <li class="{% if app.request.attributes.get('_controller') == 'app.wallets_controller:addAction' %}active{% endif %}">
                             <a href="{{ path('wallets-add') }}">{{ 'navbar.add_wallet'|trans }}</a></li>
                         <li class="{% if app.request.attributes.get('_controller') == 'app.wallets_controller:indexAction' %}active{% endif %}">
@@ -30,7 +39,11 @@
 
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_ADMIN') %}
+                        <li><a href="{{ path('admin-users-index') }}">{{ 'profiles.index'|trans }}</a></li>
+                        <li><a href="{{ path('fos_user_security_logout') }}">{{ 'navbar.logout'|trans }}</a></li>
+                    {% elseif (is_granted('IS_AUTHENTICATED_FULLY')) %}
+                        <li><a href="{{ path('fos_user_profile_show') }}">{{ 'profile'|trans }}</a></li>
                         <li><a href="{{ path('fos_user_security_logout') }}">{{ 'navbar.logout'|trans }}</a></li>
                     {% else %}
                         <li><a href="{{ path('fos_user_security_login') }}">{{ 'navbar.login'|trans }}</a></li>
