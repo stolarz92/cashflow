@@ -133,7 +133,7 @@ class TransactionCategoriesController
                 $this->translator->trans('transactions.messages.transaction_category_added')
             );
             return new RedirectResponse(
-                $this->router->generate('admin-transaction-categories-add', array())
+                $this->router->generate('admin-transaction-categories-index', array())
             );
         }
 

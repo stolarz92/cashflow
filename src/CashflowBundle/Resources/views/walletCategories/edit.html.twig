@@ -1,0 +1,7 @@
+{% extends 'CashflowBundle::base.html.twig' %}
+
+{% block body %}
+    <h2>{{ 'transactions.categories.views.edit.title'|trans }}</h2>
+    <div>{{ form_errors(form) }}</div>
+    {{ form(form, {'method': 'POST'}) }}
+{% endblock %}

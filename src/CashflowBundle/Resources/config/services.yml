@@ -25,6 +25,18 @@ services:
       arguments:
       - @translator
 
+# Wallet
+  app.wallet_categories_controller:
+    class: CashflowBundle\Controller\WalletCategoriesController
+    arguments:
+      - @app.wallet_category_repository
+      - @form.factory
+      - @router
+      - @security.context
+      - @session
+      - @templating
+      - @translator
+
   app.wallet_category_repository:
     class: Doctrine\ORM\EntityRepository
     factory_service: doctrine.orm.default_entity_manager
@@ -60,6 +72,7 @@ services:
       - @app.wallet_repository
       - @translator
 
+#Transaction Category
   app.transaction_categories_controller:
     class: CashflowBundle\Controller\TransactionCategoriesController
     arguments:

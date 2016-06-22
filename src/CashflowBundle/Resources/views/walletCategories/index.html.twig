@@ -1,0 +1,30 @@
+{% extends 'CashflowBundle::base.html.twig' %}
+
+{% block body %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for category in walletCategories %}
+            <tr>
+                <td>{{ category.id }}</td>
+                <td>{{ category.name }}</td>
+                <td><a href="{{ path('admin-wallet-categories-edit', { 'id': category.id }) }}">
+                        Edytuj
+                    </a></td>
+                <td>
+                    <a href="{{ path('admin-wallet-categories-delete', { 'id': category.id }) }}">
+                        Usuń
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ path('admin-wallet-categories-add') }}">Add Category</a>
+{% endblock %}

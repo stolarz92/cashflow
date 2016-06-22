@@ -24,8 +24,8 @@
                             <a href="{{ path('admin-wallets-index') }}">{{ 'navbar.admin.wallets'|trans }}</a></li>
                         <li class="{% if app.request.attributes.get('_controller') == 'app.transactions_controller:addAction' %}active{% endif %}">
                             <a href="{{ path('admin-transactions-index') }}">{{ 'navbar.admin.transactions'|trans }}</a></li>
-                        {#<li class="{% if app.request.attributes.get('_controller') == 'app.transactions_controller:addAction' %}active{% endif %}">#}
-                            {#<a href="{{ path('admin-wallet-categories-index') }}">{{ 'navbar.admin.transactions.categories'|trans }}</a></li>#}
+                        <li class="{% if app.request.attributes.get('_controller') == 'app.transactions_controller:addAction' %}active{% endif %}">
+                            <a href="{{ path('admin-wallet-categories-index') }}">{{ 'navbar.admin.wallet.categories'|trans }}</a></li>
                         <li class="{% if app.request.attributes.get('_controller') == 'app.transactions_controller:addAction' %}active{% endif %}">
                             <a href="{{ path('admin-transaction-categories-index') }}">{{ 'navbar.admin.transactions.categories'|trans }}</a></li>
                     {% elseif is_granted('IS_AUTHENTICATED_FULLY') %}

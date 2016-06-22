@@ -238,6 +238,10 @@
                 <source>transactions.categories.views.edit.title</source>
                 <target>Edytuj kategorię</target>
             </trans-unit>
+            <trans-unit id="60">
+                <source>navbar.admin.wallet.categories</source>
+                <target>Kategorie portfela</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
