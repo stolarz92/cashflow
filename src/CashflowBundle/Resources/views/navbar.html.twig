@@ -22,21 +22,29 @@
                     {% if is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_ADMIN') %}
                         <li class="{% if app.request.attributes.get('_controller') == 'app.wallets_controller:indexAction' %}active{% endif %}">
                             <a href="{{ path('admin-wallets-index') }}">{{ 'navbar.admin.wallets'|trans }}</a></li>
+
                         <li class="{% if app.request.attributes.get('_controller') == 'app.transactions_controller:addAction' %}active{% endif %}">
-                            <a href="{{ path('admin-transactions-index') }}">{{ 'navbar.admin.transactions'|trans }}</a></li>
+                            <a href="{{ path('admin-transactions-index') }}">{{ 'navbar.admin.transactions'|trans }}</a>
+
                         <li class="{% if app.request.attributes.get('_controller') == 'app.transactions_controller:addAction' %}active{% endif %}">
                             <a href="{{ path('admin-wallet-categories-index') }}">{{ 'navbar.admin.wallet.categories'|trans }}</a></li>
+
                         <li class="{% if app.request.attributes.get('_controller') == 'app.transactions_controller:addAction' %}active{% endif %}">
                             <a href="{{ path('admin-transaction-categories-index') }}">{{ 'navbar.admin.transactions.categories'|trans }}</a></li>
+
                     {% elseif is_granted('IS_AUTHENTICATED_FULLY') %}
-                        <li class="{% if app.request.attributes.get('_controller') == 'app.wallets_controller:addAction' %}active{% endif %}">
-                            <a href="{{ path('wallets-add') }}">{{ 'navbar.add_wallet'|trans }}</a></li>
                         <li class="{% if app.request.attributes.get('_controller') == 'app.wallets_controller:indexAction' %}active{% endif %}">
                             <a href="{{ path('wallets') }}">{{ 'navbar.wallets'|trans }}</a></li>
-                        <li class="{% if app.request.attributes.get('_controller') == 'app.transactions_controller:addAction' %}active{% endif %}">
-                            <a href="{{ path('transactions-add') }}">{{ 'navbar.add_transaction'|trans }}</a></li>
-                    {% endif %}
 
+                        <li class="{% if app.request.attributes.get('_controller') == 'app.wallets_controller:addAction' %}active{% endif %}">
+                            <a href="{{ path('wallets-add') }}">{{ 'navbar.add_wallet'|trans }}</a></li>
+
+                        <li class="{% if app.request.attributes.get('_controller') == 'app.transactions_controller:addAction' %}{% endif %}">
+                            <a href="{{ path('transactions-add', { 'outcome' : true }) }}">{{ 'navbar.add_outcome'|trans }}</a></li>
+
+                        <li class="{% if app.request.attributes.get('_controller') == 'app.transactions_controller:addAction' %}{% endif %}">
+                            <a href="{{ path('transactions-add', { 'outcome' : false }) }}">{{ 'navbar.add_income'|trans }}</a></li>
+                    {% endif %}
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     {% if is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_ADMIN') %}

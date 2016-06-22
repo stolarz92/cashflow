@@ -17,10 +17,19 @@ class Transaction extends EntityRepository
      *
      * @param transaction $transaction Transaction object
      */
-    public function save(\CashflowBundle\Entity\Transaction $transaction)
+    public function save(\CashflowBundle\Entity\Transaction $transaction, $outcome = null)
     {
-        $this->_em->persist($transaction);
-        $this->_em->flush();
+        if ($outcome === 1)
+        {
+            $amount = $transaction->getAmount();
+            $transaction->setAmount(-$amount);
+            $this->_em->persist($transaction);
+            $this->_em->flush();
+        } else {
+            $this->_em->persist($transaction);
+            $this->_em->flush();
+        }
+
     }
 
     /**

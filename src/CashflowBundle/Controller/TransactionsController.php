@@ -129,6 +129,7 @@ class TransactionsController
      */
     public function addAction(Request $request)
     {
+        $outcome = (int)$request->query->get('outcome');
         $user = $this->securityContext->getToken()->getUser();
 
         $transactionForm = $this->formFactory->create(new TransactionType($user));
@@ -138,7 +139,12 @@ class TransactionsController
         if ($transactionForm->isValid()) {
             $transaction = $transactionForm->getData();
             $walletId = $transaction->getWallet()->getId();
-            $this->transactionModel->save($transaction);
+            if ($outcome === 1)
+            {
+                $this->transactionModel->save($transaction, $outcome);
+            } else {
+                $this->transactionModel->save($transaction);
+            }
             $this->session->getFlashBag()->set(
                 'success',
                 $this->translator->trans('transactions.messages.transaction_added')

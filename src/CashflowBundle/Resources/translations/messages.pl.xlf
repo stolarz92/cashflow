@@ -11,8 +11,8 @@
                 <target>Dodaj portfel</target>
             </trans-unit>
             <trans-unit id="3">
-                <source>navbar.add_transaction</source>
-                <target>Dodaj transackję</target>
+                <source>navbar.add_outcome</source>
+                <target>Wprowadź wydatek</target>
             </trans-unit>
             <trans-unit id="4">
                 <source>navbar.wallets</source>
@@ -242,6 +242,11 @@
                 <source>navbar.admin.wallet.categories</source>
                 <target>Kategorie portfela</target>
             </trans-unit>
+            <trans-unit id="61">
+                <source>navbar.add_income</source>
+                <target>Wprowadź przychód</target>
+            </trans-unit>
+
         </body>
     </file>
 </xliff>
