@@ -36,8 +36,8 @@
                         <li class="{% if app.request.attributes.get('_controller') == 'app.wallets_controller:indexAction' %}active{% endif %}">
                             <a href="{{ path('wallets') }}">{{ 'navbar.wallets'|trans }}</a></li>
 
-                        <li class="{% if app.request.attributes.get('_controller') == 'app.wallets_controller:addAction' %}active{% endif %}">
-                            <a href="{{ path('wallets-add') }}">{{ 'navbar.add_wallet'|trans }}</a></li>
+                        <li class="{% if app.request.attributes.get('_controller') == 'app.transactions_controller:indexAction' %}active{% endif %}">
+                            <a href="{{ path('transactions') }}">{{ 'navbar.transactions'|trans }}</a></li>
 
                         <li class="{% if app.request.attributes.get('_controller') == 'app.transactions_controller:addAction' %}{% endif %}">
                             <a href="{{ path('transactions-add', { 'outcome' : true }) }}">{{ 'navbar.add_outcome'|trans }}</a></li>

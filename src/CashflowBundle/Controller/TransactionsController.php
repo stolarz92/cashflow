@@ -263,34 +263,21 @@ class TransactionsController
     /**
      * Index action.
      *
-     * @ParamConverter("wallet", class="CashflowBundle:Wallet")
-     * @Route("wallet/{id}/transactions", name="transactions")
-     * @Route("wallet/{id}/transactions/", name="transactions")
+     * @Route("/transactions/index/", name="transactions")
+     * @Route("/transactions/index", name="transactions")
      *
      * @throws NotFoundHttpException
      * @return Response A Response instance
      */
-    public function indexAction(Wallet $wallet = null)
+    public function indexAction()
     {
-        $transactions = null;
-        if (! ($wallet instanceof Wallet))
-        {
-            $this->session->getFlashBag()->set(
-                'warning',
-            $this->translator->trans('wallets.messages.wallet_not_found')
-            );
-
-            return new RedirectResponse(
-                $this->router->generate('wallets')
-            );
-        }
-
-        $transactions = $wallet->getTransactions();
+        $transactions = [];
+        $user = $this->securityContext->getToken()->getUser()->getId();
+        $wallets = $this->walletModel->findBy(array('id' => $user));
 
         return $this->templating->renderResponse(
             'CashflowBundle:transactions:index.html.twig',
             array('transactions' => $transactions,
-                'wallet' => $wallet
             )
         );
     }

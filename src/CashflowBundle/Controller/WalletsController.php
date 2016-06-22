@@ -228,8 +228,8 @@ class WalletsController
     /**
      * Index action.
      *
-     * @Route("/wallets", name="wallets")
-     * @Route("/wallets/")
+     * @Route("/wallets/index", name="wallets")
+     * @Route("/wallets/index/")
      *
      * @throws NotFoundHttpException
      * @return Response A Response instance

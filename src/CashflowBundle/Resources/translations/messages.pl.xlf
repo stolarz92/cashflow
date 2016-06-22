@@ -254,6 +254,11 @@
                 <source>wallets.views.view.table.created_at</source>
                 <target>Data wprowadzenia</target>
             </trans-unit>
+            <trans-unit id="64">
+                <source>navbar.transactions</source>
+                <target>Transakcje</target>
+            </trans-unit>
+
 
 
         </body>
