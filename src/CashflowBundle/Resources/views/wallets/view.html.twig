@@ -3,7 +3,7 @@
 {% block body %}
     <h2>{{ 'wallets.views.view.title'|trans }} {{ wallet.name }}</h2>
     <p>{{ 'wallets.views.view.description'|trans }}: {{ wallet.description }}</p>
-    <article class="transactions">
+    <article class="transactions well">
         <h4>{{ 'wallets.views.view.last_5'|trans }}</h4>
         {% if transactions %}
             <table class="table">
@@ -12,6 +12,7 @@
                     <th>{{ 'wallets.views.view.table.name'|trans }}</th>
                     <th>{{ 'wallets.views.view.table.description'|trans }}</th>
                     <th>{{ 'wallets.views.view.table.amount'|trans }}</th>
+                    <th>{{ 'wallets.views.view.table.created_at'|trans }}</th>
                     <th>{{ 'wallets.views.view.table.action'|trans }}</th>
                 </tr>
                 </thead>
@@ -21,6 +22,7 @@
                         <td>{{ transaction.name ? transaction.name }}</td>
                         <td>{{ transaction.description ? transaction.description }}</td>
                         <td>{{ transaction.amount ? transaction.amount }}
+                        <td>{{ transaction.CreatedAt ? transaction.CreatedAt|date('d-m-Y') }}
                         <td><a href="{{ path('transactions-edit', { 'id' : transaction.id }) }}">
                                 {{ 'edit'|trans }}</a>
                         </td>
@@ -31,9 +33,6 @@
                 {% endfor %}
                 </tbody>
             </table>
-            <a href="{{ path('transactions', { 'id' : wallet.id }) }}">
-                {{ 'wallets.views.view.show_all'|trans }}
-            </a>
         {% else %}
             <p>{{ 'wallets.views.view.no_transactions'|trans }}</p>
         {% endif %}

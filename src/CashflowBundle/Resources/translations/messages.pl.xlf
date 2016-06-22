@@ -92,7 +92,7 @@
             </trans-unit>
             <trans-unit id="23">
                 <source>wallets.views.view.last_5</source>
-                <target>Ostatnie 5 transakcji</target>
+                <target>Transakcje portfela</target>
             </trans-unit>
             <trans-unit id="24">
                 <source>wallets.views.view.table.name</source>
@@ -250,6 +250,11 @@
                 <source>transactions.views.add.title.income</source>
                 <target>Wprowadź przychód do portfela</target>
             </trans-unit>
+            <trans-unit id="63">
+                <source>wallets.views.view.table.created_at</source>
+                <target>Data wprowadzenia</target>
+            </trans-unit>
+
 
         </body>
     </file>
