@@ -9,6 +9,7 @@
 namespace CashflowBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use \DateTime;
 
 /**
  * Class Transaction
@@ -75,6 +76,15 @@ class Transaction
     private $category;
 
     /**
+     * @ORM\Column(
+     *     name="created_at",
+     *     type="datetime",
+     *     nullable=false
+     * )
+     */
+    protected $created_at;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -82,6 +92,14 @@ class Transaction
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Wallet constructor.
+     */
+    public function __construct()
+    {
+        $this->created_at = new DateTime('now');
     }
 
     /**
@@ -197,5 +215,28 @@ class Transaction
     public function getCategory()
     {
         return $this->category;
+    }
+
+    /**
+     * Set created_at
+     *
+     * @param \DateTime $createdAt
+     * @return Transaction
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->created_at = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get created_at
+     *
+     * @return \DateTime 
+     */
+    public function getCreatedAt()
+    {
+        return $this->created_at;
     }
 }
