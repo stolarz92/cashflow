@@ -132,7 +132,9 @@ class TransactionsController
         $outcome = (int)$request->query->get('outcome');
         $user = $this->securityContext->getToken()->getUser();
 
-        $transactionForm = $this->formFactory->create(new TransactionType($user));
+        $transactionForm = $this->formFactory->create(
+            new TransactionType($user)
+        );
 
         $transactionForm->handleRequest($request);
 
@@ -156,7 +158,10 @@ class TransactionsController
 
         return $this->templating->renderResponse(
             'CashflowBundle:transactions:add.html.twig',
-            array('form' => $transactionForm->createView())
+            array(
+                'form' => $transactionForm->createView(),
+                'outcome' => $outcome
+            )
         );
     }
 

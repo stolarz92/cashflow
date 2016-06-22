@@ -147,8 +147,8 @@
                 <target>Witaj w aplikacji do zarządzania portfelem osobistym!</target>
             </trans-unit>
             <trans-unit id="37">
-                <source>transactions.views.add.title</source>
-                <target>Dodaj transakcję do portfela</target>
+                <source>transactions.views.add.title.outcome</source>
+                <target>Wprowadź wydatek do portfela</target>
             </trans-unit>
             <trans-unit id="38">
                 <source>transactions.views.edit.title</source>
@@ -245,6 +245,10 @@
             <trans-unit id="61">
                 <source>navbar.add_income</source>
                 <target>Wprowadź przychód</target>
+            </trans-unit>
+            <trans-unit id="62">
+                <source>transactions.views.add.title.income</source>
+                <target>Wprowadź przychód do portfela</target>
             </trans-unit>
 
         </body>
