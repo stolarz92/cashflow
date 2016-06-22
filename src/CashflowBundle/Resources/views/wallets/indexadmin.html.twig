@@ -16,7 +16,10 @@
         <td>{{ wallet.name }}</td>
         <td>{{ wallet.description }}</td>
         <td>{{ wallet.user.username}}</td>
-        <td>Edit, Delete</td>
+        <td><a href="{{ path('wallets-edit', { 'id' : wallet.id }) }}">{{ 'edit'|trans }}</a></td>
+        <td><a href="{{ path('wallets-delete', { 'id' : wallet.id }) }}">{{ 'delete'|trans }}
+            </a>
+        </td>
     </tr>
     {% endfor %}
     </tbody>

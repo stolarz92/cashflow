@@ -20,7 +20,9 @@
                     <td>{{ wallet.category ? wallet.category.name }}</td>
                     <td><a href="{{ path('wallets-view', { 'id' : wallet.id }) }}">{{ 'show'|trans }}</a></td>
                     <td><a href="{{ path('wallets-edit', { 'id' : wallet.id }) }}">{{ 'edit'|trans }}</a></td>
-                    <td><a href="{{ path('wallets-delete', { 'id' : wallet.id }) }}">{{ 'delete'|trans }}</a></td>
+                    <td><a href="{{ path('wallets-delete', { 'id' : wallet.id }) }}">{{ 'delete'|trans }}
+                        </a>
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
