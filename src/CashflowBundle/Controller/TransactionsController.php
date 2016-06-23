@@ -132,7 +132,11 @@ class TransactionsController
         $user = $this->securityContext->getToken()->getUser();
 
         $transactionForm = $this->formFactory->create(
-            new TransactionType($user)
+            new TransactionType($user),
+            null,
+            array(
+                'validation_groups' => 'transaction-default'
+            )
         );
 
         $transactionForm->handleRequest($request);
@@ -194,7 +198,7 @@ class TransactionsController
                     new TransactionType($user),
                     $transaction,
                     array(
-//                'validation_groups' => 'transaction-default'
+                        'validation_groups' => 'transaction-default'
                     )
                 );
                 $transactionForm->handleRequest($request);

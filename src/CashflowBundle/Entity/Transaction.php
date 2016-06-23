@@ -10,6 +10,7 @@ namespace CashflowBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use \DateTime;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Transaction
@@ -39,6 +40,8 @@ class Transaction
      *     length=128,
      *     nullable=false
      * )
+     * @Assert\NotBlank(groups={"transaction-default"})
+     * @Assert\Length(min=3, max=128, groups={"transaction-default"})
      */
     private $name;
 
@@ -49,6 +52,7 @@ class Transaction
      *     length=500,
      *     nullable=true
      * )
+     * @Assert\Length(max=500, groups={"transaction-default"})
      */
     private $description;
 
@@ -60,18 +64,28 @@ class Transaction
      *     scale = 2,
      *     nullable=false
      * )
+     * @Assert\NotBlank(groups={"transaction-default"})
+     * @Assert\Type(
+     *     type="numeric",
+     *     message="The value {{ value }} is not a valid {{ type }}.",
+     *     groups={"transaction-default"}
+     *     )
      */
     private $amount;
 
     /**
      * @ORM\ManyToOne(targetEntity="Wallet", inversedBy="transactions")
      * @ORM\JoinColumn(name="wallet_id", referencedColumnName="id", onDelete="CASCADE")
+     *
+     * @Assert\NotBlank(groups={"transaction-default"})
+     *
      **/
     private $wallet;
 
     /**
      * @ORM\ManyToOne(targetEntity="TransactionCategory", inversedBy="transactions")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     * @Assert\NotBlank(groups={"transaction-default"})
      */
     private $category;
 
@@ -90,13 +104,15 @@ class Transaction
      *     type="date",
      *     nullable=false
      * )
+     * @Assert\NotBlank(groups={"transaction-default"})
+     * @Assert\Date()
      */
     protected $date;
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -127,7 +143,7 @@ class Transaction
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -150,7 +166,7 @@ class Transaction
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -173,7 +189,7 @@ class Transaction
     /**
      * Get amount
      *
-     * @return string 
+     * @return string
      */
     public function getAmount()
     {
@@ -196,7 +212,7 @@ class Transaction
     /**
      * Get wallet
      *
-     * @return \CashflowBundle\Entity\Wallet 
+     * @return \CashflowBundle\Entity\Wallet
      */
     public function getWallet()
     {
@@ -219,7 +235,7 @@ class Transaction
     /**
      * Get category
      *
-     * @return \CashflowBundle\Entity\TransactionCategory 
+     * @return \CashflowBundle\Entity\TransactionCategory
      */
     public function getCategory()
     {
@@ -242,7 +258,7 @@ class Transaction
     /**
      * Get created_at
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -265,7 +281,7 @@ class Transaction
     /**
      * Get date
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDate()
     {

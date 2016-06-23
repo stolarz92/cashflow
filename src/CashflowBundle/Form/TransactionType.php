@@ -43,68 +43,73 @@ class TransactionType extends AbstractType
             'hidden',
             ['mapped' => false]
         );
-        $builder->add(
-            'name',
-            'text',
-            array(
-                'label' => 'Transaction name',
-                'required' => true,
-                'max_length' => 128,
-            )
-        );
-        $builder->add(
-            'description',
-            'text',
-            array(
-                'label' => 'Description',
-                'required' => false,
-                'max_length' => 500
-            )
-        );
-        $builder->add(
-            'amount',
-            'money',
-            array(
-                'label' => 'Amount',
-                'required' => true,
-                'currency' => 'PLN'
-            )
-        );
-        $builder->add(
-            'wallet',
-            'entity',
-            array(
-                'class' => 'CashflowBundle:Wallet',
-                'query_builder' => function (Wallet $er) use ($user) {
-                    return $er->createQueryBuilder('w')
-                        ->where('w.user = :user')
-                        ->setParameter('user', $user);
-                },
-                'property' => 'name'
-            )
-        );
-        $builder->add(
-            'category',
-            'entity',
-            array(
-                'class' => 'CashflowBundle:TransactionCategory',
-                'property' => 'name'
-            )
-        );
-        $builder->add(
-            'date',
-            'date',
-            array(
-                'format' => 'yyyy-MM-dd  HH:mm'
-            )
-        );
-        $builder->add(
-            'save',
-            'submit',
-            array(
-                'label' => 'Save'
-            )
-        );
+        if (isset($options['validation_groups'])
+            && count($options['validation_groups'])
+            && !in_array('transaction-delete', $options['validation_groups'])
+        ) {
+            $builder->add(
+                'name',
+                'text',
+                array(
+                    'label' => 'Transaction name',
+                    'required' => true,
+                    'max_length' => 128,
+                )
+            );
+            $builder->add(
+                'description',
+                'text',
+                array(
+                    'label' => 'Description',
+                    'required' => false,
+                    'max_length' => 500
+                )
+            );
+            $builder->add(
+                'amount',
+                'money',
+                array(
+                    'label' => 'Amount',
+                    'required' => true,
+                    'currency' => 'PLN'
+                )
+            );
+            $builder->add(
+                'wallet',
+                'entity',
+                array(
+                    'class' => 'CashflowBundle:Wallet',
+                    'query_builder' => function (Wallet $er) use ($user) {
+                        return $er->createQueryBuilder('w')
+                            ->where('w.user = :user')
+                            ->setParameter('user', $user);
+                    },
+                    'property' => 'name'
+                )
+            );
+            $builder->add(
+                'category',
+                'entity',
+                array(
+                    'class' => 'CashflowBundle:TransactionCategory',
+                    'property' => 'name'
+                )
+            );
+            $builder->add(
+                'date',
+                'date',
+                array(
+                    'format' => 'yyyy-MM-dd  HH:mm'
+                )
+            );
+            $builder->add(
+                'save',
+                'submit',
+                array(
+                    'label' => 'Save'
+                )
+            );
+        }
     }
 
     /**
@@ -116,7 +121,8 @@ class TransactionType extends AbstractType
     {
         $resolver->setDefaults(
             array(
-                'data_class' => 'CashflowBundle\Entity\Transaction'
+                'data_class' => 'CashflowBundle\Entity\Transaction',
+                'validation_groups' => 'transaction-default'
             )
         );
     }
