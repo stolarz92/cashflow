@@ -2,69 +2,73 @@
 
 {% block body %}
     <h1>{{ 'static_pages.views.index.title'|trans }}</h1>
-    <p>{{ 'static_pages.views.index.description'|trans }}</p>
-    <div class="row">
-        <div class="col-md-4 well">
-            <h3>Twoje ostatnie transakcje</h3>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') and not is_granted('ROLE_ADMIN') %}
+        <p>{{ 'static_pages.views.index.description'|trans }}</p>
+        <div class="row">
+            <div class="col-md-4 well">
+                <h3>Twoje ostatnie transakcje</h3>
 
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Amount</th>
-                    <th>Date</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for last in last5 %}
-                <tr>
-                    <td>{{ last.name }}</td>
-                    <td>{{ last.amount }}</td>
-                    <td>{{ last.date|date('d-m-Y') }}</td>
-                </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            <a href="{{ path('transactions') }}"
-               class="btn btn-default">
-                Zobacz wszystkie transakcje
-            </a>
-        </div>
-        <div class="col-md-7 col-md-offset-1 well">
-            <h3>Podsumowanie twoich portfeli</h3>
-
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Nazwa portfela</th>
-                    <th>Przychody</th>
-                    <th>Wydatki</th>
-                    <th>Balans</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for walletSummary in summary %}
+                <table class="table">
+                    <thead>
                     <tr>
-                        <td>{{ walletSummary.walletName ? walletSummary.walletName }}</td>
-                        <td>{{ walletSummary.incomes }}</td>
-                        <td>{{ walletSummary.outcomes }}</td>
-                        <td>{{ walletSummary.balance }}</td>
+                        <th>Name</th>
+                        <th>Amount</th>
+                        <th>Date</th>
                     </tr>
-                {% endfor %}
-                </tbody>
-                <tfoot>
-                <tr>
-                    <th>Suma</th>
-                    <th>{{ overallSummary.incomes }}</th>
-                    <th>{{ overallSummary.outcomes }}</th>
-                    <th>{{ overallSummary.balance }}</th>
-                </tr>
-                </tfoot>
-            </table>
-            <a href="{{ path('wallets') }}"
-               class="btn btn-default">
-                Zobacz wszystkie portfele
-            </a>
+                    </thead>
+                    <tbody>
+                    {% for last in last5 %}
+                        <tr>
+                            <td>{{ last.name }}</td>
+                            <td>{{ last.amount }}</td>
+                            <td>{{ last.date|date('d-m-Y') }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <a href="{{ path('transactions') }}"
+                   class="btn btn-default">
+                    Zobacz wszystkie transakcje
+                </a>
+            </div>
+            <div class="col-md-7 col-md-offset-1 well">
+                <h3>Podsumowanie twoich portfeli</h3>
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Nazwa portfela</th>
+                        <th>Przychody</th>
+                        <th>Wydatki</th>
+                        <th>Balans</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for walletSummary in summary %}
+                        <tr>
+                            <td>{{ walletSummary.walletName ? walletSummary.walletName }}</td>
+                            <td>{{ walletSummary.incomes }}</td>
+                            <td>{{ walletSummary.outcomes }}</td>
+                            <td>{{ walletSummary.balance }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <th>Suma</th>
+                        <th>{{ overallSummary.incomes }}</th>
+                        <th>{{ overallSummary.outcomes }}</th>
+                        <th>{{ overallSummary.balance }}</th>
+                    </tr>
+                    </tfoot>
+                </table>
+                <a href="{{ path('wallets') }}"
+                   class="btn btn-default">
+                    Zobacz wszystkie portfele
+                </a>
+            </div>
         </div>
-    </div>
+        {% else %}
+        <p>Utwórz konto lub zaloguj się aby korzystać ze wszystkich dostępnych możliwości!</p>
+    {% endif %}
 {% endblock %}
