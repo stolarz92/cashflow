@@ -128,4 +128,7 @@ services:
     arguments:
       - @templating
       - @translator
+      - @app.wallet_repository
+      - @security.context
+      - @app.transaction_repository
 

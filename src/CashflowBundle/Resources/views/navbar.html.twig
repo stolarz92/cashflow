@@ -19,8 +19,10 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
+                    <li class="{% if app.request.attributes.get('_controller') == 'app.static_pages_controller:indexAction' %}active{% endif %}">
+                        <a href="{{ path('index') }}">{{ 'navbar.index'|trans }}</a></li>
                     {% if is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_ADMIN') %}
-                        <li class="{% if app.request.attributes.get('_controller') == 'app.wallets_controller:indexAction' %}active{% endif %}">
+                        <li class="{% if app.request.attributes.get('_controller') == 'app.wallets_controller' %}active{% endif %}">
                             <a href="{{ path('admin-wallets-index') }}">{{ 'navbar.admin.wallets'|trans }}</a></li>
 
                         <li class="{% if app.request.attributes.get('_controller') == 'app.transactions_controller:addAction' %}active{% endif %}">

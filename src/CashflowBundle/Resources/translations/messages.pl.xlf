@@ -274,6 +274,10 @@
                 <source>wallets.views.view.table.category</source>
                 <target>Kategoria</target>
             </trans-unit>
+            <trans-unit id="69">
+                <source>navbar.index</source>
+                <target>Strona główna</target>
+            </trans-unit>
 
 
         </body>
