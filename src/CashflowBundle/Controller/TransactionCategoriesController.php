@@ -223,14 +223,24 @@ class TransactionCategoriesController
             );
         }
 
+        $transactions = $transactionCategory->getTransactions();
+        if ($transactions[0] === NULL)
+        {
             $this->transactionCategoryModel->delete($transactionCategory);
             $this->session->getFlashBag()->set(
                 'success',
                 $this->translator->trans('transactions.messages.transaction_category_deleted')
             );
-            return new RedirectResponse(
-                $this->router->generate('admin-transaction-categories-index', array())
+        } else {
+            $this->session->getFlashBag()->set(
+                'danger',
+                $this->translator->trans('transactions.messages.transaction_category_has_related_objects')
             );
+        }
+
+        return new RedirectResponse(
+            $this->router->generate('admin-transaction-categories-index', array())
+        );
     }
 
     /**

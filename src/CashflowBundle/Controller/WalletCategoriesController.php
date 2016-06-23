@@ -222,12 +222,21 @@ class WalletCategoriesController
                 $this->router->generate('admin-wallet-categories-index')
             );
         }
+        $wallets = $walletCategory->getWallets();
+        if ($wallets[0] === NULL)
+        {
+            $this->walletCategoryModel->delete($walletCategory);
+            $this->session->getFlashBag()->set(
+                'success',
+                $this->translator->trans('transactions.messages.transaction_category_deleted')
+            );
+        } else {
+            $this->session->getFlashBag()->set(
+                'danger',
+                $this->translator->trans('wallets.messages.wallet_category_has_related_objects')
+            );
+        }
 
-        $this->walletCategoryModel->delete($walletCategory);
-        $this->session->getFlashBag()->set(
-            'success',
-            $this->translator->trans('transactions.messages.transaction_category_deleted')
-        );
         return new RedirectResponse(
             $this->router->generate('admin-wallet-categories-index', array())
         );

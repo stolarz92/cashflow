@@ -198,7 +198,7 @@ class TransactionsController
             );
             if ($userRole === 'ROLE_ADMIN') {
                 return new RedirectResponse(
-                    $this->router->generate('admin-transaction-index')
+                    $this->router->generate('admin-transactions-index')
                 );
             } else {
                 return new RedirectResponse(
@@ -262,7 +262,7 @@ class TransactionsController
                     if ($userRole === 'ROLE_ADMIN')
                     {
                         return new RedirectResponse(
-                            $this->router->generate('admin-transaction-index')
+                            $this->router->generate('admin-transactions-index')
                         );
                     } else {
                         return new RedirectResponse(

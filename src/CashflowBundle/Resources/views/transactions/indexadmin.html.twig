@@ -22,7 +22,7 @@
         <td>{{ trans.amount }}</td>
         <td>{{ trans.wallet.name }}</td>
         <td>{{ trans.wallet.user }}</td>
-        {#<td>{{ trans.category.name ? trans.category.name }}</td>#}
+        <td>{{ trans.category.name ? trans.category.name }}</td>
         <td><a href="{{ path('transactions-edit', { 'id' : trans.id }) }}">
                 {{ 'edit'|trans }}
             </a>

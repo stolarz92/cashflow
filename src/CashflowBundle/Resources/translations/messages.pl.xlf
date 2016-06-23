@@ -278,6 +278,14 @@
                 <source>navbar.index</source>
                 <target>Strona główna</target>
             </trans-unit>
+            <trans-unit id="70">
+                <source>transactions.messages.transaction_category_has_related_objects</source>
+                <target>Ta kategoria nie może być usunięta, ponieważ istnieją transakcje z nią powiązane. Usuń je najpierw.</target>
+            </trans-unit>
+            <trans-unit id="71">
+                <source>wallets.messages.wallet_category_has_related_objects</source>
+                <target>Ta kategoria nie może być usunięta, ponieważ istnieją portfele z nią powiązane. Usuń je najpierw.</target>
+            </trans-unit>
 
 
         </body>
