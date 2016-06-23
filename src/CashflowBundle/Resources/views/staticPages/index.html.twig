@@ -68,7 +68,9 @@
                 </a>
             </div>
         </div>
-        {% else %}
+    {% elseif is_granted('ROLE_ADMIN') %}
+        <p>Witaj adminie!</p>
+    {% else %}
         <p>Utwórz konto lub zaloguj się aby korzystać ze wszystkich dostępnych możliwości!</p>
     {% endif %}
 {% endblock %}
