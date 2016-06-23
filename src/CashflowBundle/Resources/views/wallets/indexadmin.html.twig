@@ -1,27 +1,33 @@
 {% extends 'CashflowBundle::base.html.twig' %}
 {% block body %}
-<h2>Portfele</h2>
-<table class="table">
-    <thead>
-    <tr>
-        <th>Nazwa</th>
-        <th>Opis</th>
-        <th>Uzytkownik</th>
-        <th>Akcja</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for wallet in wallets %}
-    <tr>
-        <td>{{ wallet.name }}</td>
-        <td>{{ wallet.description }}</td>
-        <td>{{ wallet.user.username}}</td>
-        <td><a href="{{ path('wallets-edit', { 'id' : wallet.id }) }}">{{ 'edit'|trans }}</a></td>
-        <td><a href="{{ path('wallets-delete', { 'id' : wallet.id }) }}">{{ 'delete'|trans }}
-            </a>
-        </td>
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
+    <h2>Portfele</h2>
+    {% if wallets %}
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Nazwa</th>
+                <th>Opis</th>
+                <th>Uzytkownik</th>
+                <th>Kategoria</th>
+                <th>Akcja</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for wallet in wallets %}
+                <tr>
+                    <td>{{ wallet.name }}</td>
+                    <td>{{ wallet.description }}</td>
+                    <td>{{ wallet.user.username}}</td>
+                    <td>{{ wallet.category.name}}</td>
+                    <td><a href="{{ path('admin-wallets-edit', { 'id' : wallet.id }) }}">{{ 'edit'|trans }}</a></td>
+                    <td><a href="{{ path('admin-wallets-delete', { 'id' : wallet.id }) }}">{{ 'delete'|trans }}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Nie ma żadnych portfeli.</p>
+    {% endif %}
 {% endblock %}

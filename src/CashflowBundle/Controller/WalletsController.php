@@ -151,7 +151,9 @@ class WalletsController
      * Edit action.
      *
      * @Route("/wallets/edit/{id}", name="wallets-edit")
-     * @Route("/wallets/edit/{id}/")
+     * @Route("/wallets/edit/{id}/", name="wallets-edit")
+     * @Route("admin/wallets/edit/{id}", name="admin-wallets-edit")
+     * @Route("admin/wallets/edit/{id}/", name="admin-wallets-edit")
      * @ParamConverter("wallet", class="CashflowBundle:Wallet")
      *
      * @param Wallet $wallet Wallet entity
@@ -171,8 +173,8 @@ class WalletsController
             $walletId = (int)$wallet->getUser()->getId();
         }
 
-        $checkUser = $this->checkIfUserHasAccessToWallet($userId, $walletId);
-        if ($checkUser instanceof Response && !($userRole === 'ROLE_ADMIN'))
+        $checkUser = $this->checkIfUserHasAccessToWallet($userId, $walletId, $userRole);
+        if ($checkUser instanceof Response)
         {
             return $checkUser;
         } else {
@@ -195,9 +197,16 @@ class WalletsController
                     'success',
                     $this->translator->trans('wallets.messages.success.edit')
                 );
-                return new RedirectResponse(
-                    $this->router->generate('wallets')
-                );
+                if ($userRole === 'ROLE_ADMIN')
+                {
+                    return new RedirectResponse(
+                        $this->router->generate('admin-wallets-index')
+                    );
+                } else {
+                    return new RedirectResponse(
+                        $this->router->generate('wallets')
+                    );
+                }
             }
         }
         return $this->templating->renderResponse(
@@ -211,7 +220,9 @@ class WalletsController
      * Delete action.
      *
      * @Route("/wallets/delete/{id}", name="wallets-delete")
-     * @Route("/wallets/delete/{id}/")
+     * @Route("/wallets/delete/{id}/", name="wallets-delete")
+     * @Route("admin/wallets/delete/{id}", name="admin-wallets-delete")
+     * @Route("admin/wallets/delete/{id}/", name="admin-wallets-delete")
      * @ParamConverter("wallet", class="CashflowBundle:Wallet")
      *
      * @param Wallet $wallet Wallet entity
@@ -221,6 +232,7 @@ class WalletsController
     public function deleteAction(Request $request, Wallet $wallet = null)
     {
         $userId = $this->getUserId();
+        $userRole = $this->securityContext->getToken()->getRoles()[0]->getRole();
 
         $checkWallet = $this->checkIfWalletExists($wallet);
         if ($checkWallet instanceof Response)
@@ -229,7 +241,7 @@ class WalletsController
         } else {
             $walletId = (int)$wallet->getUser()->getId();
         }
-        $checkUser = $this->checkIfUserHasAccessToWallet($userId, $walletId);
+        $checkUser = $this->checkIfUserHasAccessToWallet($userId, $walletId, $userRole);
         if ($checkUser instanceof Response)
         {
             return $checkUser;
@@ -239,9 +251,17 @@ class WalletsController
                 'success',
                 $this->translator->trans('wallets.messages.success.delete')
             );
-            return new RedirectResponse(
-                $this->router->generate('wallets')
-            );
+
+            if ($userRole === 'ROLE_ADMIN')
+            {
+                return new RedirectResponse(
+                    $this->router->generate('admin-wallets-index')
+                );
+            } else {
+                return new RedirectResponse(
+                    $this->router->generate('wallets')
+                );
+            }
         }
     }
 
@@ -359,9 +379,9 @@ class WalletsController
         }
     }
 
-    private function checkIfUserHasAccessToWallet($userId, $walletId)
+    private function checkIfUserHasAccessToWallet($userId, $walletId, $role = null)
     {
-        if (! ($userId === $walletId))
+        if (! ($userId === $walletId) && !($role === 'ROLE_ADMIN'))
         {
             $this->session->getFlashBag()->set(
                 'warning',

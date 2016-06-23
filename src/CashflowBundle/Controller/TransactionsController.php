@@ -168,10 +168,53 @@ class TransactionsController
     }
 
     /**
+     * Delete action.
+     *
+     * @Route("/transactions/delete/{id}", name="transactions-delete")
+     * @Route("/transactions/delete/{id}/")
+     * @ParamConverter("transaction", class="CashflowBundle:Transaction")
+     *
+     * @param Transaction $transaction Transaction entity
+     * @param Request $request
+     * @return Response A Response instance
+     */
+    public function deleteAction(
+        Request $request,
+        Transaction $transaction = null
+    )
+    {
+        $userRole = $this->securityContext->getToken()->getRoles()[0]->getRole();
+        $checkTransaction = $this->checkIfTransactionExist($transaction);
+
+        if ($checkTransaction instanceof Response)
+        {
+            return $checkTransaction;
+        } else {
+            $walletId = $transaction->getWallet()->getId();
+            $this->transactionModel->delete($transaction);
+            $this->session->getFlashBag()->set(
+                'success',
+                $this->translator->trans('transactions.messages.success.delete')
+            );
+            if ($userRole === 'ROLE_ADMIN') {
+                return new RedirectResponse(
+                    $this->router->generate('admin-transaction-index')
+                );
+            } else {
+                return new RedirectResponse(
+                    $this->router->generate('wallets-view', array('id' => $walletId))
+                );
+            }
+        }
+    }
+
+    /**
      * Edit action.
      *
      * @Route("/transactions/edit/{id}", name="transactions-edit")
-     * @Route("/transactions/edit/{id}/")
+     * @Route("/transactions/edit/{id}/", name="transactions-edit")
+     * @Route("admin/transactions/edit/{id}", name="admin-transactions-edit")
+     * @Route("admin/transactions/edit/{id}/", name="admin-transactions-edit")
      * @ParamConverter("transaction", class="CashflowBundle:Transaction")
      *
      * @param Transaction $transaction Transaction entity
@@ -182,6 +225,7 @@ class TransactionsController
     {
         $user = $this->securityContext->getToken()->getUser();
         $userId = $this->getUserId();
+        $userRole = $this->securityContext->getToken()->getRoles()[0]->getRole();
         $checkTransaction = $this->checkIfTransactionExist($transaction);
 
         if ($checkTransaction instanceof Response)
@@ -189,7 +233,11 @@ class TransactionsController
             return $checkTransaction;
         } else {
             $transactionUserId = (int)$transaction->getWallet()->getUser()->getId();
-            $checkUser = $this->checkIfUserHasAccessToTransasction($userId, $transactionUserId);
+            $checkUser = $this->checkIfUserHasAccessToTransasction(
+                $userId,
+                $transactionUserId,
+                $userRole
+            );
             if ($checkUser instanceof Response)
             {
                 return $checkUser;
@@ -211,9 +259,16 @@ class TransactionsController
                         'success',
                         $this->translator->trans('transactions.messages.success.edit')
                     );
-                    return new RedirectResponse(
-                        $this->router->generate('transactions', array('id' => $walletId))
-                    );
+                    if ($userRole === 'ROLE_ADMIN')
+                    {
+                        return new RedirectResponse(
+                            $this->router->generate('admin-transaction-index')
+                        );
+                    } else {
+                        return new RedirectResponse(
+                            $this->router->generate('transactions', array('id' => $walletId))
+                        );
+                    }
                 }
             }
         }
@@ -222,40 +277,6 @@ class TransactionsController
             array('form' => $transactionForm->createView())
         );
 
-    }
-
-    /**
-     * Delete action.
-     *
-     * @Route("/transactions/delete/{id}", name="transactions-delete")
-     * @Route("/transactions/delete/{id}/")
-     * @ParamConverter("transaction", class="CashflowBundle:Transaction")
-     *
-     * @param Transaction $transaction Transaction entity
-     * @param Request $request
-     * @return Response A Response instance
-     */
-    public function deleteAction(
-        Request $request,
-        Transaction $transaction = null
-    )
-    {
-        $checkTransaction = $this->checkIfTransactionExist($transaction);
-
-        if ($checkTransaction instanceof Response)
-        {
-            return $checkTransaction;
-        } else {
-            $walletId = $transaction->getWallet()->getId();
-            $this->transactionModel->delete($transaction);
-            $this->session->getFlashBag()->set(
-                'success',
-                $this->translator->trans('transactions.messages.success.delete')
-            );
-            return new RedirectResponse(
-                $this->router->generate('wallets-view', array('id' => $walletId))
-            );
-        }
     }
 
     /**
@@ -349,9 +370,9 @@ class TransactionsController
         }
     }
 
-    private function checkIfUserHasAccessToTransasction($userId, $walletId)
+    private function checkIfUserHasAccessToTransasction($userId, $walletId, $role = null)
     {
-        if (! ($userId === $walletId))
+        if (! ($userId === $walletId) && !($role === 'ROLE_ADMIN'))
         {
             $this->session->getFlashBag()->set(
                 'warning',

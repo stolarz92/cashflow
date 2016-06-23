@@ -1,6 +1,7 @@
 {% extends 'CashflowBundle::base.html.twig' %}
 {% block body %}
-<h2>Transakcje</h2>
+<h2>Wszystkie transakcje</h2>
+    {% if transactions %}
 <table class="table">
     <thead>
     <tr>
@@ -9,6 +10,7 @@
         <th>Data</th>
         <th>Portfel</th>
         <th>Uzytkownik</th>
+        <th>Kategoria</th>
         <th>Akcja</th>
     </tr>
     </thead>
@@ -18,8 +20,9 @@
         <td>{{ trans.name }}</td>
         <td>{{ trans.description }}</td>
         <td>{{ trans.amount }}</td>
-        <td>{{ trans.wallet.name}}</td>
-        <td>{{ trans.wallet.user}}</td>
+        <td>{{ trans.wallet.name }}</td>
+        <td>{{ trans.wallet.user }}</td>
+        {#<td>{{ trans.category.name ? trans.category.name }}</td>#}
         <td><a href="{{ path('transactions-edit', { 'id' : trans.id }) }}">
                 {{ 'edit'|trans }}
             </a>
@@ -32,4 +35,7 @@
     {% endfor %}
     </tbody>
 </table>
+        {% else %}
+        <p>Nie ma żadnych transakcji.</p>
+        {% endif %}
 {% endblock %}

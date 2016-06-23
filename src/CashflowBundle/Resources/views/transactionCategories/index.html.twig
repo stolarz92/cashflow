@@ -1,6 +1,8 @@
 {% extends 'CashflowBundle::base.html.twig' %}
 
 {% block body %}
+    <h2>Kategorie transackji</h2>
+    {% if transactionCategories %}
     <table class="table">
         <thead>
         <tr>
@@ -27,4 +29,7 @@
         </tbody>
     </table>
     <a href="{{ path('admin-transaction-categories-add') }}">Add Category</a>
+        {% else %}
+        <p>Nie ma żadnych kategorii.</p>
+        {% endif %}
 {% endblock %}
