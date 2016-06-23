@@ -33,43 +33,48 @@ class WalletType extends AbstractType
             'hidden',
             ['mapped' => false]
         );
-        $builder->add(
-            'name',
-            'text',
-            array(
-                'label' => 'Wallet name',
-                'required' => true,
-                'max_length' => 128,
-            )
-        );
-        $builder->add(
-            'description',
-            'text',
-            array(
-                'label' => 'Description',
-                'required' => false,
-                'max_length' => 500
-            )
-        );
-        $builder->add(
-            'category',
-            'entity',
-            array(
-                'class' => 'CashflowBundle:WalletCategory',
-                /*'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('w')
-                        ->orderBy('u.username', 'ASC');
-                },*/
-                'property' => 'name'
-            )
-        );
-        $builder->add(
-            'save',
-            'submit',
-            array(
-                'label' => 'Save'
-            )
-        );
+        if (isset($options['validation_groups'])
+            && count($options['validation_groups'])
+            && !in_array('tag-delete', $options['validation_groups'])
+        ) {
+            $builder->add(
+                'name',
+                'text',
+                array(
+                    'label' => 'Wallet name',
+                    'required' => true,
+                    'max_length' => 128,
+                )
+            );
+            $builder->add(
+                'description',
+                'text',
+                array(
+                    'label' => 'Description',
+                    'required' => false,
+                    'max_length' => 500
+                )
+            );
+            $builder->add(
+                'category',
+                'entity',
+                array(
+                    'class' => 'CashflowBundle:WalletCategory',
+                    /*'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('w')
+                            ->orderBy('u.username', 'ASC');
+                    },*/
+                    'property' => 'name'
+                )
+            );
+            $builder->add(
+                'save',
+                'submit',
+                array(
+                    'label' => 'Save'
+                )
+            );
+        }
     }
 
     /**
@@ -81,7 +86,8 @@ class WalletType extends AbstractType
     {
         $resolver->setDefaults(
             array(
-                'data_class' => 'CashflowBundle\Entity\Wallet'
+                'data_class' => 'CashflowBundle\Entity\Wallet',
+                'validation_groups' => 'wallet-default',
             )
         );
     }

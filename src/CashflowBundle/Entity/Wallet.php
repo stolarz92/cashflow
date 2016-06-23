@@ -11,6 +11,7 @@ namespace CashflowBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use \DateTime;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Wallet
@@ -25,7 +26,7 @@ class Wallet
      * @ORM\Id
      * @ORM\Column(
      *     type="integer",
-     *     nullable=false,
+     *     nullable=true,
      *     options={
      *          "unsigned"=true
      *     }
@@ -41,6 +42,8 @@ class Wallet
      *     length=128,
      *     nullable=false
      * )
+     * @Assert\NotBlank(groups={"wallet-default"})
+     * @Assert\Length(min=3, max=128, groups={"wallet-default"})
      */
     private $name;
 
@@ -50,8 +53,8 @@ class Wallet
      *     type="string",
      *     length=500,
      *     nullable=true,
-     *
      * )
+     * @Assert\Length(max=500, groups={"wallet-default"})
      */
     private $description;
 
@@ -72,12 +75,14 @@ class Wallet
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="wallets")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     *
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity="WalletCategory", inversedBy="wallets")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     * @Assert\NotBlank(groups={"wallet-default"})
      */
     private $category;
 
