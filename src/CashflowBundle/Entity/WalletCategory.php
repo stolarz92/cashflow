@@ -10,6 +10,8 @@ namespace CashflowBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Class WalletCategory
@@ -17,6 +19,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @author Radosław Stolarski
  * @ORM\Table(name="wallet_categories")
  * @ORM\Entity(repositoryClass="CashflowBundle\Repository\WalletCategory")
+ * @UniqueEntity(fields="name", groups={"wallet-category-default"})
  */
 class WalletCategory
 {
@@ -40,6 +43,8 @@ class WalletCategory
      *     length=128,
      *     nullable=false
      * )
+     * @Assert\NotBlank(groups={"wallet-category-default"}),
+     * @Assert\Length(min=3, max=128, groups={"wallet-category-default"})
      */
     private $name;
 

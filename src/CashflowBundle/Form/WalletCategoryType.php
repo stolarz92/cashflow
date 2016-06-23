@@ -35,22 +35,27 @@ class WalletCategoryType extends AbstractType
             'hidden',
             ['mapped' => false]
         );
-        $builder->add(
-            'name',
-            'text',
-            array(
-                'label' => 'Dodaj kategorię',
-                'required' => true,
-                'max_length' => 128,
-            )
-        );
-        $builder->add(
-            'save',
-            'submit',
-            array(
-                'label' => 'Save'
-            )
-        );
+        if (isset($options['validation_groups'])
+            && count($options['validation_groups'])
+            && !in_array('tag-delete', $options['validation_groups'])
+        ) {
+            $builder->add(
+                'name',
+                'text',
+                array(
+                    'label' => 'Dodaj kategorię',
+                    'required' => true,
+                    'max_length' => 128,
+                )
+            );
+            $builder->add(
+                'save',
+                'submit',
+                array(
+                    'label' => 'Save'
+                )
+            );
+        }
     }
 
     /**
@@ -62,7 +67,8 @@ class WalletCategoryType extends AbstractType
     {
         $resolver->setDefaults(
             array(
-                'data_class' => 'CashflowBundle\Entity\WalletCategory'
+                'data_class' => 'CashflowBundle\Entity\WalletCategory',
+                'validation_groups' => 'transaction-category-default'
             )
         );
     }

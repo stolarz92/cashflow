@@ -121,7 +121,14 @@ class WalletCategoriesController
      */
     public function addAction(Request $request)
     {
-        $walletCategoryForm = $this->formFactory->create(new WalletCategoryType());
+        $walletCategoryForm = $this
+            ->formFactory->create(
+                new WalletCategoryType(),
+                null,
+                array(
+                    'validation_groups' => 'wallet-category-default'
+                )
+            );
 
         $walletCategoryForm->handleRequest($request);
 
@@ -167,8 +174,9 @@ class WalletCategoriesController
             new WalletCategoryType(),
             $walletCategory,
             array(
-
-            ));
+                'validation_groups' => 'wallet-category-default'
+            )
+        );
 
         $walletCategoryForm->handleRequest($request);
 
