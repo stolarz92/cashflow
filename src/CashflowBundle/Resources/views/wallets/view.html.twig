@@ -12,7 +12,9 @@
                     <th>{{ 'wallets.views.view.table.name'|trans }}</th>
                     <th>{{ 'wallets.views.view.table.description'|trans }}</th>
                     <th>{{ 'wallets.views.view.table.amount'|trans }}</th>
-                    <th>{{ 'wallets.views.view.table.created_at'|trans }}</th>
+                    <th>{{ 'wallets.views.view.table.date'|trans }}</th>
+                    <th>{{ 'wallets.views.view.table.category'|trans }}</th>
+                    <th>{{ 'wallets.views.view.table.action'|trans }}</th>
                     <th>{{ 'wallets.views.view.table.action'|trans }}</th>
                 </tr>
                 </thead>
@@ -22,7 +24,8 @@
                         <td>{{ transaction.name ? transaction.name }}</td>
                         <td>{{ transaction.description ? transaction.description }}</td>
                         <td>{{ transaction.amount ? transaction.amount }}
-                        <td>{{ transaction.CreatedAt ? transaction.CreatedAt|date('d-m-Y') }}
+                        <td>{{ transaction.date ? transaction.date|date('d-m-Y') }}
+                        <td>{{ transaction.date ? transaction.category.name }}
                         <td><a href="{{ path('transactions-edit', { 'id' : transaction.id }) }}">
                                 {{ 'edit'|trans }}</a>
                         </td>

@@ -56,7 +56,7 @@
             </trans-unit>
             <trans-unit id="14">
                 <source>wallets.views.index.title</source>
-                <target>Twoje portfele.</target>
+                <target>Twoje portfele</target>
             </trans-unit>
             <trans-unit id="15">
                 <source>wallets.views.index.no_wallets</source>
@@ -251,8 +251,8 @@
                 <target>Wprowadź przychód do portfela</target>
             </trans-unit>
             <trans-unit id="63">
-                <source>wallets.views.view.table.created_at</source>
-                <target>Data wprowadzenia</target>
+                <source>wallets.views.view.table.date</source>
+                <target>Data transakcji</target>
             </trans-unit>
             <trans-unit id="64">
                 <source>navbar.transactions</source>
@@ -263,10 +263,17 @@
                 <target>Nie masz dostępu</target>
             </trans-unit>
             <trans-unit id="66">
-                <source>transactions.views.index.createdAt</source>
-                <target>Data wprowadzenia</target>
+                <source>transactions.views.index.date</source>
+                <target>Data transakcji</target>
             </trans-unit>
-
+            <trans-unit id="67">
+                <source>transactions.views.index.category</source>
+                <target>Kategoria</target>
+            </trans-unit>
+            <trans-unit id="68">
+                <source>wallets.views.view.table.category</source>
+                <target>Kategoria</target>
+            </trans-unit>
 
 
         </body>

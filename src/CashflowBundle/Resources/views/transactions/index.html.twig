@@ -2,6 +2,7 @@
 
 {% block body %}
     <h2>{{ 'transactions.views.index.title'|trans }}</h2>
+    <div class="well">
     {% if walletsTransactions %}
         <table class="table">
             <thead>
@@ -9,7 +10,9 @@
                 <th>{{ 'transactions.views.index.name'|trans }}</th>
                 <th>{{ 'transactions.views.index.description'|trans }}</th>
                 <th>{{ 'transactions.views.index.amount'|trans }}</th>
-                <th>{{ 'transactions.views.index.createdAt'|trans }}</th>
+                <th>{{ 'transactions.views.index.date'|trans }}</th>
+                <th>{{ 'transactions.views.index.category'|trans }}</th>
+                <th>{{ 'transactions.views.index.action'|trans }}</th>
                 <th>{{ 'transactions.views.index.action'|trans }}</th>
             </tr>
             </thead>
@@ -17,10 +20,11 @@
             {% for transactions in walletsTransactions %}
                 {% for transaction in transactions %}
                     <tr>
-                        <td>{{ transaction.id }}</td>
                         <td>{{ transaction.name }}</td>
+                        <td>{{ transaction.description }}</td>
                         <td>{{ transaction.amount }}</td>
-                        <td>{{ transaction.CreatedAt|date('d-m-Y') }}</td>
+                        <td>{{ transaction.date|date('d-m-Y') }}</td>
+                        <td>{{ transaction.category.name }}</td>
                         <td><a href="{{ path('transactions-edit', { 'id' : transaction.id }) }}">
                                 {{ 'edit'|trans }}
                             </a>
@@ -37,4 +41,5 @@
     {% else %}
         <p>{{ 'transactions.views.index.no_transactions'|trans }}</p>
     {% endif %}
+    </div>
 {% endblock %}

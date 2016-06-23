@@ -2,33 +2,35 @@
 
 {% block body %}
     <h2>{{ 'wallets.views.index.title'|trans }}</h2>
-    {% if wallets %}
-        <table class="table">
-            <thead>
-            <tr>
-                <th>{{ 'wallets.views.index.table.name'|trans }}</th>
-                <th>{{ 'wallets.views.index.table.created_at'|trans }}</th>
-                <th>{{ 'wallets.views.index.table.category'|trans }}</th>
-                <th>{{ 'wallets.views.index.table.action'|trans }}</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for wallet in wallets %}
+    <div class="well">
+        {% if wallets %}
+            <table class="table">
+                <thead>
                 <tr>
-                    <td>{{ wallet.name ? wallet.name }}</td>
-                    <td>{{ wallet.CreatedAt ? wallet.CreatedAt|date('d-m-Y') }}</td>
-                    <td>{{ wallet.category ? wallet.category.name }}</td>
-                    <td><a href="{{ path('wallets-view', { 'id' : wallet.id }) }}">{{ 'show'|trans }}</a></td>
-                    <td><a href="{{ path('wallets-edit', { 'id' : wallet.id }) }}">{{ 'edit'|trans }}</a></td>
-                    <td><a href="{{ path('wallets-delete', { 'id' : wallet.id }) }}">{{ 'delete'|trans }}
-                        </a>
-                    </td>
+                    <th>{{ 'wallets.views.index.table.name'|trans }}</th>
+                    <th>{{ 'wallets.views.index.table.created_at'|trans }}</th>
+                    <th>{{ 'wallets.views.index.table.category'|trans }}</th>
+                    <th>{{ 'wallets.views.index.table.action'|trans }}</th>
                 </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-        <a href="{{ path('wallets-add') }}">Dodaj portfel</a>
-    {% else %}
-        <p>{{ 'wallets.views.index.no_wallets'|trans }}</p>
-    {% endif %}
+                </thead>
+                <tbody>
+                {% for wallet in wallets %}
+                    <tr>
+                        <td>{{ wallet.name ? wallet.name }}</td>
+                        <td>{{ wallet.CreatedAt ? wallet.CreatedAt|date('d-m-Y') }}</td>
+                        <td>{{ wallet.category ? wallet.category.name }}</td>
+                        <td><a href="{{ path('wallets-view', { 'id' : wallet.id }) }}">{{ 'show'|trans }}</a></td>
+                        <td><a href="{{ path('wallets-edit', { 'id' : wallet.id }) }}">{{ 'edit'|trans }}</a></td>
+                        <td><a href="{{ path('wallets-delete', { 'id' : wallet.id }) }}">{{ 'delete'|trans }}
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <a href="{{ path('wallets-add') }}">Dodaj portfel</a>
+        {% else %}
+            <p>{{ 'wallets.views.index.no_wallets'|trans }}</p>
+        {% endif %}
+    </div>
 {% endblock %}
