@@ -10,6 +10,9 @@ namespace CashflowBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 /**
  * Class TransactionCategory
@@ -17,6 +20,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @author Radosław Stolarski
  * @ORM\Table(name="transaction_categories")
  * @ORM\Entity(repositoryClass="CashflowBundle\Repository\TransactionCategory")
+ * @UniqueEntity(fields="name", groups={"transaction-category-default"})
  */
 class TransactionCategory
 {
@@ -40,6 +44,9 @@ class TransactionCategory
      *     length=128,
      *     nullable=false
      * )
+     * @Assert\NotBlank(groups={"transaction-category-default"}),
+     * @Assert\Length(min=3, max=128, groups={"transaction-category-default"})
+     *
      */
     private $name;
 
@@ -54,7 +61,6 @@ class TransactionCategory
     public function __construct() {
         $this->transactions = new ArrayCollection();
     }
-
 
     /**
      * Get id

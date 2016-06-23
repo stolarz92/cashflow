@@ -121,7 +121,14 @@ class TransactionCategoriesController
      */
     public function addAction(Request $request)
     {
-        $transactionCategoryForm = $this->formFactory->create(new TransactionCategoryType());
+        $transactionCategoryForm = $this
+            ->formFactory->create(
+                new TransactionCategoryType(),
+                null,
+                array(
+                    'validation_groups' => 'transaction-category-default'
+                )
+            );
 
         $transactionCategoryForm->handleRequest($request);
 
@@ -167,8 +174,9 @@ class TransactionCategoriesController
             new TransactionCategoryType(),
             $transactionCategory,
             array(
-
-            ));
+                'validation_groups' => 'transaction-category-default'
+            )
+        );
 
         $transactionCategoryForm->handleRequest($request);
 
