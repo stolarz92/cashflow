@@ -92,6 +92,13 @@ class TransactionType extends AbstractType
             )
         );
         $builder->add(
+            'date',
+            'date',
+            array(
+                'format' => 'yyyy-MM-dd  HH:mm'
+            )
+        );
+        $builder->add(
             'save',
             'submit',
             array(

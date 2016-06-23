@@ -85,6 +85,15 @@ class Transaction
     protected $created_at;
 
     /**
+     * @ORM\Column(
+     *     name="date",
+     *     type="date",
+     *     nullable=false
+     * )
+     */
+    protected $date;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -238,5 +247,28 @@ class Transaction
     public function getCreatedAt()
     {
         return $this->created_at;
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     * @return Transaction
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime 
+     */
+    public function getDate()
+    {
+        return $this->date;
     }
 }
