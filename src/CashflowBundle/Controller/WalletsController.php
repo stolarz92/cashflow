@@ -152,38 +152,46 @@ class WalletsController
      */
     public function editAction(Request $request, Wallet $wallet = null)
     {
-        if (!$wallet) {
-            $this->session->getFlashBag()->set(
-                'warning',
-                $this->translator->trans('wallets.messages.wallet_not_found')
-            );
-            return new RedirectResponse(
-                $this->router->generate('wallets-add')
-            );
+        $userId = $this->getUserId();
+        $userRole = $this->securityContext->getToken()->getRoles()[0]->getRole();
+
+        $checkWallet = $this->checkIfWalletExists($wallet);
+        if ($checkWallet instanceof Response)
+        {
+            return $checkWallet;
+        } else {
+            $walletId = (int)$wallet->getUser()->getId();
         }
 
-        $walletForm = $this->formFactory->create(
-            new WalletType(),
-            $wallet,
-            array(
+        $checkUser = $this->checkIfUserHasAccessToWallet($userId, $walletId);
+        if ($checkUser instanceof Response && !($userRole === 'ROLE_ADMIN'))
+        {
+            return $checkUser;
+        } else {
+            $this->checkIfWalletExists($wallet);
+
+            $walletForm = $this->formFactory->create(
+                new WalletType(),
+                $wallet,
+                array(
 //                'validation_groups' => 'wallet-default'
-            )
-        );
-
-        $walletForm->handleRequest($request);
-
-        if ($walletForm->isValid()) {
-            $wallet = $walletForm->getData();
-            $this->model->save($wallet);
-            $this->session->getFlashBag()->set(
-                'success',
-                $this->translator->trans('wallets.messages.success.edit')
+                )
             );
-            return new RedirectResponse(
-                $this->router->generate('wallets')
-            );
+
+            $walletForm->handleRequest($request);
+
+            if ($walletForm->isValid()) {
+                $wallet = $walletForm->getData();
+                $this->model->save($wallet);
+                $this->session->getFlashBag()->set(
+                    'success',
+                    $this->translator->trans('wallets.messages.success.edit')
+                );
+                return new RedirectResponse(
+                    $this->router->generate('wallets')
+                );
+            }
         }
-
         return $this->templating->renderResponse(
             'CashflowBundle:wallets:edit.html.twig',
             array('form' => $walletForm->createView())
@@ -204,25 +212,29 @@ class WalletsController
      */
     public function deleteAction(Request $request, Wallet $wallet = null)
     {
-        if (!$wallet) {
+        $userId = $this->getUserId();
+
+        $checkWallet = $this->checkIfWalletExists($wallet);
+        if ($checkWallet instanceof Response)
+        {
+            return $checkWallet;
+        } else {
+            $walletId = (int)$wallet->getUser()->getId();
+        }
+        $checkUser = $this->checkIfUserHasAccessToWallet($userId, $walletId);
+        if ($checkUser instanceof Response)
+        {
+            return $checkUser;
+        } else {
+            $this->model->delete($wallet);
             $this->session->getFlashBag()->set(
-                'warning',
-                $this->translator->trans('wallets.messages.wallet_not_found')
+                'success',
+                $this->translator->trans('wallets.messages.success.delete')
             );
             return new RedirectResponse(
                 $this->router->generate('wallets')
             );
         }
-
-
-        $this->model->delete($wallet);
-        $this->session->getFlashBag()->set(
-            'success',
-            $this->translator->trans('wallets.messages.success.delete')
-        );
-        return new RedirectResponse(
-            $this->router->generate('wallets')
-        );
     }
 
     /**
@@ -237,10 +249,19 @@ class WalletsController
     public function indexAction()
     {
         $wallets = NULL;
-        $user_id = $this->securityContext->getToken()->getUser()->getId();
+        $user_id = $this->getUserId();
 
         if ($user_id != NULL) {
             $wallets = $this->model->findByUser($user_id);
+        } else {
+            $this->session->getFlashBag()->set(
+                'warning',
+                $this->translator->trans('wallets.messages.warning.no_access')
+            );
+
+            return new RedirectResponse(
+                $this->router->generate('index')
+            );
         }
 
         return $this->templating->renderResponse(
@@ -261,14 +282,23 @@ class WalletsController
      */
     public function viewAction(Wallet $wallet = null)
     {
-        if (! ($wallet instanceof Wallet))
+        $userId = $this->getUserId();
+
+        $checkWallet = $this->checkIfWalletExists($wallet);
+        if ($checkWallet instanceof Response)
         {
-            return new RedirectResponse(
-                $this->router->generate('wallets')
-            );
+            return $checkWallet;
+        } else {
+            $walletId = (int)$wallet->getUser()->getId();
         }
 
-        $transactions = $wallet->getTransactions();
+        $checkUser = $this->checkIfUserHasAccessToWallet($userId, $walletId);
+        if ($checkUser instanceof Response)
+        {
+            return $checkUser;
+        } else {
+            $transactions = $wallet->getTransactions();
+        }
 
         return $this->templating->renderResponse(
             'CashflowBundle:wallets:view.html.twig',
@@ -299,6 +329,40 @@ class WalletsController
         );
     }
 
+    private function getUserId()
+    {
+        $user_id = (int)$this->securityContext->getToken()->getUser()->getId();
+        return $user_id;
+    }
 
+    private function checkIfWalletExists($wallet)
+    {
+        if (! ($wallet instanceof Wallet)) {
+            $this->session->getFlashBag()->set(
+                'warning',
+                $this->translator->trans(
+                    'wallets.messages.wallet_not_found'
+                )
+            );
 
+            return new RedirectResponse(
+                $this->router->generate('wallets')
+            );
+        }
+    }
+
+    private function checkIfUserHasAccessToWallet($userId, $walletId)
+    {
+        if (! ($userId === $walletId))
+        {
+            $this->session->getFlashBag()->set(
+                'warning',
+                $this->translator->trans('wallets.messages.warning.no_access')
+            );
+
+            return new RedirectResponse(
+                $this->router->generate('wallets')
+            );
+        }
+    }
 }

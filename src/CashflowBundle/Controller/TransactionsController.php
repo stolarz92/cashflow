@@ -36,7 +36,6 @@ use Symfony\Bundle\FrameworkBundle\Translation\Translator;
  */
 class TransactionsController
 {
-
     /**
      * Model object.
      *
@@ -155,7 +154,6 @@ class TransactionsController
                 $this->router->generate('transactions', array('id' => $walletId))
             );
         }
-
         return $this->templating->renderResponse(
             'CashflowBundle:transactions:add.html.twig',
             array(
@@ -178,42 +176,43 @@ class TransactionsController
      */
     public function editAction(Request $request, Transaction $transaction = null)
     {
-        if (!$transaction) {
-            $this->session->getFlashBag()->set(
-                'warning',
-                $this->translator->trans('transactions.messages.transaction_not_found')
-            );
-            return new RedirectResponse(
-                $this->router->generate('wallets')
-            );
-        }
-
         $user = $this->securityContext->getToken()->getUser();
+        $userId = $this->getUserId();
+        $checkTransaction = $this->checkIfTransactionExist($transaction);
 
-        $transactionForm = $this->formFactory->create(
-            new TransactionType($user),
-            $transaction,
-            array(
+        if ($checkTransaction instanceof Response)
+        {
+            return $checkTransaction;
+        } else {
+            $transactionUserId = (int)$transaction->getWallet()->getUser()->getId();
+            $checkUser = $this->checkIfUserHasAccessToTransasction($userId, $transactionUserId);
+            if ($checkUser instanceof Response)
+            {
+                return $checkUser;
+            } else {
+                $transactionForm = $this->formFactory->create(
+                    new TransactionType($user),
+                    $transaction,
+                    array(
 //                'validation_groups' => 'transaction-default'
-            )
-        );
+                    )
+                );
+                $transactionForm->handleRequest($request);
+                if ($transactionForm->isValid()) {
+                    $transaction = $transactionForm->getData();
+                    $walletId = $transaction->getWallet()->getId();
 
-        $transactionForm->handleRequest($request);
-
-        if ($transactionForm->isValid()) {
-            $transaction = $transactionForm->getData();
-            $walletId = $transaction->getWallet()->getId();
-
-            $this->transactionModel->save($transaction);
-            $this->session->getFlashBag()->set(
-                'success',
-                $this->translator->trans('transactions.messages.success.edit')
-            );
-            return new RedirectResponse(
-                $this->router->generate('transactions', array('id' => $walletId))
-            );
+                    $this->transactionModel->save($transaction);
+                    $this->session->getFlashBag()->set(
+                        'success',
+                        $this->translator->trans('transactions.messages.success.edit')
+                    );
+                    return new RedirectResponse(
+                        $this->router->generate('transactions', array('id' => $walletId))
+                    );
+                }
+            }
         }
-
         return $this->templating->renderResponse(
             'CashflowBundle:transactions:edit.html.twig',
             array('form' => $transactionForm->createView())
@@ -237,27 +236,22 @@ class TransactionsController
         Transaction $transaction = null
     )
     {
-        if (!$transaction) {
+        $checkTransaction = $this->checkIfTransactionExist($transaction);
+
+        if ($checkTransaction instanceof Response)
+        {
+            return $checkTransaction;
+        } else {
+            $walletId = $transaction->getWallet()->getId();
+            $this->transactionModel->delete($transaction);
             $this->session->getFlashBag()->set(
-                'warning',
-                $this->translator->trans(
-                    'transactions.messages.transaction_not_found'
-                )
+                'success',
+                $this->translator->trans('transactions.messages.success.delete')
             );
             return new RedirectResponse(
-                $this->router->generate('transactions')
+                $this->router->generate('wallets-view', array('id' => $walletId))
             );
         }
-
-        $walletId = $transaction->getWallet()->getId();
-        $this->transactionModel->delete($transaction);
-        $this->session->getFlashBag()->set(
-            'success',
-        $this->translator->trans('transactions.messages.success.delete')
-        );
-        return new RedirectResponse(
-            $this->router->generate('transactions', array('id' => $walletId))
-        );
     }
 
     /**
@@ -271,13 +265,17 @@ class TransactionsController
      */
     public function indexAction()
     {
-        $transactions = [];
-        $user = $this->securityContext->getToken()->getUser()->getId();
-        $wallets = $this->walletModel->findBy(array('id' => $user));
+        $user = $this->securityContext->getToken()->getUser();
+        $walletsTransactions = [];
+
+        $wallets = $this->walletModel->findBy(array('user' => $user));
+        foreach ($wallets as $wallet) {
+            array_push($walletsTransactions, $wallet->getTransactions());
+        }
 
         return $this->templating->renderResponse(
             'CashflowBundle:transactions:index.html.twig',
-            array('transactions' => $transactions,
+            array('walletsTransactions' => $walletsTransactions,
             )
         );
     }
@@ -307,7 +305,6 @@ class TransactionsController
         );
     }
 
-
     /**
      * Index admin action.
      *
@@ -327,5 +324,39 @@ class TransactionsController
                 'transactions' => $transactions,
             )
         );
+    }
+
+    private function getUserId()
+    {
+        $user_id = (int)$this->securityContext->getToken()->getUser()->getId();
+        return $user_id;
+    }
+
+    private function checkIfTransactionExist($transaction)
+    {
+        if (!$transaction) {
+            $this->session->getFlashBag()->set(
+                'warning',
+                $this->translator->trans('transactions.messages.transaction_not_found')
+            );
+            return new RedirectResponse(
+                $this->router->generate('wallets')
+            );
+        }
+    }
+
+    private function checkIfUserHasAccessToTransasction($userId, $walletId)
+    {
+        if (! ($userId === $walletId))
+        {
+            $this->session->getFlashBag()->set(
+                'warning',
+                $this->translator->trans('wallets.messages.warning.no_access')
+            );
+
+            return new RedirectResponse(
+                $this->router->generate('wallets')
+            );
+        }
     }
 }

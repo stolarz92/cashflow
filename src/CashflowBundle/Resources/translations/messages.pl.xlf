@@ -156,7 +156,7 @@
             </trans-unit>
             <trans-unit id="39">
                 <source>transactions.views.index.title</source>
-                <target>Transakcje w portfelu</target>
+                <target>Twoje wszystkie transakcje</target>
             </trans-unit>
             <trans-unit id="40">
                 <source>transactions.views.index.name</source>
@@ -257,6 +257,14 @@
             <trans-unit id="64">
                 <source>navbar.transactions</source>
                 <target>Transakcje</target>
+            </trans-unit>
+            <trans-unit id="65">
+                <source>wallets.messages.warning.no_access</source>
+                <target>Nie masz dostępu</target>
+            </trans-unit>
+            <trans-unit id="66">
+                <source>transactions.views.index.createdAt</source>
+                <target>Data wprowadzenia</target>
             </trans-unit>
 
 
