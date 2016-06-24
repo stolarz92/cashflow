@@ -1,7 +1,9 @@
 {% extends 'CashflowBundle::base.html.twig' %}
 
 {% block body %}
-    <h2>Add category</h2>
-    <div>{{ form_errors(form) }}</div>
-    {{ form(form, {'method': 'POST'}) }}
+    <div class="col-md-4 col-md-offset-4">
+        <h2>Dodaj kategorię</h2>
+        <div>{{ form_errors(form) }}</div>
+        {{ form(form, {'method': 'POST'}) }}
+    </div>
 {% endblock %}

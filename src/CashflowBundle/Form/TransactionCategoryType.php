@@ -46,13 +46,15 @@ class TransactionCategoryType extends AbstractType
                     'label' => 'Dodaj kategorię',
                     'required' => true,
                     'max_length' => 128,
+                    'attr' => array('class' => 'form-control')
                 )
             );
             $builder->add(
-                'save',
+                'Zapisz',
                 'submit',
                 array(
-                    'label' => 'Save'
+                    'label' => 'Zapisz',
+                    'attr' => array('class' => 'btn btn-success btn-save')
                 )
             );
         }

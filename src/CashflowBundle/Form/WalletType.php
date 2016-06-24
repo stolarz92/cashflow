@@ -41,37 +41,44 @@ class WalletType extends AbstractType
                 'name',
                 'text',
                 array(
-                    'label' => 'Wallet name',
+                    'label' => 'Nazwa portfela',
                     'required' => true,
                     'max_length' => 128,
+                    'attr'=> array('class'=>'form-control')
                 )
             );
             $builder->add(
                 'description',
-                'text',
+                'textarea',
                 array(
-                    'label' => 'Description',
+                    'label' => 'Opis',
                     'required' => false,
-                    'max_length' => 500
+                    'max_length' => 500,
+                    'attr'=> array('class'=>'form-control')
                 )
             );
             $builder->add(
                 'category',
                 'entity',
                 array(
+                    'label' => 'Kategoria',
                     'class' => 'CashflowBundle:WalletCategory',
                     /*'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('w')
                             ->orderBy('u.username', 'ASC');
                     },*/
-                    'property' => 'name'
+                    'property' => 'name',
+                    'attr'=> array('class'=>'form-control')
+
                 )
             );
             $builder->add(
-                'save',
+                'Zapisz',
                 'submit',
                 array(
-                    'label' => 'Save'
+                    'label' => 'Zapisz',
+                    'attr'=> array('class'=>'btn btn-success btn-save')
+
                 )
             );
         }

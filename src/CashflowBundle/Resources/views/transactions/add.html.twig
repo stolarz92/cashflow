@@ -1,11 +1,14 @@
 {% extends 'CashflowBundle::base.html.twig' %}
 
 {% block body %}
-    {% if outcome == 1 %}
-        <h2>{{ 'transactions.views.add.title.outcome'|trans }}</h2>
-    {% else %}
-        <h2>{{ 'transactions.views.add.title.income'|trans }}</h2>
-    {% endif %}
-    <div>{{ form_errors(form) }}</div>
-    {{ form(form, {'method': 'POST'}) }}
+    <div class="col-md-4 col-md-offset-4">
+        {% if outcome == 1 %}
+            <h2>{{ 'transactions.views.add.title.outcome'|trans }}</h2>
+        {% else %}
+            <h2>{{ 'transactions.views.add.title.income'|trans }}</h2>
+        {% endif %}
+        <div>{{ form_errors(form) }}</div>
+        {{ form(form, {'method': 'POST'}) }}
+    </div>
+
 {% endblock %}

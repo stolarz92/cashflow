@@ -61,27 +61,33 @@ class TransactionType extends AbstractType
                 'name',
                 'text',
                 array(
-                    'label' => 'Transaction name',
+                    'label' => 'Nazwa transakcji',
                     'required' => true,
                     'max_length' => 128,
+                    'attr'=> array('class'=>'form-control')
+
                 )
             );
             $builder->add(
                 'description',
-                'text',
+                'textarea',
                 array(
-                    'label' => 'Description',
+                    'label' => 'Opis',
                     'required' => false,
-                    'max_length' => 500
+                    'max_length' => 500,
+                    'attr'=> array('class'=>'form-control')
+
                 )
             );
             $builder->add(
                 'amount',
                 'money',
                 array(
-                    'label' => 'Amount',
+                    'label' => 'Kwota',
                     'required' => true,
-                    'currency' => 'PLN'
+                    'currency' => 'PLN',
+                    'attr'=> array('class'=>'form-control')
+
                 )
             );
             if ($userRole === 'ROLE_ADMIN') {
@@ -89,8 +95,11 @@ class TransactionType extends AbstractType
                     'wallet',
                     'entity',
                     array(
+                        'label' => 'Wybierz portfel',
                         'class' => 'CashflowBundle:Wallet',
-                        'property' => 'name'
+                        'property' => 'name',
+                        'attr'=> array('class'=>'form-control')
+
                     )
                 );
             } else {
@@ -98,13 +107,15 @@ class TransactionType extends AbstractType
                     'wallet',
                     'entity',
                     array(
+                        'label' => 'Wybierz portfel',
                         'class' => 'CashflowBundle:Wallet',
                         'query_builder' => function (Wallet $er) use ($user) {
                             return $er->createQueryBuilder('w')
                                 ->where('w.user = :user')
                                 ->setParameter('user', $user);
                         },
-                        'property' => 'name'
+                        'property' => 'name',
+                        'attr'=> array('class'=>'form-control')
                     )
                 );
             }
@@ -112,24 +123,29 @@ class TransactionType extends AbstractType
                 'category',
                 'entity',
                 array(
+                    'label' => 'Kategoria',
                     'class' => 'CashflowBundle:TransactionCategory',
-                    'property' => 'name'
+                    'property' => 'name',
+                    'attr'=> array('class'=>'form-control')
                 )
             );
             $builder->add(
                 'date',
                 'date',
                 array(
+                    'label' => 'Data',
                     'widget' => 'single_text',
                     'format' => 'yyyy-MM-dd',
-                    'attr' => array('class' => 'js-datepicker')
+                    'attr' => array('class' => 'js-datepicker form-control'),
+
                 )
             );
             $builder->add(
-                'save',
+                'Zapisz',
                 'submit',
                 array(
-                    'label' => 'Save'
+                    'label' => 'Zapisz',
+                    'attr' => array('class' => 'btn btn-success btn-save')
                 )
             );
         }
