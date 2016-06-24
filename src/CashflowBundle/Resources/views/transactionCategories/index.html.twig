@@ -3,33 +3,33 @@
 {% block body %}
     <h2>Kategorie transackji</h2>
     {% if transactionCategories %}
-    <table class="table">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for category in transactionCategories %}
+        <table class="table">
+            <thead>
             <tr>
-                <td>{{ category.id }}</td>
-                <td>{{ category.name }}</td>
-                <td><a href="{{ path('admin-transaction-categories-edit', { 'id': category.id }) }}">
-                        Edytuj
-                    </a></td>
-                <td>
-                    <a href="{{ path('admin-transaction-categories-delete', { 'id': category.id }) }}">
-                        Usuń
-                    </a>
-                </td>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Action</th>
             </tr>
+            </thead>
+            <tbody>
+            {% for category in transactionCategories %}
+                <tr>
+                    <td>{{ category.id }}</td>
+                    <td>{{ category.name }}</td>
+                    <td><a href="{{ path('admin-transaction-categories-edit', { 'id': category.id }) }}">
+                            Edytuj
+                        </a></td>
+                    <td>
+                        <a href="{{ path('admin-transaction-categories-delete', { 'id': category.id }) }}">
+                            Usuń
+                        </a>
+                    </td>
+                </tr>
             {% endfor %}
-        </tbody>
-    </table>
-    <a href="{{ path('admin-transaction-categories-add') }}">Add Category</a>
-        {% else %}
+            </tbody>
+        </table>
+    {% else %}
         <p>Nie ma żadnych kategorii.</p>
-        {% endif %}
+    {% endif %}
+    <a href="{{ path('admin-transaction-categories-add') }}">Dodaj kategorię</a>
 {% endblock %}
