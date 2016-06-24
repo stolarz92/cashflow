@@ -108,6 +108,9 @@ class StaticPagesController
             $last5Transactions = $this->getLast5Transactions($wallets);
             $summary = $this->countBalance($transactions, $wallets);
             $overallSummary = $this->countOverallSummary($summary);
+//            var_dump($summary);
+//            echo '<br />';
+//            var_dump($overallSummary);
             return $this->_templating->renderResponse(
                 'CashflowBundle:staticPages:index.html.twig',
                 array(
@@ -247,8 +250,8 @@ class StaticPagesController
             $overallBalance += $item['balance'];
         }
         $overallSummary['incomes'] = $overallIncomes;
-        $overallSummary['outcomes'] = $overallIncomes;
-        $overallSummary['balance'] = $overallIncomes;
+        $overallSummary['outcomes'] = $overallOutcomes;
+        $overallSummary['balance'] = $overallBalance;
 
         return $overallSummary;
     }
