@@ -31,7 +31,7 @@ class WalletType extends AbstractType
         $builder->add(
             'id',
             'hidden',
-            ['mapped' => false]
+            array('mapped' => false)
         );
         if (isset($options['validation_groups'])
             && count($options['validation_groups'])
