@@ -226,7 +226,8 @@ class TransactionsController
     {
         $user = $this->securityContext->getToken()->getUser();
         $userId = $this->getUserId();
-        $userRole = $this->securityContext->getToken()->getRoles()[0]->getRole();
+        $userRoles = $this->securityContext->getToken()->getRoles()
+        $userRole = $userRoles[0]->getRole();
         $checkTransaction = $this->checkIfTransactionExist($transaction);
 
         if ($checkTransaction instanceof Response)
