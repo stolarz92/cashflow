@@ -69,6 +69,7 @@ class Wallet
 
     /**
      * @ORM\OneToMany(targetEntity="Transaction", mappedBy="wallet")
+     * @ORM\OrderBy({"date" = "DESC"})
      */
     private $transactions;
 
