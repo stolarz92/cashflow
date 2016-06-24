@@ -43,5 +43,4 @@ class TransactionCategory extends EntityRepository
         $this->_em->remove($transactionCategory);
         $this->_em->flush();
     }
-
 }

@@ -24,7 +24,7 @@ class TransactionType extends AbstractType
 {
     private $user;
 
-    public function __construct (User $user)
+    public function __construct(User $user)
     {
         $this->user = $user;
     }
@@ -77,7 +77,6 @@ class TransactionType extends AbstractType
                 )
             );
             if ($userRole === 'ROLE_ADMIN') {
-
                 $builder->add(
                     'wallet',
                     'entity',
@@ -86,7 +85,6 @@ class TransactionType extends AbstractType
                         'property' => 'name'
                     )
                 );
-
             } else {
                 $builder->add(
                     'wallet',

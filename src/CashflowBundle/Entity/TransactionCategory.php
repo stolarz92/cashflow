@@ -13,7 +13,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-
 /**
  * Class TransactionCategory
  * @package CashflowBundle\Entity
@@ -58,14 +57,15 @@ class TransactionCategory
     /**
      * TransactionCategory constructor.
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->transactions = new ArrayCollection();
     }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -88,7 +88,7 @@ class TransactionCategory
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -121,7 +121,7 @@ class TransactionCategory
     /**
      * Get transactions
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getTransactions()
     {

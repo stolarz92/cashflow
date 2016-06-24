@@ -19,7 +19,6 @@ use CashflowBundle\Form\TransactionType;
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 use Symfony\Component\Security\Core\SecurityContext;
 
-
 /**
  * Class StaticPagesController.
  *
@@ -35,39 +34,41 @@ class StaticPagesController
      *
      * @var EngineInterface $templating
      */
-    private $_templating;
+    private $templating;
 
     /**
      * Translator object.
      *
      * @var Translator $translator
      */
-    private $_translator;
+    private $translator;
 
     /**
      * Model object.
      *
      * @var ObjectRepository $model
      */
-    private $_walletModel;
+    private $walletModel;
 
     /**
      * @var SecurityContext
      */
-    private $_securityContext;
+    private $securityContext;
 
     /**
      * Model object.
      *
      * @var ObjectRepository $model
      */
-    private $_transactionModel;
+    private $transactionModel;
 
     /**
-     * TransactionsController constructor.
-     *
-     * @param EngineInterface $templating Templating engine
-     * @param ObjectRepository $model Model object
+     * StaticPagesController constructor.
+     * @param EngineInterface $templating
+     * @param Translator $translator
+     * @param ObjectRepository $walletModel
+     * @param SecurityContext $securityContext
+     * @param ObjectRepository $transactionModel
      */
     public function __construct(
         EngineInterface $templating,
@@ -75,13 +76,12 @@ class StaticPagesController
         ObjectRepository $walletModel,
         SecurityContext $securityContext,
         ObjectRepository $transactionModel
-    )
-    {
-        $this->_templating = $templating;
-        $this->_translator = $translator;
-        $this->_walletModel = $walletModel;
-        $this->_securityContext = $securityContext;
-        $this->_transactionModel = $transactionModel;
+    ) {
+        $this->templating = $templating;
+        $this->translator = $translator;
+        $this->walletModel = $walletModel;
+        $this->securityContext = $securityContext;
+        $this->transactionModel = $transactionModel;
     }
 
     /**
@@ -99,19 +99,14 @@ class StaticPagesController
         $transactions = array();
         $last5Transactions = array();
 
-
-        if ($this->_securityContext->isGranted('ROLE_USER'))
-        {
+        if ($this->securityContext->isGranted('ROLE_USER')) {
             $user = $this->getUser();
             $wallets = $user->getWallets();
             $transactions = $this->getTransactions($wallets);
             $last5Transactions = $this->getLast5Transactions($wallets);
             $summary = $this->countBalance($transactions, $wallets);
             $overallSummary = $this->countOverallSummary($summary);
-//            var_dump($summary);
-//            echo '<br />';
-//            var_dump($overallSummary);
-            return $this->_templating->renderResponse(
+            return $this->templating->renderResponse(
                 'CashflowBundle:staticPages:index.html.twig',
                 array(
                     'summary' => $summary,
@@ -119,9 +114,8 @@ class StaticPagesController
                     'overallSummary' => $overallSummary
                 )
             );
-
         }
-        return $this->_templating->renderResponse(
+        return $this->templating->renderResponse(
             'CashflowBundle:staticPages:index.html.twig',
             array()
         );
@@ -129,11 +123,13 @@ class StaticPagesController
 
 
     /**
+     * Functions returns user entity.
+     *
      * @return int
      */
     private function getUser()
     {
-        $user = $this->_securityContext->getToken()->getUser();
+        $user = $this->securityContext->getToken()->getUser();
         return $user;
     }
 
@@ -166,12 +162,14 @@ class StaticPagesController
         $outcomes = 0;
         $balance = 0;
         $summary = array();
-        foreach ($transactions as $key=>$walletTransactions) {
+        foreach ($transactions as $key => $walletTransactions) {
             $walletName = $wallets[$key]->getName();
             $incomes = $this->countIncomes($walletTransactions);
             $outcomes = $this->countOutcomes($walletTransactions);
             $balance = $incomes + $outcomes;
-            array_push($summary, array(
+            array_push(
+                $summary,
+                array(
                     'walletName' => $walletName,
                     'incomes' => $incomes,
                     'outcomes' => $outcomes,
@@ -193,8 +191,7 @@ class StaticPagesController
     {
         $walletIncomes = 0;
         foreach ($walletTransactions as $walletTransaction) {
-            if ($walletTransaction->getAmount() > 0)
-            {
+            if ($walletTransaction->getAmount() > 0) {
                 $walletIncomes += $walletTransaction->getAmount();
             }
         }
@@ -212,8 +209,7 @@ class StaticPagesController
     {
         $walletIncomes = 0;
         foreach ($walletTransactions as $walletTransaction) {
-            if ($walletTransaction->getAmount() < 0)
-            {
+            if ($walletTransaction->getAmount() < 0) {
                 $walletIncomes += $walletTransaction->getAmount();
             }
         }
@@ -221,6 +217,12 @@ class StaticPagesController
         return $walletIncomes;
     }
 
+    /**
+     * Function gets last 5 trasnactions of user.
+     *
+     * @param $wallets
+     * @return array
+     */
     private function getLast5Transactions($wallets)
     {
         $walletsIds = array();
@@ -228,7 +230,7 @@ class StaticPagesController
             array_push($walletsIds, $wallet->getId());
         }
 
-        $last5Transactions = $this->_transactionModel->findBy(
+        $last5Transactions = $this->transactionModel->findBy(
             array('wallet' => $walletsIds),
             array('date' => 'DESC'),
             5
@@ -237,6 +239,12 @@ class StaticPagesController
         return $last5Transactions;
     }
 
+    /**
+     * Function count overall summary for user outcomes and incomes.
+     *
+     * @param $summary
+     * @return array
+     */
     private function countOverallSummary($summary)
     {
         $overallSummary = array();

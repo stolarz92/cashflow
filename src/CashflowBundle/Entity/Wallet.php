@@ -101,7 +101,7 @@ class Wallet
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -124,7 +124,7 @@ class Wallet
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -147,7 +147,7 @@ class Wallet
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -170,7 +170,7 @@ class Wallet
     /**
      * Get created_at
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -203,7 +203,7 @@ class Wallet
     /**
      * Get transactions
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getTransactions()
     {
@@ -226,7 +226,7 @@ class Wallet
     /**
      * Get user
      *
-     * @return \CashflowBundle\Entity\User 
+     * @return \CashflowBundle\Entity\User
      */
     public function getUser()
     {
@@ -249,7 +249,7 @@ class Wallet
     /**
      * Get category
      *
-     * @return \CashflowBundle\Entity\WalletCategory 
+     * @return \CashflowBundle\Entity\WalletCategory
      */
     public function getCategory()
     {

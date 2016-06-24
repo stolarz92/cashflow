@@ -19,8 +19,7 @@ class Transaction extends EntityRepository
      */
     public function save(\CashflowBundle\Entity\Transaction $transaction, $outcome = null)
     {
-        if ($outcome === 1)
-        {
+        if ($outcome === 1) {
             $amount = $transaction->getAmount();
             $transaction->setAmount(-$amount);
             $this->_em->persist($transaction);

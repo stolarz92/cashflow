@@ -24,8 +24,6 @@ use Symfony\Component\Routing\RouterInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 
-
-
 /**
  * Class TransactionsController.
  *
@@ -97,8 +95,6 @@ class TransactionCategoriesController
         Session $session,
         EngineInterface $templating,
         Translator $translator
-
-
     ) {
         $this->transactionCategoryModel = $transactionCategoryModel;
         $this->formFactory = $formFactory;
@@ -108,7 +104,6 @@ class TransactionCategoriesController
         $this->templating = $templating;
         $this->translator = $translator;
     }
-
 
     /**
      * Add category action.
@@ -211,8 +206,7 @@ class TransactionCategoriesController
     public function deleteAction(
         Request $request,
         TransactionCategory $transactionCategory = null
-    )
-    {
+    ) {
         if (!$transactionCategory) {
             $this->session->getFlashBag()->set(
                 'warning',
@@ -224,8 +218,7 @@ class TransactionCategoriesController
         }
 
         $transactions = $transactionCategory->getTransactions();
-        if ($transactions[0] === NULL)
-        {
+        if ($transactions[0] === null) {
             $this->transactionCategoryModel->delete($transactionCategory);
             $this->session->getFlashBag()->set(
                 'success',

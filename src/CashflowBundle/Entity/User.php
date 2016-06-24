@@ -6,7 +6,6 @@ use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
-
 /**
  * @ORM\Entity
  * @ORM\Table(name="fos_users")
@@ -26,7 +25,11 @@ class User extends BaseUser
      */
     private $wallets;
 
-    public function __construct() {
+    /**
+     * User constructor.
+     */
+    public function __construct()
+    {
         parent::__construct();
         $this->wallets = new ArrayCollection();
     }
@@ -57,7 +60,7 @@ class User extends BaseUser
     /**
      * Get wallets
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getWallets()
     {

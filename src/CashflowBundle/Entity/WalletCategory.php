@@ -56,7 +56,7 @@ class WalletCategory
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -79,7 +79,7 @@ class WalletCategory
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -119,7 +119,7 @@ class WalletCategory
     /**
      * Get categories
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getWallets()
     {

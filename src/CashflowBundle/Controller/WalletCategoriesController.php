@@ -24,8 +24,6 @@ use Symfony\Component\Routing\RouterInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 
-
-
 /**
  * Class TransactionsController.
  *
@@ -97,8 +95,6 @@ class WalletCategoriesController
         Session $session,
         EngineInterface $templating,
         Translator $translator
-
-
     ) {
         $this->walletCategoryModel = $walletCategoryModel;
         $this->formFactory = $formFactory;
@@ -211,8 +207,7 @@ class WalletCategoriesController
     public function deleteAction(
         Request $request,
         WalletCategory $walletCategory = null
-    )
-    {
+    ) {
         if (!$walletCategory) {
             $this->session->getFlashBag()->set(
                 'warning',
@@ -223,8 +218,7 @@ class WalletCategoriesController
             );
         }
         $wallets = $walletCategory->getWallets();
-        if ($wallets[0] === NULL)
-        {
+        if ($wallets[0] === null) {
             $this->walletCategoryModel->delete($walletCategory);
             $this->session->getFlashBag()->set(
                 'success',

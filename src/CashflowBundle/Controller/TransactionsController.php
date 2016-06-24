@@ -25,7 +25,6 @@ use Symfony\Component\Routing\RouterInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 
-
 /**
  * Class TransactionsController.
  *
@@ -104,8 +103,6 @@ class TransactionsController
         Session $session,
         EngineInterface $templating,
         Translator $translator
-
-
     ) {
         $this->transactionModel = $transactionModel;
         $this->walletModel = $walletModel;
@@ -144,8 +141,7 @@ class TransactionsController
         if ($transactionForm->isValid()) {
             $transaction = $transactionForm->getData();
             $walletId = $transaction->getWallet()->getId();
-            if ($outcome === 1)
-            {
+            if ($outcome === 1) {
                 $this->transactionModel->save($transaction, $outcome);
             } else {
                 $this->transactionModel->save($transaction);
@@ -183,14 +179,11 @@ class TransactionsController
     public function deleteAction(
         Request $request,
         Transaction $transaction = null
-    )
-    {
+    ) {
         $userRoles = $this->securityContext->getToken()->getRoles();
         $userRole = $userRoles[0]->getRole();
         $checkTransaction = $this->checkIfTransactionExist($transaction, $userRole);
-
-        if ($checkTransaction instanceof Response)
-        {
+        if ($checkTransaction instanceof Response) {
             return $checkTransaction;
         } else {
             $walletId = $transaction->getWallet()->getId();
@@ -232,8 +225,7 @@ class TransactionsController
         $userRole = $userRoles[0]->getRole();
         $checkTransaction = $this->checkIfTransactionExist($transaction, $userRole);
 
-        if ($checkTransaction instanceof Response)
-        {
+        if ($checkTransaction instanceof Response) {
             return $checkTransaction;
         } else {
             $transactionUserId = (int)$transaction->getWallet()->getUser()->getId();
@@ -242,8 +234,7 @@ class TransactionsController
                 $transactionUserId,
                 $userRole
             );
-            if ($checkUser instanceof Response)
-            {
+            if ($checkUser instanceof Response) {
                 return $checkUser;
             } else {
                 $transactionForm = $this->formFactory->create(
@@ -263,8 +254,7 @@ class TransactionsController
                         'success',
                         $this->translator->trans('transactions.messages.success.edit')
                     );
-                    if ($userRole === 'ROLE_ADMIN')
-                    {
+                    if ($userRole === 'ROLE_ADMIN') {
                         return new RedirectResponse(
                             $this->router->generate('admin-transactions-index')
                         );
@@ -363,13 +353,12 @@ class TransactionsController
 
     private function checkIfTransactionExist($transaction, $role = null)
     {
-        if (!$transaction ) {
+        if (!$transaction) {
             $this->session->getFlashBag()->set(
                 'warning',
                 $this->translator->trans('transactions.messages.transaction_not_found')
             );
-            if ($role === 'ROLE_ADMIN')
-            {
+            if ($role === 'ROLE_ADMIN') {
                 return new RedirectResponse(
                     $this->router->generate('admin-transactions-index')
                 );
@@ -383,8 +372,7 @@ class TransactionsController
 
     private function checkIfUserHasAccessToTransasction($userId, $walletId, $role = null)
     {
-        if (! ($userId === $walletId) && !($role === 'ROLE_ADMIN'))
-        {
+        if (! ($userId === $walletId) && !($role === 'ROLE_ADMIN')) {
             $this->session->getFlashBag()->set(
                 'warning',
                 $this->translator->trans('wallets.messages.warning.no_access')

@@ -24,7 +24,6 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 
-
 /**
  * Class WalletsController.
  *
@@ -167,16 +166,14 @@ class WalletsController
         $userRole = $userRoles[0]->getRole();
 
         $checkWallet = $this->checkIfWalletExists($wallet);
-        if ($checkWallet instanceof Response)
-        {
+        if ($checkWallet instanceof Response) {
             return $checkWallet;
         } else {
             $walletId = (int)$wallet->getUser()->getId();
         }
 
         $checkUser = $this->checkIfUserHasAccessToWallet($userId, $walletId, $userRole);
-        if ($checkUser instanceof Response)
-        {
+        if ($checkUser instanceof Response) {
             return $checkUser;
         } else {
             $this->checkIfWalletExists($wallet);
@@ -198,8 +195,7 @@ class WalletsController
                     'success',
                     $this->translator->trans('wallets.messages.success.edit')
                 );
-                if ($userRole === 'ROLE_ADMIN')
-                {
+                if ($userRole === 'ROLE_ADMIN') {
                     return new RedirectResponse(
                         $this->router->generate('admin-wallets-index')
                     );
@@ -214,7 +210,6 @@ class WalletsController
             'CashflowBundle:wallets:edit.html.twig',
             array('form' => $walletForm->createView())
         );
-
     }
 
     /**
@@ -237,15 +232,17 @@ class WalletsController
         $userRole = $userRoles[0]->getRole();
 
         $checkWallet = $this->checkIfWalletExists($wallet);
-        if ($checkWallet instanceof Response)
-        {
+        if ($checkWallet instanceof Response) {
             return $checkWallet;
         } else {
             $walletId = (int)$wallet->getUser()->getId();
         }
-        $checkUser = $this->checkIfUserHasAccessToWallet($userId, $walletId, $userRole);
-        if ($checkUser instanceof Response)
-        {
+        $checkUser = $this->checkIfUserHasAccessToWallet(
+            $userId,
+            $walletId,
+            $userRole
+        );
+        if ($checkUser instanceof Response) {
             return $checkUser;
         } else {
             $this->model->delete($wallet);
@@ -254,8 +251,7 @@ class WalletsController
                 $this->translator->trans('wallets.messages.success.delete')
             );
 
-            if ($userRole === 'ROLE_ADMIN')
-            {
+            if ($userRole === 'ROLE_ADMIN') {
                 return new RedirectResponse(
                     $this->router->generate('admin-wallets-index')
                 );
@@ -278,15 +274,17 @@ class WalletsController
      */
     public function indexAction()
     {
-        $wallets = NULL;
+        $wallets = null;
         $user_id = $this->getUserId();
 
-        if ($user_id != NULL) {
+        if ($user_id != null) {
             $wallets = $this->model->findByUser($user_id);
         } else {
             $this->session->getFlashBag()->set(
                 'warning',
-                $this->translator->trans('wallets.messages.warning.no_access')
+                $this->translator->trans(
+                    'wallets.messages.warning.no_access'
+                )
             );
 
             return new RedirectResponse(
@@ -315,16 +313,14 @@ class WalletsController
         $userId = $this->getUserId();
 
         $checkWallet = $this->checkIfWalletExists($wallet);
-        if ($checkWallet instanceof Response)
-        {
+        if ($checkWallet instanceof Response) {
             return $checkWallet;
         } else {
             $walletId = (int)$wallet->getUser()->getId();
         }
 
         $checkUser = $this->checkIfUserHasAccessToWallet($userId, $walletId);
-        if ($checkUser instanceof Response)
-        {
+        if ($checkUser instanceof Response) {
             return $checkUser;
         } else {
             $transactions = $wallet->getTransactions();
@@ -376,8 +372,7 @@ class WalletsController
                     'wallets.messages.wallet_not_found'
                 )
             );
-            if ($role === 'ROLE_ADMIN')
-            {
+            if ($role === 'ROLE_ADMIN') {
                 return new RedirectResponse(
                     $this->router->generate('admin-wallets-index')
                 );
@@ -391,8 +386,7 @@ class WalletsController
 
     private function checkIfUserHasAccessToWallet($userId, $walletId, $role = null)
     {
-        if (! ($userId === $walletId) && !($role === 'ROLE_ADMIN'))
-        {
+        if (! ($userId === $walletId) && !($role === 'ROLE_ADMIN')) {
             $this->session->getFlashBag()->set(
                 'warning',
                 $this->translator->trans('wallets.messages.warning.no_access')
@@ -424,6 +418,4 @@ class WalletsController
         $summary['balance'] = $balance;
         return $summary;
     }
-
-
 }

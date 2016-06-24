@@ -24,7 +24,6 @@ use FOS\UserBundle\Doctrine\UserManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Form\FormFactory;
 
-
 /**
  * Class UsersController.
  *
@@ -38,9 +37,9 @@ class UsersController
     /**
      * User Manager.
      *
-     * @var EngineInterface $_userManager
+     * @var EngineInterface $userManager
      */
-    private $_userManager;
+    private $userManager;
 
     /**
      * Template engine.
@@ -53,33 +52,33 @@ class UsersController
      *
      * @var RouterInterface $router
      */
-    private $_router;
+    private $router;
 
     /**
      * Session object.
      *
      * @var Session $session
      */
-    private $_session;
+    private $session;
 
     /**
      * Template engine.
      *
      * @var EngineInterface $templating
      */
-    private $_templating;
+    private $templating;
 
     /**
      * Translator object.
      *
      * @var Translator $translator
      */
-    private $_translator;
+    private $translator;
 
     /**
      * @var $formFactory
      */
-    private $_formFactory;
+    private $formFactory;
 
 
 
@@ -90,14 +89,13 @@ class UsersController
         RouterInterface $router,
         Translator $translator,
         Session $session
-    )
-    {
-        $this->_templating = $templating;
-        $this->_userManager = $userManager;
-        $this->_formFactory = $formFactory;
-        $this->_router = $router;
-        $this->_translator = $translator;
-        $this->_session = $session;
+    ) {
+        $this->templating = $templating;
+        $this->userManager = $userManager;
+        $this->formFactory = $formFactory;
+        $this->router = $router;
+        $this->translator = $translator;
+        $this->session = $session;
     }
 
     /**
@@ -111,8 +109,8 @@ class UsersController
      */
     public function indexAction()
     {
-        $users = $this->_userManager->findUsers();
-        return $this->_templating->renderResponse(
+        $users = $this->userManager->findUsers();
+        return $this->templating->renderResponse(
             'CashflowBundle:users:index.html.twig',
             array( 'users' => $users
             )
@@ -131,12 +129,12 @@ class UsersController
     public function editAction(Request $request, User $user = null)
     {
         if (!$user) {
-            $this->_session->getFlashBag()->set(
+            $this->session->getFlashBag()->set(
                 'warning',
-                $this->_translator->trans('user.messages.wallet_not_found')
+                $this->translator->trans('user.messages.wallet_not_found')
             );
             return new RedirectResponse(
-                $this->_router->generate('wallets-add')
+                $this->router->generate('wallets-add')
             );
         }
 
