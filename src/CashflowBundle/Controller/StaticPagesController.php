@@ -96,8 +96,8 @@ class StaticPagesController
     {
         $user = null;
         $wallets = null;
-//        $transactions = [];
-//        $last5Transactions = [];
+        $transactions = array();
+        $last5Transactions = array();
 
 
         if ($this->_securityContext->isGranted('ROLE_USER'))
@@ -140,7 +140,7 @@ class StaticPagesController
      */
     private function getTransactions($wallets)
     {
-        $transactions = [];
+        $transactions = array();
 
         foreach ($wallets as $wallet) {
             $walletTransactions = $wallet->getTransactions();
@@ -162,7 +162,7 @@ class StaticPagesController
         $incomes = 0;
         $outcomes = 0;
         $balance = 0;
-        $summary = [];
+        $summary = array();
         foreach ($transactions as $key=>$walletTransactions) {
             $walletName = $wallets[$key]->getName();
             $incomes = $this->countIncomes($walletTransactions);
@@ -218,7 +218,7 @@ class StaticPagesController
 
     private function getLast5Transactions($wallets)
     {
-        $walletsIds = [];
+        $walletsIds = array();
         foreach ($wallets as $wallet) {
             array_push($walletsIds, $wallet->getId());
         }
@@ -234,7 +234,7 @@ class StaticPagesController
 
     private function countOverallSummary($summary)
     {
-        $overallSummary = [];
+        $overallSummary = array();
         $overallIncomes = 0;
         $overallOutcomes = 0;
         $overallBalance = 0;

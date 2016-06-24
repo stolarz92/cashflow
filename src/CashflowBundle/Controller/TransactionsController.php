@@ -291,7 +291,7 @@ class TransactionsController
     public function indexAction()
     {
         $user = $this->securityContext->getToken()->getUser();
-        $walletsTransactions = [];
+        $walletsTransactions = array();
 
         $wallets = $this->walletModel->findBy(array('user' => $user));
         foreach ($wallets as $wallet) {
