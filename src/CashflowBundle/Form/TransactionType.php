@@ -37,6 +37,8 @@ class TransactionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $user = $this->user;
+        $userRoles = $this->user->getRoles();
+        $userRole = $userRoles[0];
 
         $builder->add(
             'id',
@@ -74,19 +76,32 @@ class TransactionType extends AbstractType
                     'currency' => 'PLN'
                 )
             );
-            $builder->add(
-                'wallet',
-                'entity',
-                array(
-                    'class' => 'CashflowBundle:Wallet',
-                    'query_builder' => function (Wallet $er) use ($user) {
-                        return $er->createQueryBuilder('w')
-                            ->where('w.user = :user')
-                            ->setParameter('user', $user);
-                    },
-                    'property' => 'name'
-                )
-            );
+            if (!$userRole === 'ROLE_ADMIN') {
+
+                $builder->add(
+                    'wallet',
+                    'entity',
+                    array(
+                        'class' => 'CashflowBundle:Wallet',
+                        'property' => 'name'
+                    )
+                );
+
+            } else {
+                $builder->add(
+                    'wallet',
+                    'entity',
+                    array(
+                        'class' => 'CashflowBundle:Wallet',
+                        'query_builder' => function (Wallet $er) use ($user) {
+                            return $er->createQueryBuilder('w')
+                                ->where('w.user = :user')
+                                ->setParameter('user', $user);
+                        },
+                        'property' => 'name'
+                    )
+                );
+            }
             $builder->add(
                 'category',
                 'entity',
