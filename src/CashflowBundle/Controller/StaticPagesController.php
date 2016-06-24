@@ -99,6 +99,7 @@ class StaticPagesController
 //        $transactions = [];
 //        $last5Transactions = [];
 
+
         if ($this->_securityContext->isGranted('ROLE_USER'))
         {
             $user = $this->getUser();
