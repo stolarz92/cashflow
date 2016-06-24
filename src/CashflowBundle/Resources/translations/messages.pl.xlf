@@ -286,6 +286,14 @@
                 <source>wallets.messages.wallet_category_has_related_objects</source>
                 <target>Ta kategoria nie może być usunięta, ponieważ istnieją portfele z nią powiązane. Usuń je najpierw.</target>
             </trans-unit>
+            <trans-unit id="72">
+                <source>change_password.flash.success</source>
+                <target>Hasło zostało zmienione</target>
+            </trans-unit>
+            <trans-unit id="73">
+                <source>profile.flash.updated</source>
+                <target>Profil zaktualizowany</target>
+            </trans-unit>
 
 
         </body>
