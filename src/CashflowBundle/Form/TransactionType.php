@@ -99,7 +99,9 @@ class TransactionType extends AbstractType
                 'date',
                 'date',
                 array(
-                    'format' => 'yyyy-MM-dd  HH:mm'
+                    'widget' => 'single_text',
+                    'format' => 'yyyy-MM-dd',
+                    'attr' => ['class' => 'js-datepicker']
                 )
             );
             $builder->add(

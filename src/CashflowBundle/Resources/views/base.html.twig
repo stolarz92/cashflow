@@ -4,8 +4,9 @@
     <meta charset="utf-8" />
     <title>{% block title %}{{ 'base.title'|trans }}{% endblock %}</title>
     {% block stylesheets %}
-        {% stylesheets '@bootstrap_css' %}
+        {% stylesheets '@bootstrap_css' '@CashflowBundle/Resources/public/css/*' %}
         <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.1/css/bootstrap-datepicker.min.css">
         {% endstylesheets %}
     {% endblock %}
 </head>
@@ -18,8 +19,9 @@
     {% endblock %}
 </div>
 {% block javascripts %}
-    {% javascripts '@jquery' '@bootstrap_js' %}
+    {% javascripts '@jquery' '@bootstrap_js' '@CashflowBundle/Resources/public/js/*' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.1/js/bootstrap-datepicker.min.js"></script>
     {% endjavascripts %}
 {% endblock %}
 </body>
