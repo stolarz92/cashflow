@@ -328,12 +328,14 @@ class WalletsController
             return $checkUser;
         } else {
             $transactions = $wallet->getTransactions();
+            $summary = $this->countBalance($transactions);
         }
 
         return $this->templating->renderResponse(
             'CashflowBundle:wallets:view.html.twig',
             array('wallet' => $wallet,
-                'transactions' => $transactions
+                'transactions' => $transactions,
+                'summary' => $summary
             )
         );
     }
@@ -401,4 +403,27 @@ class WalletsController
             );
         }
     }
+
+    public function countBalance($transactions)
+    {
+        $incomes = 0;
+        $outcomes = 0;
+        $balance = 0;
+        $summary = array();
+
+        foreach ($transactions as $transaction) {
+            if ($transaction->getAmount() > 0) {
+                $incomes = $incomes += $transaction->getAmount();
+            } elseif ($transaction->getAmount() < 0) {
+                $outcomes = $outcomes += $transaction->getAmount();
+            }
+        }
+        $balance = $incomes + $outcomes;
+        $summary['incomes'] = $incomes;
+        $summary['outcomes'] = $outcomes;
+        $summary['balance'] = $balance;
+        return $summary;
+    }
+
+
 }

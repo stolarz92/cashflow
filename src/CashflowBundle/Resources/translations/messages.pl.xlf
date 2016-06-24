@@ -112,7 +112,7 @@
             </trans-unit>
             <trans-unit id="28">
                 <source>wallets.views.view.title</source>
-                <target>Nazwa portfela</target>
+                <target>Portfel</target>
             </trans-unit>
             <trans-unit id="29">
                 <source>wallets.views.view.show_all</source>

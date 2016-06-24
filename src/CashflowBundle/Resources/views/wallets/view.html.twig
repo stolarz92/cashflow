@@ -2,42 +2,50 @@
 
 {% block body %}
     <h2>{{ 'wallets.views.view.title'|trans }} {{ wallet.name }}</h2>
-    <p>{{ 'wallets.views.view.description'|trans }}: {{ wallet.description }}</p>
-    <article class="transactions well">
-        <h4>{{ 'wallets.views.view.last_5'|trans }}</h4>
-        {% if transactions %}
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>{{ 'wallets.views.view.table.name'|trans }}</th>
-                    <th>{{ 'wallets.views.view.table.description'|trans }}</th>
-                    <th>{{ 'wallets.views.view.table.amount'|trans }}</th>
-                    <th>{{ 'wallets.views.view.table.date'|trans }}</th>
-                    <th>{{ 'wallets.views.view.table.category'|trans }}</th>
-                    <th>{{ 'wallets.views.view.table.action'|trans }}</th>
-                    <th>{{ 'wallets.views.view.table.action'|trans }}</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for transaction in transactions %}
+    <div class="col-md-4 well">
+        <p class="strong">{{ 'wallets.views.view.description'|trans }}: <span class="light"> {{ wallet.description }}</span></p>
+        <p class="strong">Przychody: <span class="light">{{ summary.incomes }}</span> </p>
+        <p class="strong">Wydatki: <span class="light">{{ summary.outcomes }}</span></p>
+        <p class="strong">Bilans: <span class="light">{{ summary.balance }}</span></p>
+    </div>
+    <div class="col-md-8">
+        <article class="transactions well">
+            <h4>{{ 'wallets.views.view.last_5'|trans }}</h4>
+            {% if transactions %}
+                <table class="table">
+                    <thead>
                     <tr>
-                        <td>{{ transaction.name ? transaction.name }}</td>
-                        <td>{{ transaction.description ? transaction.description }}</td>
-                        <td>{{ transaction.amount ? transaction.amount }}
-                        <td>{{ transaction.date ? transaction.date|date('d-m-Y') }}
-                        <td>{{ transaction.date ? transaction.category.name }}
-                        <td><a href="{{ path('transactions-edit', { 'id' : transaction.id }) }}">
-                                {{ 'edit'|trans }}</a>
-                        </td>
-                        <td><a href="{{ path('transactions-delete', { 'id' : transaction.id }) }}">
-                                {{ 'delete'|trans }}</a>
-                        </td>
+                        <th>{{ 'wallets.views.view.table.name'|trans }}</th>
+                        <th>{{ 'wallets.views.view.table.description'|trans }}</th>
+                        <th>{{ 'wallets.views.view.table.amount'|trans }}</th>
+                        <th>{{ 'wallets.views.view.table.date'|trans }}</th>
+                        <th>{{ 'wallets.views.view.table.category'|trans }}</th>
+                        <th>{{ 'wallets.views.view.table.action'|trans }}</th>
+                        <th>{{ 'wallets.views.view.table.action'|trans }}</th>
                     </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        {% else %}
-            <p>{{ 'wallets.views.view.no_transactions'|trans }}</p>
-        {% endif %}
-    </article>
+                    </thead>
+                    <tbody>
+                    {% for transaction in transactions %}
+                        <tr>
+                            <td>{{ transaction.name ? transaction.name }}</td>
+                            <td>{{ transaction.description ? transaction.description }}</td>
+                            <td>{{ transaction.amount ? transaction.amount }}
+                            <td>{{ transaction.date ? transaction.date|date('d-m-Y') }}
+                            <td>{{ transaction.date ? transaction.category.name }}
+                            <td><a href="{{ path('transactions-edit', { 'id' : transaction.id }) }}">
+                                    {{ 'edit'|trans }}</a>
+                            </td>
+                            <td><a href="{{ path('transactions-delete', { 'id' : transaction.id }) }}">
+                                    {{ 'delete'|trans }}</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>{{ 'wallets.views.view.no_transactions'|trans }}</p>
+            {% endif %}
+        </article>
+
+    </div>
 {% endblock %}
