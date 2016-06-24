@@ -168,13 +168,13 @@ class StaticPagesController
             $incomes = $this->countIncomes($walletTransactions);
             $outcomes = $this->countOutcomes($walletTransactions);
             $balance = $incomes + $outcomes;
-            array_push($summary, array(
-                [
+            array_push($summary, array(array(
+
                 'walletName' => $walletName,
                 'incomes' => $incomes,
                 'outcomes' => $outcomes,
                 'balance' => $balance
-            ]
+            )
             ));
         }
 
