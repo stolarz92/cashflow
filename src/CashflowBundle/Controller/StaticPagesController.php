@@ -114,7 +114,7 @@ class StaticPagesController
                     'summary' => $summary,
                     'last5' => $last5Transactions,
                     'overallSummary' => $overallSummary
-                    )
+                )
             );
 
         }
@@ -168,14 +168,13 @@ class StaticPagesController
             $incomes = $this->countIncomes($walletTransactions);
             $outcomes = $this->countOutcomes($walletTransactions);
             $balance = $incomes + $outcomes;
-            array_push($summary, array(array(
-
-                'walletName' => $walletName,
-                'incomes' => $incomes,
-                'outcomes' => $outcomes,
-                'balance' => $balance
-            )
-            ));
+            array_push($summary, array(
+                    'walletName' => $walletName,
+                    'incomes' => $incomes,
+                    'outcomes' => $outcomes,
+                    'balance' => $balance
+                )
+            );
         }
 
         return $summary;
