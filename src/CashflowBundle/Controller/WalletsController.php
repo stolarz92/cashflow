@@ -163,7 +163,8 @@ class WalletsController
     public function editAction(Request $request, Wallet $wallet = null)
     {
         $userId = $this->getUserId();
-        $userRole = $this->securityContext->getToken()->getRoles()[0]->getRole();
+        $userRoles = $this->securityContext->getToken()->getRoles();
+        $userRole = $userRoles[0]->getRole();
 
         $checkWallet = $this->checkIfWalletExists($wallet);
         if ($checkWallet instanceof Response)
@@ -232,7 +233,8 @@ class WalletsController
     public function deleteAction(Request $request, Wallet $wallet = null)
     {
         $userId = $this->getUserId();
-        $userRole = $this->securityContext->getToken()->getRoles()[0]->getRole();
+        $userRoles = $this->securityContext->getToken()->getRoles();
+        $userRole = $userRoles[0]->getRole();
 
         $checkWallet = $this->checkIfWalletExists($wallet);
         if ($checkWallet instanceof Response)
