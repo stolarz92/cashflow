@@ -1,9 +1,7 @@
 {% extends 'CashflowBundle::base.html.twig' %}
 
 {% block body %}
-    <h1>{{ 'static_pages.views.index.title'|trans }}</h1>
     {% if is_granted('IS_AUTHENTICATED_FULLY') and not is_granted('ROLE_ADMIN') %}
-        <p>{{ 'static_pages.views.index.description'|trans }}</p>
         <div class="row">
             <div class="col-md-4 well">
                 <h3>Twoje ostatnie transakcje</h3>
@@ -70,7 +68,5 @@
         </div>
     {% elseif is_granted('ROLE_ADMIN') %}
         <p>Witaj adminie!</p>
-    {% else %}
-        <p>Utwórz konto lub zaloguj się aby korzystać ze wszystkich dostępnych możliwości!</p>
     {% endif %}
 {% endblock %}

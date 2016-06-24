@@ -12,9 +12,16 @@
 </head>
 <body>
 {% include 'CashflowBundle::navbar.html.twig' %}
+{% if app.request.attributes.get('_controller') == 'app.static_pages_controller:indexAction'
+and not (is_granted('IS_AUTHENTICATED_FULLY')) %}
+    {% include 'CashflowBundle::jumbo.html.twig' %}
+{% elseif app.request.attributes.get('_controller') == 'app.static_pages_controller:indexAction'
+and is_granted('ROLE_ADMIN') %}
+    {% include 'CashflowBundle::jumbo.html.twig' %}
+
+{% endif %}
 <div class="container">
     {% include 'CashflowBundle::flash.html.twig' %}
-
     {% block body %}
     {% endblock %}
 </div>

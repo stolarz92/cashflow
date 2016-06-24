@@ -32,10 +32,10 @@
                             <td>{{ transaction.amount ? transaction.amount }}
                             <td>{{ transaction.date ? transaction.date|date('d-m-Y') }}
                             <td>{{ transaction.date ? transaction.category.name }}
-                            <td><a href="{{ path('transactions-edit', { 'id' : transaction.id }) }}">
+                            <td><a class="btn btn-warning btn-sm" href="{{ path('transactions-edit', { 'id' : transaction.id }) }}">
                                     {{ 'edit'|trans }}</a>
                             </td>
-                            <td><a href="{{ path('transactions-delete', { 'id' : transaction.id }) }}">
+                            <td><a class="btn btn-danger btn-xs" href="{{ path('transactions-delete', { 'id' : transaction.id }) }}">
                                     {{ 'delete'|trans }}</a>
                             </td>
                         </tr>

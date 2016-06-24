@@ -1,7 +1,7 @@
 {% extends 'CashflowBundle::base.html.twig' %}
 
 {% block body %}
-    <h2>Kategorie transackji</h2>
+    <h2>Kategorie transakcji</h2>
     {% if transactionCategories %}
         <table class="table">
             <thead>
@@ -16,11 +16,11 @@
                 <tr>
                     <td>{{ category.id }}</td>
                     <td>{{ category.name }}</td>
-                    <td><a href="{{ path('admin-transaction-categories-edit', { 'id': category.id }) }}">
+                    <td><a class="btn btn-warning btn-sm" href="{{ path('admin-transaction-categories-edit', { 'id': category.id }) }}">
                             Edytuj
                         </a></td>
                     <td>
-                        <a href="{{ path('admin-transaction-categories-delete', { 'id': category.id }) }}">
+                        <a class="btn btn-danger btn-xs" href="{{ path('admin-transaction-categories-delete', { 'id': category.id }) }}">
                             Usuń
                         </a>
                     </td>
@@ -31,5 +31,5 @@
     {% else %}
         <p>Nie ma żadnych kategorii.</p>
     {% endif %}
-    <a href="{{ path('admin-transaction-categories-add') }}">Dodaj kategorię</a>
+    <a class="btn btn-primary" href="{{ path('admin-transaction-categories-add') }}">Dodaj kategorię</a>
 {% endblock %}

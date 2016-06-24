@@ -19,9 +19,9 @@
                         <td>{{ wallet.name ? wallet.name }}</td>
                         <td>{{ wallet.CreatedAt ? wallet.CreatedAt|date('d-m-Y') }}</td>
                         <td>{{ wallet.category ? wallet.category.name }}</td>
-                        <td><a href="{{ path('wallets-view', { 'id' : wallet.id }) }}">{{ 'show'|trans }}</a></td>
-                        <td><a href="{{ path('wallets-edit', { 'id' : wallet.id }) }}">{{ 'edit'|trans }}</a></td>
-                        <td><a href="{{ path('wallets-delete', { 'id' : wallet.id }) }}">{{ 'delete'|trans }}
+                        <td><a class="btn btn-default btn-sm" href="{{ path('wallets-view', { 'id' : wallet.id }) }}">{{ 'show'|trans }}</a></td>
+                        <td><a class="btn btn-warning btn-sm" href="{{ path('wallets-edit', { 'id' : wallet.id }) }}">{{ 'edit'|trans }}</a></td>
+                        <td><a class="btn btn-danger btn-xs" href="{{ path('wallets-delete', { 'id' : wallet.id }) }}">{{ 'delete'|trans }}
                             </a>
                         </td>
                     </tr>
@@ -31,6 +31,6 @@
         {% else %}
             <p>{{ 'wallets.views.index.no_wallets'|trans }}</p>
         {% endif %}
-        <a href="{{ path('wallets-add') }}">Dodaj portfel</a>
+        <a class="btn btn-primary" href="{{ path('wallets-add') }}">Dodaj portfel</a>
     </div>
 {% endblock %}

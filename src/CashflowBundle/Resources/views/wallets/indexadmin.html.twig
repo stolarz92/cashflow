@@ -19,8 +19,8 @@
                     <td>{{ wallet.description }}</td>
                     <td>{{ wallet.user.username}}</td>
                     <td>{{ wallet.category.name}}</td>
-                    <td><a href="{{ path('admin-wallets-edit', { 'id' : wallet.id }) }}">{{ 'edit'|trans }}</a></td>
-                    <td><a href="{{ path('admin-wallets-delete', { 'id' : wallet.id }) }}">{{ 'delete'|trans }}
+                    <td><a class="btn btn-warning btn-sm" href="{{ path('admin-wallets-edit', { 'id' : wallet.id }) }}">{{ 'edit'|trans }}</a></td>
+                    <td><a class="btn btn-danger btn-xs" href="{{ path('admin-wallets-delete', { 'id' : wallet.id }) }}">{{ 'delete'|trans }}
                         </a>
                     </td>
                 </tr>

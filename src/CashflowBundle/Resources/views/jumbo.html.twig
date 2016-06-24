@@ -1,0 +1,10 @@
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-3">Witaj w CashFlow</h1>
+        {% if app.user and is_granted('ROLE_ADMIN') %}
+            <p>Adminie, możesz tu zarządzać</p>
+        {% else %}
+            <p>Cashflow to aplikacja umożliwiająca ci zarządzanie swoimi portfelami. Zarejestruj się lub zaloguj i korzystaj z niej w pełni!</p>
+        {% endif %}
+    </div>
+</div>
