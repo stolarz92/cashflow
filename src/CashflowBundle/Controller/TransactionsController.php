@@ -171,7 +171,9 @@ class TransactionsController
      * Delete action.
      *
      * @Route("/transactions/delete/{id}", name="transactions-delete")
-     * @Route("/transactions/delete/{id}/")
+     * @Route("/transactions/delete/{id}", name="transactions-delete")
+     * @Route("admin/transactions/delete/{id}", name="admin-transactions-delete")
+     * @Route("admin/transactions/delete/{id}", name="admin-transactions-delete")
      * @ParamConverter("transaction", class="CashflowBundle:Transaction")
      *
      * @param Transaction $transaction Transaction entity
@@ -185,7 +187,7 @@ class TransactionsController
     {
         $userRoles = $this->securityContext->getToken()->getRoles();
         $userRole = $userRoles[0]->getRole();
-        $checkTransaction = $this->checkIfTransactionExist($transaction);
+        $checkTransaction = $this->checkIfTransactionExist($transaction, $userRole);
 
         if ($checkTransaction instanceof Response)
         {
@@ -228,7 +230,7 @@ class TransactionsController
         $userId = $this->getUserId();
         $userRoles = $this->securityContext->getToken()->getRoles();
         $userRole = $userRoles[0]->getRole();
-        $checkTransaction = $this->checkIfTransactionExist($transaction);
+        $checkTransaction = $this->checkIfTransactionExist($transaction, $userRole);
 
         if ($checkTransaction instanceof Response)
         {
@@ -359,16 +361,23 @@ class TransactionsController
         return $user_id;
     }
 
-    private function checkIfTransactionExist($transaction)
+    private function checkIfTransactionExist($transaction, $role = null)
     {
-        if (!$transaction) {
+        if (!$transaction ) {
             $this->session->getFlashBag()->set(
                 'warning',
                 $this->translator->trans('transactions.messages.transaction_not_found')
             );
-            return new RedirectResponse(
-                $this->router->generate('wallets')
-            );
+            if ($role === 'ROLE_ADMIN')
+            {
+                return new RedirectResponse(
+                    $this->router->generate('admin-transactions-index')
+                );
+            } else {
+                return new RedirectResponse(
+                    $this->router->generate('wallets')
+                );
+            }
         }
     }
 

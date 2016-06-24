@@ -23,11 +23,11 @@
         <td>{{ trans.wallet.name }}</td>
         <td>{{ trans.wallet.user }}</td>
         <td>{{ trans.category.name ? trans.category.name }}</td>
-        <td><a href="{{ path('transactions-edit', { 'id' : trans.id }) }}">
+        <td><a href="{{ path('admin-transactions-edit', { 'id' : trans.id }) }}">
                 {{ 'edit'|trans }}
             </a>
         </td>
-        <td><a href="{{ path('transactions-delete', { 'id' : trans.id }) }}">
+        <td><a href="{{ path('admin-transactions-delete', { 'id' : trans.id }) }}">
                 {{ 'delete'|trans }}
             </a>
         </td>

@@ -76,7 +76,7 @@ class TransactionType extends AbstractType
                     'currency' => 'PLN'
                 )
             );
-            if (!$userRole === 'ROLE_ADMIN') {
+            if ($userRole === 'ROLE_ADMIN') {
 
                 $builder->add(
                     'wallet',

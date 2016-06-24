@@ -365,7 +365,7 @@ class WalletsController
         return $user_id;
     }
 
-    private function checkIfWalletExists($wallet)
+    private function checkIfWalletExists($wallet, $role = null)
     {
         if (! ($wallet instanceof Wallet)) {
             $this->session->getFlashBag()->set(
@@ -374,10 +374,16 @@ class WalletsController
                     'wallets.messages.wallet_not_found'
                 )
             );
-
-            return new RedirectResponse(
-                $this->router->generate('wallets')
-            );
+            if ($role === 'ROLE_ADMIN')
+            {
+                return new RedirectResponse(
+                    $this->router->generate('admin-wallets-index')
+                );
+            } else {
+                return new RedirectResponse(
+                    $this->router->generate('wallets')
+                );
+            }
         }
     }
 
