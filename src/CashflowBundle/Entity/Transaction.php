@@ -21,6 +21,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Transaction
 {
     /**
+     * Id
      * @ORM\Id
      * @ORM\Column(
      *     type="integer",
@@ -34,6 +35,7 @@ class Transaction
     private $id;
 
     /**
+     * Name
      * @ORM\Column(
      *     name="name",
      *     type="string",
@@ -46,6 +48,7 @@ class Transaction
     private $name;
 
     /**
+     * Description
      * @ORM\Column(
      *     name="description",
      *     type="string",
@@ -57,6 +60,7 @@ class Transaction
     private $description;
 
     /**
+     * Amount
      * @ORM\Column(
      *     name="amount",
      *     type="decimal",
@@ -74,6 +78,7 @@ class Transaction
     private $amount;
 
     /**
+     * Wallet
      * @ORM\ManyToOne(targetEntity="Wallet", inversedBy="transactions")
      * @ORM\JoinColumn(name="wallet_id", referencedColumnName="id", onDelete="CASCADE")
      *
@@ -83,6 +88,7 @@ class Transaction
     private $wallet;
 
     /**
+     * Category
      * @ORM\ManyToOne(targetEntity="TransactionCategory", inversedBy="transactions")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      * @Assert\NotBlank(groups={"transaction-default"})
@@ -90,6 +96,7 @@ class Transaction
     private $category;
 
     /**
+     * Created at
      * @ORM\Column(
      *     name="created_at",
      *     type="datetime",
@@ -99,6 +106,7 @@ class Transaction
     protected $created_at;
 
     /**
+     * Date
      * @ORM\Column(
      *     name="date",
      *     type="date",

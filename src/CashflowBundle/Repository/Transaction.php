@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * Created by PhpStorm.
+ * User: stolarz
+ * Date: 01.06.16
+ * Time: 17:05
+ */
 namespace CashflowBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
@@ -14,8 +19,8 @@ class Transaction extends EntityRepository
 {
     /**
      * Save transaction object.
-     *
-     * @param transaction $transaction Transaction object
+     * @param \CashflowBundle\Entity\Transaction $transaction
+     * @param null $outcome
      */
     public function save(\CashflowBundle\Entity\Transaction $transaction, $outcome = null)
     {

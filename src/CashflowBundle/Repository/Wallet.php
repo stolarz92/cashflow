@@ -19,8 +19,8 @@ class Wallet extends EntityRepository
 {
     /**
      * Save wallet object.
-     *
-     * @param wallet $wallet Wallet object
+     * @param \CashflowBundle\Entity\Wallet $wallet
+     * @param null $user
      */
     public function save(\CashflowBundle\Entity\Wallet $wallet, $user = null)
     {

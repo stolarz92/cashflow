@@ -43,6 +43,7 @@ class WalletCategoriesController
     private $walletCategoryModel;
 
     /**
+     * Form factory.
      * @var
      */
     private $formFactory;
@@ -55,6 +56,8 @@ class WalletCategoriesController
     private $router;
 
     /**
+     * Security context.
+     *
      * @var SecurityContext
      */
     private $securityContext;
@@ -82,10 +85,14 @@ class WalletCategoriesController
 
 
     /**
-     * TransactionsController constructor.
-     *
-     * @param EngineInterface $templating Templating engine
-     * @param ObjectRepository $model Model object
+     * WalletCategoriesController constructor.
+     * @param ObjectRepository $walletCategoryModel
+     * @param FormFactory $formFactory
+     * @param RouterInterface $router
+     * @param SecurityContext $securityContext
+     * @param Session $session
+     * @param EngineInterface $templating
+     * @param Translator $translator
      */
     public function __construct(
         ObjectRepository $walletCategoryModel,
@@ -105,15 +112,14 @@ class WalletCategoriesController
         $this->translator = $translator;
     }
 
-
     /**
      * Add category action.
      *
      * @Route("admin/walletcategories/add", name="admin-wallet-categories-add")
      * @Route("admin/walletcategories/add", name="admin-wallet-categories-add")
      *
-     * @throws NotFoundHttpException
-     * @return Response A Response instance
+     * @param Request $request
+     * @return RedirectResponse|Response
      */
     public function addAction(Request $request)
     {
@@ -152,8 +158,10 @@ class WalletCategoriesController
      * @Route("admin/walletcategories/{id}/edit", name="admin-wallet-categories-edit")
      * @Route("admin/walletcategories/{id}/edit", name="admin-wallet-categories-edit")
      * @ParamConverter("walletCategory", class="CashflowBundle:WalletCategory")
-     * @throws NotFoundHttpException
-     * @return Response A Response instance
+     *
+     * @param Request $request
+     * @param WalletCategory|null $walletCategory
+     * @return RedirectResponse|Response
      */
     public function editAction(Request $request, WalletCategory $walletCategory = null)
     {
@@ -201,8 +209,10 @@ class WalletCategoriesController
      * @Route("admin/walletcategories/{id}/delete", name="admin-wallet-categories-delete")
      * @Route("admin/walletcategories/{id}/delete", name="admin-wallet-categories-delete")
      * @ParamConverter("walletCategory", class="CashflowBundle:WalletCategory")
-     * @throws NotFoundHttpException
-     * @return Response A Response instance
+     *
+     * @param Request $request
+     * @param WalletCategory|null $walletCategory
+     * @return RedirectResponse
      */
     public function deleteAction(
         Request $request,

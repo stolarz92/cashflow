@@ -24,6 +24,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class WalletCategory
 {
     /**
+     * ID
+     *
      * @ORM\Id
      * @ORM\Column(
      *     type="integer",
@@ -37,6 +39,8 @@ class WalletCategory
     private $id;
 
     /**
+     * Name
+     *
      * @ORM\Column(
      *     name="name",
      *     type="string",
@@ -49,6 +53,8 @@ class WalletCategory
     private $name;
 
     /**
+     * Wallets
+     *
      * @ORM\OneToMany(targetEntity="Wallet", mappedBy="category")
      */
     private $wallets;

@@ -42,6 +42,8 @@ class WalletsController
     private $model;
 
     /**
+     * Form factory.
+     *
      * @var
      */
     private $formFactory;
@@ -54,6 +56,8 @@ class WalletsController
     private $router;
 
     /**
+     * Security context.
+     *
      * @var SecurityContext
      */
     private $securityContext;
@@ -79,12 +83,15 @@ class WalletsController
      */
     private $translator;
 
-
     /**
      * WalletsController constructor.
-     *
-     * @param EngineInterface $templating Templating engine
-     * @param ObjectRepository $model Model object
+     * @param ObjectRepository $model
+     * @param FormFactory $formFactory
+     * @param RouterInterface $router
+     * @param SecurityContext $securityContext
+     * @param Session $session
+     * @param EngineInterface $templating
+     * @param Translator $translator
      */
     public function __construct(
         ObjectRepository $model,
@@ -155,9 +162,9 @@ class WalletsController
      * @Route("admin/wallets/edit/{id}/", name="admin-wallets-edit")
      * @ParamConverter("wallet", class="CashflowBundle:Wallet")
      *
-     * @param Wallet $wallet Wallet entity
      * @param Request $request
-     * @return Response A Response instance
+     * @param Wallet|null $wallet
+     * @return RedirectResponse|Response
      */
     public function editAction(Request $request, Wallet $wallet = null)
     {
@@ -221,9 +228,9 @@ class WalletsController
      * @Route("admin/wallets/delete/{id}/", name="admin-wallets-delete")
      * @ParamConverter("wallet", class="CashflowBundle:Wallet")
      *
-     * @param Wallet $wallet Wallet entity
      * @param Request $request
-     * @return Response A Response instance
+     * @param Wallet|null $wallet
+     * @return RedirectResponse
      */
     public function deleteAction(Request $request, Wallet $wallet = null)
     {
@@ -357,12 +364,24 @@ class WalletsController
         );
     }
 
+    /**
+     * Get usr id
+     *
+     * @return int
+     */
     private function getUserId()
     {
         $user_id = (int)$this->securityContext->getToken()->getUser()->getId();
         return $user_id;
     }
 
+    /**
+     * Check if wallet exists
+     *
+     * @param $wallet
+     * @param null $role
+     * @return RedirectResponse
+     */
     private function checkIfWalletExists($wallet, $role = null)
     {
         if (! ($wallet instanceof Wallet)) {
@@ -384,6 +403,14 @@ class WalletsController
         }
     }
 
+    /**
+     * Check if user has access to wallet.
+     *
+     * @param $userId
+     * @param $walletId
+     * @param null $role
+     * @return RedirectResponse
+     */
     private function checkIfUserHasAccessToWallet($userId, $walletId, $role = null)
     {
         if (! ($userId === $walletId) && !($role === 'ROLE_ADMIN')) {
@@ -398,6 +425,12 @@ class WalletsController
         }
     }
 
+    /**
+     * Counts balance.
+     *
+     * @param $transactions
+     * @return array
+     */
     public function countBalance($transactions)
     {
         $incomes = 0;

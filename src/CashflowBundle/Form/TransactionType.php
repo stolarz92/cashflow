@@ -22,8 +22,16 @@ use CashflowBundle\Entity\User;
  */
 class TransactionType extends AbstractType
 {
+    /**
+     * User
+     * @var User
+     */
     private $user;
 
+    /**
+     * TransactionType constructor.
+     * @param User $user
+     */
     public function __construct(User $user)
     {
         $this->user = $user;

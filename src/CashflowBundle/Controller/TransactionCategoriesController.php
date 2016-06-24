@@ -43,6 +43,7 @@ class TransactionCategoriesController
     private $transactionCategoryModel;
 
     /**
+     * Form factory.
      * @var
      */
     private $formFactory;
@@ -55,6 +56,8 @@ class TransactionCategoriesController
     private $router;
 
     /**
+     * Security context
+     *
      * @var SecurityContext
      */
     private $securityContext;
@@ -82,10 +85,14 @@ class TransactionCategoriesController
 
 
     /**
-     * TransactionsController constructor.
-     *
-     * @param EngineInterface $templating Templating engine
-     * @param ObjectRepository $model Model object
+     * TransactionCategoriesController constructor.
+     * @param ObjectRepository $transactionCategoryModel
+     * @param FormFactory $formFactory
+     * @param RouterInterface $router
+     * @param SecurityContext $securityContext
+     * @param Session $session
+     * @param EngineInterface $templating
+     * @param Translator $translator
      */
     public function __construct(
         ObjectRepository $transactionCategoryModel,
@@ -111,6 +118,7 @@ class TransactionCategoriesController
      * @Route("admin/transactioncategories/add", name="admin-transaction-categories-add")
      * @Route("admin/transactioncategories/add", name="admin-transaction-categories-add")
      *
+     * @param Request $request
      * @throws NotFoundHttpException
      * @return Response A Response instance
      */
@@ -151,8 +159,9 @@ class TransactionCategoriesController
      * @Route("admin/transactioncategories/{id}/edit", name="admin-transaction-categories-edit")
      * @Route("admin/transactioncategories/{id}/edit", name="admin-transaction-categories-edit")
      * @ParamConverter("transactionCategory", class="CashflowBundle:TransactionCategory")
-     * @throws NotFoundHttpException
-     * @return Response A Response instance
+     * @param Request $request
+     * @param TransactionCategory|null $transactionCategory
+     * @return RedirectResponse|Response
      */
     public function editAction(Request $request, TransactionCategory $transactionCategory = null)
     {
@@ -200,8 +209,10 @@ class TransactionCategoriesController
      * @Route("admin/transactioncategories/{id}/delete", name="admin-transaction-categories-delete")
      * @Route("admin/transactioncategories/{id}/delete", name="admin-transaction-categories-delete")
      * @ParamConverter("transactionCategory", class="CashflowBundle:TransactionCategory")
-     * @throws NotFoundHttpException
-     * @return Response A Response instance
+     *
+     * @param Request $request
+     * @param TransactionCategory|null $transactionCategory
+     * @return RedirectResponse
      */
     public function deleteAction(
         Request $request,

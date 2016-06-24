@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * Created by PhpStorm.
+ * User: stolarz
+ * Date: 01.06.16
+ * Time: 17:05
+ */
 namespace CashflowBundle\Entity;
 
 use FOS\UserBundle\Entity\User as BaseUser;
@@ -7,6 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
+ * User entity.
+ *
  * @ORM\Entity
  * @ORM\Table(name="fos_users")
  * @ORM\Entity(repositoryClass="CashflowBundle\Repository\User")
@@ -14,6 +21,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 class User extends BaseUser
 {
     /**
+     * User id.
+     *
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -21,6 +30,8 @@ class User extends BaseUser
     protected $id;
 
     /**
+     * User wallets.
+     *
      * @ORM\OneToMany(targetEntity="Wallet", mappedBy="user")
      */
     private $wallets;

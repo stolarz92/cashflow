@@ -50,6 +50,8 @@ class TransactionsController
     private $walletModel;
 
     /**
+     * Form Factory
+     *
      * @var
      */
     private $formFactory;
@@ -62,6 +64,8 @@ class TransactionsController
     private $router;
 
     /**
+     * Security context.
+     *
      * @var SecurityContext
      */
     private $securityContext;
@@ -90,9 +94,14 @@ class TransactionsController
 
     /**
      * TransactionsController constructor.
-     *
-     * @param EngineInterface $templating Templating engine
-     * @param ObjectRepository $model Model object
+     * @param ObjectRepository $transactionModel
+     * @param ObjectRepository $walletModel
+     * @param FormFactory $formFactory
+     * @param RouterInterface $router
+     * @param SecurityContext $securityContext
+     * @param Session $session
+     * @param EngineInterface $templating
+     * @param Translator $translator
      */
     public function __construct(
         ObjectRepository $transactionModel,
@@ -172,9 +181,9 @@ class TransactionsController
      * @Route("admin/transactions/delete/{id}", name="admin-transactions-delete")
      * @ParamConverter("transaction", class="CashflowBundle:Transaction")
      *
-     * @param Transaction $transaction Transaction entity
      * @param Request $request
-     * @return Response A Response instance
+     * @param Transaction|null $transaction
+     * @return RedirectResponse\
      */
     public function deleteAction(
         Request $request,
@@ -213,9 +222,9 @@ class TransactionsController
      * @Route("admin/transactions/edit/{id}/", name="admin-transactions-edit")
      * @ParamConverter("transaction", class="CashflowBundle:Transaction")
      *
-     * @param Transaction $transaction Transaction entity
      * @param Request $request
-     * @return Response A Response instance
+     * @param Transaction|null $transaction
+     * @return RedirectResponse|Response
      */
     public function editAction(Request $request, Transaction $transaction = null)
     {
@@ -345,12 +354,23 @@ class TransactionsController
         );
     }
 
+    /**
+     * Gets user Id.
+     * @return int
+     */
     private function getUserId()
     {
         $user_id = (int)$this->securityContext->getToken()->getUser()->getId();
         return $user_id;
     }
 
+    /**
+     * Check, if transaction exists.
+     *
+     * @param $transaction
+     * @param null $role
+     * @return RedirectResponse
+     */
     private function checkIfTransactionExist($transaction, $role = null)
     {
         if (!$transaction) {
@@ -370,6 +390,14 @@ class TransactionsController
         }
     }
 
+    /**
+     * Check, if user has access to transaction.
+     *
+     * @param $userId
+     * @param $walletId
+     * @param null $role
+     * @return RedirectResponse
+     */
     private function checkIfUserHasAccessToTransasction($userId, $walletId, $role = null)
     {
         if (! ($userId === $walletId) && !($role === 'ROLE_ADMIN')) {

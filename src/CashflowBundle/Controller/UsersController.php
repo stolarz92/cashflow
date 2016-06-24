@@ -76,12 +76,21 @@ class UsersController
     private $translator;
 
     /**
+     * Form factory
+     *
      * @var $formFactory
      */
     private $formFactory;
 
-
-
+    /**
+     * UsersController constructor.
+     * @param EngineInterface $templating
+     * @param UserManager $userManager
+     * @param FormFactory $formFactory
+     * @param RouterInterface $router
+     * @param Translator $translator
+     * @param Session $session
+     */
     public function __construct(
         EngineInterface $templating,
         UserManager $userManager,
@@ -124,7 +133,8 @@ class UsersController
      * @Route("/admin/users/edit/{id}")
      * @ParamConverter("user", class="CashflowBundle:User")
      * @param Request $request
-     * @return Response A Response instance
+     * @param User|null $user
+     * @return RedirectResponse
      */
     public function editAction(Request $request, User $user = null)
     {

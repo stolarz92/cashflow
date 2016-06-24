@@ -23,6 +23,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Wallet
 {
     /**
+     * ID
+     *
      * @ORM\Id
      * @ORM\Column(
      *     type="integer",
@@ -36,6 +38,7 @@ class Wallet
     private $id;
 
     /**
+     * Name
      * @ORM\Column(
      *     name="name",
      *     type="string",
@@ -48,6 +51,7 @@ class Wallet
     private $name;
 
     /**
+     * description
      * @ORM\Column(
      *     name="description",
      *     type="string",
@@ -59,6 +63,7 @@ class Wallet
     private $description;
 
     /**
+     * Created at
      * @ORM\Column(
      *     name="created_at",
      *     type="datetime",
@@ -68,12 +73,14 @@ class Wallet
     protected $created_at;
 
     /**
+     * Transactions
      * @ORM\OneToMany(targetEntity="Transaction", mappedBy="wallet")
      * @ORM\OrderBy({"date" = "DESC"})
      */
     private $transactions;
 
     /**
+     * User
      * @ORM\ManyToOne(targetEntity="User", inversedBy="wallets")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      *
@@ -81,6 +88,7 @@ class Wallet
     private $user;
 
     /**
+     * Category
      * @ORM\ManyToOne(targetEntity="WalletCategory", inversedBy="wallets")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      * @Assert\NotBlank(groups={"wallet-default"})

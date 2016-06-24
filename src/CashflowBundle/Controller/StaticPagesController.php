@@ -51,6 +51,8 @@ class StaticPagesController
     private $walletModel;
 
     /**
+     * Security Context
+     *
      * @var SecurityContext
      */
     private $securityContext;
@@ -134,6 +136,8 @@ class StaticPagesController
     }
 
     /**
+     * Get transactions.
+     *
      * @param $wallets
      * @return array
      */
