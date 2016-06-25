@@ -294,6 +294,10 @@
                 <source>profile.flash.updated</source>
                 <target>Profil zaktualizowany</target>
             </trans-unit>
+            <trans-unit id="74">
+                <source>registration.flash.user_created</source>
+                <target>Profil zaktualizowany</target>
+            </trans-unit>
 
 
         </body>
