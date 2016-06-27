@@ -11,6 +11,7 @@ namespace CashflowBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use \DateTime;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Wallet
@@ -22,10 +23,12 @@ use \DateTime;
 class Wallet
 {
     /**
+     * ID
+     *
      * @ORM\Id
      * @ORM\Column(
      *     type="integer",
-     *     nullable=false,
+     *     nullable=true,
      *     options={
      *          "unsigned"=true
      *     }
@@ -35,27 +38,32 @@ class Wallet
     private $id;
 
     /**
+     * Name
      * @ORM\Column(
      *     name="name",
      *     type="string",
      *     length=128,
      *     nullable=false
      * )
+     * @Assert\NotBlank(groups={"wallet-default"})
+     * @Assert\Length(min=3, max=128, groups={"wallet-default"})
      */
     private $name;
 
     /**
+     * description
      * @ORM\Column(
      *     name="description",
      *     type="string",
      *     length=500,
      *     nullable=true,
-     *
      * )
+     * @Assert\Length(max=500, groups={"wallet-default"})
      */
     private $description;
 
     /**
+     * Created at
      * @ORM\Column(
      *     name="created_at",
      *     type="datetime",
@@ -65,19 +73,25 @@ class Wallet
     protected $created_at;
 
     /**
+     * Transactions
      * @ORM\OneToMany(targetEntity="Transaction", mappedBy="wallet")
+     * @ORM\OrderBy({"date" = "DESC"})
      */
     private $transactions;
 
     /**
+     * User
      * @ORM\ManyToOne(targetEntity="User", inversedBy="wallets")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     *
      */
     private $user;
 
     /**
+     * Category
      * @ORM\ManyToOne(targetEntity="WalletCategory", inversedBy="wallets")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     * @Assert\NotBlank(groups={"wallet-default"})
      */
     private $category;
 
@@ -95,7 +109,7 @@ class Wallet
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -118,7 +132,7 @@ class Wallet
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -141,7 +155,7 @@ class Wallet
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -164,7 +178,7 @@ class Wallet
     /**
      * Get created_at
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -197,7 +211,7 @@ class Wallet
     /**
      * Get transactions
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getTransactions()
     {
@@ -220,7 +234,7 @@ class Wallet
     /**
      * Get user
      *
-     * @return \CashflowBundle\Entity\User 
+     * @return \CashflowBundle\Entity\User
      */
     public function getUser()
     {
@@ -243,7 +257,7 @@ class Wallet
     /**
      * Get category
      *
-     * @return \CashflowBundle\Entity\WalletCategory 
+     * @return \CashflowBundle\Entity\WalletCategory
      */
     public function getCategory()
     {

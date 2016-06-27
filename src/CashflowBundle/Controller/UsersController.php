@@ -8,6 +8,7 @@
 
 namespace CashflowBundle\Controller;
 
+use CashflowBundle\Form\ChangeRoleType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
@@ -23,6 +24,7 @@ use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 use FOS\UserBundle\Doctrine\UserManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Form\FormFactory;
+use CashflowBundle\Entity\User;
 
 /**
  * Class UsersController.
@@ -83,6 +85,13 @@ class UsersController
     private $formFactory;
 
     /**
+     *
+     * USER
+     * @var
+     */
+    private $userModel;
+
+    /**
      * UsersController constructor.
      * @param EngineInterface $templating
      * @param UserManager $userManager
@@ -90,6 +99,7 @@ class UsersController
      * @param RouterInterface $router
      * @param Translator $translator
      * @param Session $session
+     * @param ObjectRepository $userModel
      */
     public function __construct(
         EngineInterface $templating,
@@ -97,7 +107,9 @@ class UsersController
         FormFactory $formFactory,
         RouterInterface $router,
         Translator $translator,
-        Session $session
+        Session $session,
+        ObjectRepository $userModel,
+        SecurityContext $securityContext
     ) {
         $this->templating = $templating;
         $this->userManager = $userManager;
@@ -105,6 +117,8 @@ class UsersController
         $this->router = $router;
         $this->translator = $translator;
         $this->session = $session;
+        $this->userModel = $userModel;
+        $this->securityContext = $securityContext;
     }
 
     /**
@@ -118,10 +132,14 @@ class UsersController
      */
     public function indexAction()
     {
+        $currentUserId = $this->getUserId();
+
         $users = $this->userManager->findUsers();
         return $this->templating->renderResponse(
             'CashflowBundle:users:index.html.twig',
-            array( 'users' => $users
+            array(
+                'users' => $users,
+                'current_user_id' => $currentUserId
             )
         );
     }
@@ -148,5 +166,67 @@ class UsersController
             );
         }
 
+    }
+
+    /**
+     * @Route("/admin/users/editRole/{id}", name="admin-user-edit-role")
+     * @Route("/admin/users/editRole/{id}")
+     * @ParamConverter("user", class="CashflowBundle:User")
+     * @param Request $request
+     * @param User|null $user
+     * @return RedirectResponse
+     */
+    public function editRoleAction(Request $request, User $user = null)
+    {
+        $currentUserId = $this->getUserId();
+
+        //sprawdza, czy user istnieje oraz czy user do zmiany roli nie jest zalogowany
+        if (!$user) {
+            $this->session->getFlashBag()->set(
+                'warning',
+                $this->translator->trans('admin.user_role.not_found')
+            );
+            return new RedirectResponse(
+                $this->router->generate('admin-users-index')
+            );
+        } elseif ($currentUserId === (int)$user->getId()) {
+            $this->session->getFlashBag()->set(
+                'warning',
+                $this->translator->trans('user.messages.cannot_change_role_currently_logged_id')
+            );
+            return new RedirectResponse(
+                $this->router->generate('admin-users-index')
+            );
+        }
+
+        $changeRoleForm = $this->formFactory->create(
+            new ChangeRoleType()
+        );
+
+        $changeRoleForm->handleRequest($request);
+
+        if ($changeRoleForm->isValid()) {
+            $choosenRole = $changeRoleForm->getData();
+            $user->setRoles(array($choosenRole['role']));
+            $this->userManager->updateUser($user);
+
+            $this->session->getFlashBag()->set(
+                'success',
+                $this->translator->trans('admin.user_role.change.success')
+            );
+
+            return new RedirectResponse(
+                $this->router->generate('admin-users-index')
+            );
+        }
+        return $this->templating->renderResponse(
+            'CashflowBundle:users:changeRole.html.twig',
+            array('form' => $changeRoleForm->createView())
+        );
+    }
+
+    private function getUserId()
+    {
+        return (int)$this->securityContext->getToken()->getUser()->getId();
     }
 }

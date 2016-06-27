@@ -44,7 +44,7 @@ class User extends BaseUser
         parent::__construct();
         $this->wallets = new ArrayCollection();
     }
-
+    
     /**
      * Add wallets
      *

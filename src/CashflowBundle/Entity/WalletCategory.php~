@@ -10,6 +10,8 @@ namespace CashflowBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Class WalletCategory
@@ -17,10 +19,13 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @author Radosław Stolarski
  * @ORM\Table(name="wallet_categories")
  * @ORM\Entity(repositoryClass="CashflowBundle\Repository\WalletCategory")
+ * @UniqueEntity(fields="name", groups={"wallet-category-default"})
  */
 class WalletCategory
 {
     /**
+     * ID
+     *
      * @ORM\Id
      * @ORM\Column(
      *     type="integer",
@@ -34,16 +39,22 @@ class WalletCategory
     private $id;
 
     /**
+     * Name
+     *
      * @ORM\Column(
      *     name="name",
      *     type="string",
      *     length=128,
      *     nullable=false
      * )
+     * @Assert\NotBlank(groups={"wallet-category-default"}),
+     * @Assert\Length(min=3, max=128, groups={"wallet-category-default"})
      */
     private $name;
 
     /**
+     * Wallets
+     *
      * @ORM\OneToMany(targetEntity="Wallet", mappedBy="category")
      */
     private $wallets;
@@ -51,7 +62,7 @@ class WalletCategory
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -74,7 +85,7 @@ class WalletCategory
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -114,7 +125,7 @@ class WalletCategory
     /**
      * Get categories
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getWallets()
     {

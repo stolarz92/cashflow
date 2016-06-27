@@ -295,8 +295,16 @@
                 <target>Profil zaktualizowany</target>
             </trans-unit>
             <trans-unit id="74">
-                <source>registration.flash.user_created</source>
-                <target>Profil zaktualizowany</target>
+                <source>admin.user_role.change.success</source>
+                <target>Zmieniono rolę</target>
+            </trans-unit>
+            <trans-unit id="75">
+                <source>admin.user_role.not_found</source>
+                <target>Nie znaleziono użytkownika</target>
+            </trans-unit>
+            <trans-unit id="76">
+                <source>user.messages.cannot_change_role_currently_logged_id</source>
+                <target>Nie możesz zmienić roli aktualnie zalogowanemu użytkownikowi</target>
             </trans-unit>
 
 

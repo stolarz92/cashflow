@@ -116,6 +116,15 @@ services:
       - @router
       - @translator
       - @session
+      - @app.user_repository
+      - @security.context
+
+  app.change_role_form:
+      class: CashflowBundle\Form\ChangeRoleType
+      tags:
+        - { name: form.type, alias: changeRole }
+      arguments:
+        - @translator
 
   app.usermanager_service:
     class: FOS\UserBundle\Doctrine\UserManager
