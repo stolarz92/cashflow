@@ -100,6 +100,7 @@ class UsersController
      * @param Translator $translator
      * @param Session $session
      * @param ObjectRepository $userModel
+     * @param SecurityContext $securityContext
      */
     public function __construct(
         EngineInterface $templating,
@@ -169,6 +170,8 @@ class UsersController
     }
 
     /**
+     * Change user role
+     *
      * @Route("/admin/users/editRole/{id}", name="admin-user-edit-role")
      * @Route("/admin/users/editRole/{id}")
      * @ParamConverter("user", class="CashflowBundle:User")
@@ -225,6 +228,11 @@ class UsersController
         );
     }
 
+    /**
+     * Returns user Id
+     *
+     * @return int
+     */
     private function getUserId()
     {
         return (int)$this->securityContext->getToken()->getUser()->getId();
