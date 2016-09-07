@@ -306,8 +306,10 @@
                 <source>user.messages.cannot_change_role_currently_logged_id</source>
                 <target>Nie możesz zmienić roli aktualnie zalogowanemu użytkownikowi</target>
             </trans-unit>
-
-
+            <trans-unit id="77">
+                <source>registration.flash.user_created</source>
+                <target>Utworzono użytkownika.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
